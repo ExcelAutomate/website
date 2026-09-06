@@ -246,6 +246,40 @@ Five issues reported after seeing the live rebuild, all fixed:
   entirely. The lesson: prefer an already-correct design asset over
   reconstructing it, when one exists.
 
+## 2026-09-06 — Reconciled the mark's composition against `design-pack/docs/Fix - Landing hero alignment.md`
+
+Chris had Opus 5 (working in Claude Design, reviewing the actual Landing page source
+rather than this codebase) write up the alignment mechanism and likely failure
+modes independently, since it couldn't see this build's rendered layout. Worth
+recording where that review and this repo's own state agreed and disagreed:
+
+- **Confirmed already correct:** the card measured for alignment is
+  `realCards[0]` — the *second* `[data-carousel-card]` element in the DOM (the
+  first is the permanent ghost duplicate in the back peek). The doc flagged
+  getting this wrong as the most likely bug; this build already had it right.
+- **Not the actual cause, but worth having anyway:** the doc's other suspected
+  cause was measuring only once, before `font-display: swap` finishes loading
+  Manrope. This build's real bug (see the "transition timing" entry above) was
+  a third failure mode the doc's author had no way to discover from text
+  content alone. Added the staggered 120/400/900ms re-measurement anyway,
+  matching the reference exactly, as cheap insurance against font-swap timing
+  regardless.
+- **Genuinely fixed something:** the doc's exact composition values
+  (`viewBox="62 22 517 296"`, `width="100%" height="300"`, `overflow: visible`,
+  `transform: translateX(-40px)`) came from the actual Landing page embedding,
+  not the standalone `animated-mark-snippet.html` file. The previous fix had
+  swapped to the snippet's own viewBox/sizing (`70 26 505 288`,
+  `width:100%;height:auto`) to fix the broken cell-flash animation, and that
+  incidentally changed the mark's crop and letterboxing too. Kept the
+  snippet's animation content (still correct, still avoids the keyframe-name
+  bug) but restored the Landing page's own viewBox and sizing around it — the
+  two are independent (the `<animate>` tags use absolute coordinates that
+  don't care which window the viewBox shows).
+- Added an explicit `if (window.innerWidth < 720) return;` in `alignHero()` so
+  the shift is never computed or applied in the single-column mobile layout,
+  rather than relying on the overlap-safety-cap to coincidentally land near
+  zero there.
+
 ## Still open (raised for Chris, not decided here)
 
 - **GitHub Pages base path.** `astro.config.mjs` assumes `site: excelautomate.github.io`,

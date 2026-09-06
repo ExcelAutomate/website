@@ -1,17 +1,27 @@
 ---
-// Animated mark — copied directly from the Brand Pack's
-// design-pack/design/assets/animated-mark-snippet.html ("ready to paste"),
-// rather than re-derived from the full Landing page source. Every movement
-// is a native SVG <animate>/<animateTransform>/<animateMotion> tag: no CSS
-// keyframes, no IDs to clash. An earlier hand-rolled version reimplemented
-// the rotation/pulse/cell-flash as CSS @keyframes and got the cell-flash
-// keyframe name out of sync with the element referencing it, silently
-// breaking that animation — copying the snippet verbatim avoids that whole
-// class of mistake. Only one animated instance per page (Brand Brief).
+// Animated mark. The animation content (every <animate>/<animateTransform>/
+// <animateMotion> tag below) is copied from the Brand Pack's
+// design-pack/design/assets/animated-mark-snippet.html ("ready to paste") —
+// pure SMIL, no CSS keyframes, no IDs to clash. An earlier hand-rolled
+// version reimplemented rotation/pulse/cell-flash as CSS @keyframes and got
+// the cell-flash keyframe name out of sync with the element referencing it,
+// silently breaking that animation.
+//
+// The viewBox and the wrapping <svg>'s own sizing/positioning, though, are
+// copied from the *Landing page's own* embedding of the mark (see
+// docs/Fix - Landing hero alignment.md), not from the standalone snippet —
+// the snippet crops/sizes it slightly differently for generic standalone
+// use, but this composition (`viewBox="62 22 517 296"`, fixed height="300",
+// the -40px translate) is specifically tuned against this page's heading and
+// carousel and isn't slack to "tidy up". Only one animated instance per page
+// (Brand Brief).
 ---
 
 <svg
-  viewBox="70 26 505 288"
+  viewBox="62 22 517 296"
+  width="100%"
+  height="300"
+  preserveAspectRatio="xMidYMid meet"
   xmlns="http://www.w3.org/2000/svg"
   aria-hidden="true"
   class="hero-mark-svg"
@@ -125,7 +135,12 @@
 <style>
   .hero-mark-svg {
     display: block;
-    width: 100%;
-    height: auto;
+    /* overflow:visible matters - the cog teeth and feed lines extend past
+       the viewBox and get clipped without it. The translate and its origin
+       are both intentional (see docs/Fix - Landing hero alignment.md), not
+       something to normalise away. */
+    overflow: visible;
+    transform: translateX(-40px);
+    transform-origin: left center;
   }
 </style>

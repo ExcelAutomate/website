@@ -181,6 +181,12 @@ function initCarousel() {
     if (!text || !card) return;
     text.style.transform = 'none';
     if (mark) mark.style.transform = 'none';
+
+    // Below 720px the mark is hidden (display: none) and the grid drops to a
+    // single column — the measured shift isn't meaningful in that layout, so
+    // don't apply one (Fix - Landing hero alignment.md).
+    if (window.innerWidth < 720) return;
+
     const inset = parseFloat(getComputedStyle(card).paddingLeft || '0') / 2;
     const textRect = text.getBoundingClientRect();
     const desiredShift = Math.max(0, Math.round(card.getBoundingClientRect().left + inset - textRect.left));
@@ -208,6 +214,13 @@ function initCarousel() {
   render(true);
   alignHero();
   window.addEventListener('resize', onResize);
+
+  // Manrope loads with font-display: swap, which changes the hero text's box
+  // width after first paint — a single measurement at mount can land before
+  // the swap happens. Re-run a few times as layout settles, in addition to
+  // (not instead of) the fonts.ready hook, since font-load timing has proven
+  // inconsistent to rely on alone (Fix - Landing hero alignment.md).
+  [120, 400, 900].forEach((t) => setTimeout(alignHero, t));
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(() => {
       measure();
