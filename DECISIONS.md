@@ -351,6 +351,25 @@ no cancellation needed. Verified by direct measurement against the actual
 design file at three widths (884, 1024, 1440px): `text.left` and `mark.left` are
 now pixel-identical to the reference's own values at each one.
 
+## 2026-09-06 — Two small visual bugs: CTA line font-size, About's "Chris"
+
+- **"Learn more" body line looked small on About, Contact and For non-profits.**
+  `.cta-band p` in `global.css` set line-height/margin/wrapping but never set
+  `font-size` at all — the three plain (non-fitted) Learn-more lines on those
+  pages were silently falling back to the 16px browser default instead of the
+  design's `clamp(16px,1.8vw,20px)`, which reaches 20px on wider screens. Added
+  the clamp as the rule's default; the fitted "Get in touch" lines
+  (`data-fit-group`) still win via their own inline style from `cta-fit.js`, so
+  this doesn't touch those.
+- **About page: "Chris" was bold but not green.** `.accent` only gets a colour
+  from context-scoped rules (`.hero-heading .accent`, `.prose-col .accent`,
+  `.cta-band--dark p .accent` — the last deliberately a brighter green for the
+  dark panel, so there's no safe single global fallback). "Chris" sits in the
+  hero's second paragraph, inside neither `.hero-heading` nor `.prose-col`, so
+  it matched no rule at all. Added `.about-hero .accent { color: var(--green); }`
+  scoped in the page itself. Checked every other `.accent` usage site-wide —
+  all the others already sit inside one of the three existing scopes.
+
 ## Still open (raised for Chris, not decided here)
 
 - **GitHub Pages base path.** `astro.config.mjs` assumes `site: excelautomate.github.io`,

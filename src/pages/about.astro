@@ -110,6 +110,16 @@ import { CONTACT_HREF, NAV_HREFS } from '../data/nav';
     gap: clamp(28px, 3.4vw, 44px);
     align-items: start;
   }
+  /* .accent only gets its colour from context-scoped rules (.hero-heading
+     .accent, .prose-col .accent, .cta-band--dark p .accent — the dark-panel
+     one deliberately uses a brighter green for contrast, so there's no safe
+     global fallback). "Chris" sits in the hero's second paragraph, outside
+     both .hero-heading and .prose-col, so it had no matching rule at all and
+     rendered bold-but-not-green. Same light background as those two, so the
+     same colour. */
+  .about-hero .accent {
+    color: var(--green);
+  }
   .about-photo {
     width: 100%;
     max-width: 310px;

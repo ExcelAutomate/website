@@ -415,6 +415,13 @@ img {
   color: #ffffff;
 }
 .cta-band p {
+  /* Default for the plain (non-fitted) CTA lines — About/Contact/For
+     non-profits' "Learn more" bands. This was missing entirely, silently
+     falling back to the 16px browser default rather than the design's
+     clamp() — the fitted "Get in touch" lines (data-fit-group) still
+     override this via their own inline style from cta-fit.js, so setting a
+     default here doesn't affect them. */
+  font-size: clamp(16px, 1.8vw, 20px);
   line-height: 1.6;
   margin: 0 0 32px;
   text-wrap: pretty;
