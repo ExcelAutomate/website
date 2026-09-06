@@ -396,6 +396,32 @@ Notes only requires that for the lockup-with-text SVG (to reach page fonts),
 not the mark alone, but it would rule out any `<img>`-specific rendering
 behaviour entirely.
 
+## 2026-09-06 — Header mark: inlined the SVG instead of loading it via `<img>`
+
+Following on from the previous entry: the intrinsic-size attribute fix didn't fully
+resolve it. Chris did the decisive test — the mark looked smooth in this session's
+Browser pane *and* in Firefox, but visibly more pixellated in his regular Chrome, at
+the same displayed size. That points at a rendering-pipeline difference rather than
+anything about the file: browsers can rasterise an `<img src="foo.svg">` through
+their image-caching/scaling pipeline (various quality trade-offs, historically
+including Chrome/Skia), whereas an **inline** `<svg>` element is painted as true
+vector content directly, recalculated at whatever the actual on-screen size is —
+this is exactly the distinction Build Notes draws for the lockup-with-text SVG
+("inline it... an SVG in an `<img>` tag cannot reach page fonts"), just mattering
+here for rendering quality rather than font access.
+
+Replaced the `<img src="mark.svg">` in `Header.astro` with the same markup inlined
+directly (same viewBox, same paths, same `.lockup-mark` CSS class — sizing is
+unaffected, since `height`/`width`/`display` apply to an SVG root the same way they
+do to a replaced `<img>`). The gradient id was renamed to `headerMarkFeed` to avoid
+any collision with the landing page's separately-inlined animated mark (`eaFeed`),
+since both now live in the DOM on that page at once.
+
+Not yet re-confirmed in Chrome specifically (only checked in this session's own
+Browser pane, which already looked fine even before this change) — worth Chris
+checking the deployed site in his regular Chrome to confirm this actually closes
+the gap, since that's the one browser that showed the problem.
+
 ## Still open (raised for Chris, not decided here)
 
 - **GitHub Pages base path.** `astro.config.mjs` assumes `site: excelautomate.github.io`,
