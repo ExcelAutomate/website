@@ -132,6 +132,58 @@ diff; major-version tags from these specific publishers (GitHub's own actions, a
 Astro team's own action) are the standard, low-maintenance convention and were judged
 the better trade-off given nobody will be maintaining this by hand.
 
+## 2026-09-06 — Post-launch bug fixes (Chris's first-look feedback)
+
+Five issues reported after seeing the live rebuild, all fixed:
+
+- **Hero/mark misalignment at most widths.** Two separate bugs. First: `alignHero()`
+  measured the carousel card's position via `getBoundingClientRect()` immediately
+  after setting the properties that move it — but those properties (`track`
+  transform, `viewport` width) are CSS-transitioned, and a rect read immediately
+  after a transitioned property changes still reflects the *pre-transition* frame,
+  not the settled target. This meant every layout recompute (initial load, every
+  resize) measured a stale position and computed a wildly wrong shift. Fixed by
+  giving `render()` an `instant` mode that suspends the transition, applies the
+  styles, forces a reflow, then restores it — used for layout recomputes; the
+  transition stays for interactive prev/next/dot clicks. Second: even after that
+  fix, the shift could still push the text into the mark at some widths, because
+  the hero copy's line breaks are forced (not fluid), so its width barely responds
+  to viewport width while the required shift does. Capped the shift so the two
+  always keep a little clearance, and added `z-index` so text stays legible over
+  the mark as a last-resort safety net.
+- **Header CTA button had no rounded corners, and stretched full-width in the
+  burger menu.** The button was combining `.nav-cta` with the color-only
+  `.btn-solid` class, but never got the shared `.btn` base class that actually
+  carries padding/radius — so `.nav-cta` needed its own complete geometry, added
+  directly. The mobile version's full-width stretch was confirmed as a genuine
+  oversight in the original design file: the nav links opt out of the mobile
+  menu's flex `align-items: stretch` with `align-self: flex-start`, but the
+  original CTA link never did. Added the same opt-out.
+- **Our-approach article back-links didn't remember scroll position.** Articles
+  are real pages now (a deliberate difference from the design reference, which
+  swaps content within one page instance — see the "Articles are real routed
+  pages" entry above), so the design's in-memory `_returnScroll` variable doesn't
+  carry across a real navigation. Reimplemented with `sessionStorage`: a tile
+  click saves the hub's scroll position before navigating away; the hub's own
+  load restores it if present. An article-to-article link (the end-of-article CTA,
+  or an inline link) clears it, matching the exception Chris described (chaining
+  from "What's Modern Excel?" to "Why Power Query?" and then going back should
+  land on the Key ideas heading, not a scroll position from two hops back) — see
+  `src/scripts/section-nav.js` and the new `src/scripts/article-nav.js`.
+- **About page photo had the top of the head cut off.** The `<Image>` component
+  was given both `width={620}` and `height={775}`, so Astro pre-cropped it to
+  exactly that box using its own default centred crop *before* the page's CSS
+  `object-position: 50% 30%` ever ran — leaving that CSS nothing to reposition
+  within, since the served image already matched the display box exactly. Fixed
+  by requesting only `width={620}` (Astro infers a proportional height from the
+  source), so the CSS crop has genuine room to favour the top of the frame.
+- **Contact page showed the "Thanks, that's on its way" confirmation immediately,
+  under the form.** `#contact-form` and `#contact-thanks` each had their own
+  `display: flex` rule, and an `#id` selector outranks the browser's built-in
+  `[hidden] { display: none }` rule — so toggling the `hidden` property from JS
+  silently did nothing, and both were visible at once from the start. Fixed by
+  scoping both rules to `:not([hidden])`.
+
 ## Still open (raised for Chris, not decided here)
 
 - **GitHub Pages base path.** `astro.config.mjs` assumes `site: excelautomate.github.io`,

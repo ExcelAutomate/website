@@ -16,7 +16,6 @@
 
 const CARD_COUNT = 5;
 const GAP = 28;
-const REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function initCarousel() {
   const viewport = document.getElementById('carousel-viewport');
@@ -45,8 +44,24 @@ function initCarousel() {
     nextPeek = Math.round(basePeek * 1.3); // 30% deeper, deliberately — draws the eye onward
   }
 
-  function render() {
+  // `instant` skips the viewport-width and track-transform CSS transitions —
+  // used for layout recomputation (initial load, resize, fonts loading),
+  // where an animated catch-up would look laggy and, worse, would leave
+  // alignHero() measuring a mid-transition position instead of the settled
+  // one (getBoundingClientRect() always reflects the current animated
+  // frame, not the transition's target — measuring immediately after
+  // setting a transitioned property reads the OLD position). Interactive
+  // prev/next/dot navigation calls render() without `instant`, so those
+  // keep their slide animation.
+  function render(instant) {
     const viewportWidth = prevPeek + cardWidth + nextPeek;
+    const trackOffset = -((index + 1) * (cardWidth + GAP)) + prevPeek;
+
+    if (instant) {
+      viewport.style.transition = 'none';
+      track.style.transition = 'none';
+    }
+
     viewport.style.width = viewportWidth + 'px';
     track.style.gap = GAP + 'px';
 
@@ -55,8 +70,16 @@ function initCarousel() {
       card.style.width = cardWidth + 'px';
     });
 
-    const trackOffset = -((index + 1) * (cardWidth + GAP)) + prevPeek;
     track.style.transform = `translateX(${trackOffset}px)`;
+
+    if (instant) {
+      // Force layout to actually apply the above with no transition before
+      // handing back control — alignHero() measures synchronously right
+      // after this returns, and needs the settled geometry.
+      void track.offsetWidth;
+      viewport.style.transition = '';
+      track.style.transition = '';
+    }
 
     realCards.forEach((card, i) => {
       const opacity = i === index ? 1 : Math.abs(i - index) === 1 ? 0.4 : 0;
@@ -127,13 +150,16 @@ function initCarousel() {
     { passive: true }
   );
 
-  if (REDUCE_MOTION) {
-    track.style.transition = 'none';
-  }
+  // Reduced motion is handled declaratively in Carousel.astro's CSS
+  // (`@media (prefers-reduced-motion: reduce) { .carousel-track { transition:
+  // none; } }`), not here — doing it in CSS means it also covers `render()`'s
+  // non-instant (interactive) path without this module needing to touch
+  // `track.style.transition` itself and risk fighting the `instant` cleanup
+  // above.
 
   function onResize() {
     measure();
-    render();
+    render(true);
     alignHero();
   }
 
@@ -156,19 +182,36 @@ function initCarousel() {
     text.style.transform = 'none';
     if (mark) mark.style.transform = 'none';
     const inset = parseFloat(getComputedStyle(card).paddingLeft || '0') / 2;
-    const shift = Math.max(0, Math.round(card.getBoundingClientRect().left + inset - text.getBoundingClientRect().left));
+    const textRect = text.getBoundingClientRect();
+    const desiredShift = Math.max(0, Math.round(card.getBoundingClientRect().left + inset - textRect.left));
+
+    // The hero copy's line breaks are forced (<br>), not fluid, so its
+    // rendered width barely changes with viewport width — but the natural
+    // gap between it and the mark does. Chasing the carousel's card edge
+    // regardless of that gap can push the two into each other at some
+    // widths. Cap the shift so they always keep at least a little daylight
+    // between them; landing short of the "ideal" aligned position is a far
+    // better failure mode than the mark overlapping the heading.
+    let shift = desiredShift;
+    if (mark) {
+      const markRect = mark.getBoundingClientRect();
+      const naturalGap = markRect.left - textRect.right;
+      const maxShift = Math.max(0, Math.floor(naturalGap / 2) - 8);
+      shift = Math.min(desiredShift, maxShift);
+    }
+
     text.style.transform = `translateX(${shift}px)`;
     if (mark) mark.style.transform = `translateX(${-shift}px)`;
   }
 
   measure();
-  render();
+  render(true);
   alignHero();
   window.addEventListener('resize', onResize);
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(() => {
       measure();
-      render();
+      render(true);
       alignHero();
     });
   }

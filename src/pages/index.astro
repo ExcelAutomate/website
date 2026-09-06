@@ -141,6 +141,15 @@ const ICONS: Record<string, string> = {
     padding: clamp(56px, 10vw, 120px) 24px clamp(32px, 4.4vw, 54px);
     background: var(--page);
   }
+  /* Same reference width as the carousel below it (var(--w-carousel), not
+     the site-wide 1240px .container) — the hero copy's JS-measured
+     alignment to the carousel card's left edge (see alignHero() in
+     carousel.js) assumes both are centred within the same container width.
+     A mismatch here is what let the computed shift grow very large (and
+     push the heading off-screen) at some viewport widths. */
+  .hero-section .container {
+    max-width: var(--w-carousel);
+  }
   .hero-grid {
     position: relative;
     display: grid;
@@ -148,6 +157,15 @@ const ICONS: Record<string, string> = {
     gap: clamp(12px, 1.6vw, 28px);
     align-items: center;
     justify-content: center;
+  }
+  /* carousel.js's alignHero() caps its shift so these two shouldn't ever
+     truly overlap, but if some viewport/content combination it didn't
+     anticipate still brings them close, the text (real content) should
+     stay legible over the mark (decorative, aria-hidden), not the other
+     way round. */
+  [data-hero-text] {
+    position: relative;
+    z-index: 2;
   }
   .hero-body {
     font-size: clamp(17px, 2vw, 21px);
@@ -163,6 +181,8 @@ const ICONS: Record<string, string> = {
     font-weight: 800;
   }
   .hero-mark-wrap {
+    position: relative;
+    z-index: 1;
     display: flex;
     width: clamp(280px, 24vw, 360px);
     align-items: center;

@@ -248,19 +248,25 @@ const { current, isContactPage = false } = Astro.props;
     transform: scaleX(1);
   }
 
+  /* Nav CTA has its own geometry (Brand Brief > Buttons: 18px font, 12px/24px
+     padding, no hover lift) distinct from the page-body button variants —
+     this must carry its own radius/padding since it isn't combined with the
+     shared `.btn` class. */
   .nav-cta {
     flex-shrink: 0;
     white-space: nowrap;
-  }
-  .nav-cta-chip {
     display: inline-block;
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 18px;
-    color: var(--green);
-    background: var(--icon-tile);
+    text-decoration: none;
     padding: 12px 24px;
     border-radius: 10px;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+  }
+  .nav-cta-chip {
+    color: var(--green);
+    background: var(--icon-tile);
   }
 
   .sub-menu {
@@ -384,13 +390,23 @@ const { current, isContactPage = false } = Astro.props;
     color: var(--text-muted);
     padding: 7px 0;
   }
+  /* `.mobile-nav` is a column flex container, whose default `align-items:
+     stretch` would otherwise stretch this to the full width of the menu —
+     every other item in the menu opts out with `align-self: flex-start`
+     (see .mobile-nav-link), but the CTA link didn't in the original design,
+     which is why it filled the width there. */
   .mobile-nav-cta {
+    align-self: flex-start;
     margin-top: 6px;
-    text-align: center;
-  }
-  .mobile-nav-cta.nav-cta-chip {
-    display: block;
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 17px;
+    text-decoration: none;
     padding: 11px 21px;
+    border-radius: 10px;
+    text-align: center;
+    transition: background 0.2s ease;
   }
 
   /* Breakpoint driven by the nav's content width — re-check if items are

@@ -21,3 +21,19 @@ this build was made from.
   wired for Netlify Forms and will work once the site moves there (see README.md).
 - The whole site is marked `noindex` and blocked in `robots.txt` — deliberate while
   placeholder content remains.
+
+## 2026-09-06 — Five fixes from first-look feedback
+
+- Landing page: hero heading and the animated mark no longer drift apart/collide at
+  various window widths.
+- Header: "Get in touch" button is properly rounded everywhere, and no longer
+  stretches full-width in the mobile menu.
+- Our approach: opening an article and clicking its back link now returns you to
+  where you were on the hub page, not the top. Jumping from "What's Modern Excel?"
+  to "Why Power Query?" via its button, then going back, correctly lands on the Key
+  ideas heading instead.
+- About page: the photo no longer has the top of the head cropped off.
+- Contact page: the "Thanks, that's on its way" message now only appears after an
+  actual successful send, not immediately under the form.
+
+See `DECISIONS.md` for what caused each of these.

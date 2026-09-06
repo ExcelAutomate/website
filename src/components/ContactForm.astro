@@ -87,7 +87,11 @@
     padding: clamp(26px, 3.4vw, 40px);
     box-shadow: 0 2px 10px rgba(20, 40, 30, 0.06);
   }
-  #contact-form {
+  /* :not([hidden]) matters here — an #id selector otherwise outranks the
+     browser's own `[hidden] { display: none }` rule, so toggling the
+     `hidden` property from JS would have silently done nothing and both
+     the form and the confirmation would show at once. */
+  #contact-form:not([hidden]) {
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -103,7 +107,7 @@
     }
   }
 
-  #contact-thanks {
+  #contact-thanks:not([hidden]) {
     display: flex;
     flex-direction: column;
     align-items: center;
