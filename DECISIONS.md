@@ -312,6 +312,39 @@ pages at a fraction of their real size), so **this is worth Chris explicitly
 re-confirming at both a narrow-ish desktop width and something like 1440-1600px**
 — flag it if the mark visibly sits on top of the text anywhere in that range.
 
+## 2026-09-06 — The mark should never be transformed at all; the "does not move" line was literal
+
+Chris reported the mark itself drifting left post-fix, causing the overlap it was
+meant to avoid. Root cause, found by measuring the actual reference directly
+(serving `design-pack/design/Excel Automate Landing.dc.html` locally and probing
+both pages with the same script) rather than guessing further:
+
+The reference applies `margin-left: S` to the text and `margin-left: -S` to the
+mark — both **grid items in an auto-sized `grid-template-columns: auto auto`**.
+Worked through the auto-track-sizing algebra and confirmed empirically (the
+mark's rendered `left` was byte-identical whether its margin was -125px, 0px, or
+back to -125px): **the two opposite margins exactly cancel out**, because each
+one changes its own track's auto-computed size by the same amount it shifts the
+item within that track. The net effect is that the mark's absolute position is
+completely invariant to S — "the mark does not move when the text shifts" in the
+spec (`design-pack/docs/Fix - Landing hero alignment.md`) is not a design intent
+being *achieved* by the negative-margin step, it's *already true* before you
+apply any margin to the mark at all, and the margin step is pure ceremony.
+
+The transform-based version (adopted two entries back to dodge the
+margin-collapses-the-grid-track bug) broke this: `transform` doesn't interact
+with grid track sizing, so applying `translateX(-S)` to the mark genuinely moves
+it left by S, with nothing to cancel it — worse the larger S gets, which is
+exactly the growing leftward drift reported.
+
+**Fix: stopped transforming the mark at all.** `alignHero()` now only ever
+touches `text.style.transform`. Since transform never affects track sizing
+either way, leaving the mark completely untouched lands it at the same
+grid-determined position the reference's cancelling margins produce — for free,
+no cancellation needed. Verified by direct measurement against the actual
+design file at three widths (884, 1024, 1440px): `text.left` and `mark.left` are
+now pixel-identical to the reference's own values at each one.
+
 ## Still open (raised for Chris, not decided here)
 
 - **GitHub Pages base path.** `astro.config.mjs` assumes `site: excelautomate.github.io`,

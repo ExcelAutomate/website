@@ -168,19 +168,25 @@ function initCarousel() {
   // measured on load/resize, not on every carousel navigation (Design
   // Decisions - Landing page.md).
   //
-  // Applied as a `transform`, not `margin-left`: these two elements are
-  // direct CSS Grid items (grid-template-columns: auto auto), and a large
-  // margin shift on a grid item feeds into the auto track-sizing algorithm —
-  // at some viewport widths that collapsed the mark's column to 0 width,
-  // pulling it on top of the heading. `transform` is purely a paint-time
-  // offset and never affects layout/track sizing, so it can't do that.
+  // The reference applies this as `margin-left: S` on the text and
+  // `margin-left: -S` on the mark — two CSS Grid items in an auto-sized
+  // `grid-template-columns: auto auto`. Measured directly against the
+  // reference: those two opposite margins exactly cancel out in the grid's
+  // auto-track-sizing maths, making the mark's absolute rendered position
+  // completely invariant to S — it's not a design intent to reproduce by
+  // separately un-shifting the mark, it's an emergent property of applying
+  // margin to both sides of an auto-sized grid. Only the text gets moved
+  // here, via `transform` rather than margin (a margin shift on a grid item
+  // collapsed the mark's column to 0 width at some viewport widths — see
+  // git history); the mark is left completely untouched, which — since
+  // transform never affects track auto-sizing either — lands it at exactly
+  // that same invariant position for free, with no cancellation dance
+  // needed.
   function alignHero() {
     const text = document.querySelector('[data-hero-text]');
-    const mark = document.querySelector('[data-hero-mark]');
     const card = realCards[0];
     if (!text || !card) return;
     text.style.transform = 'none';
-    if (mark) mark.style.transform = 'none';
 
     // Below 720px the mark is hidden (display: none) and the grid drops to a
     // single column — the measured shift isn't meaningful in that layout, so
@@ -191,7 +197,6 @@ function initCarousel() {
     const shift = Math.max(0, Math.round(card.getBoundingClientRect().left + inset - text.getBoundingClientRect().left));
 
     text.style.transform = `translateX(${shift}px)`;
-    if (mark) mark.style.transform = `translateX(${-shift}px)`;
   }
 
   measure();
