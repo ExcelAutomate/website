@@ -280,6 +280,38 @@ recording where that review and this repo's own state agreed and disagreed:
   rather than relying on the overlap-safety-cap to coincidentally land near
   zero there.
 
+## 2026-09-06 — Removed the hero/mark overlap safety cap; it was the actual bug
+
+Chris reported the hero text sitting well *left* of the carousel card's edge —
+undershooting, not overlapping. That's the overlap-safety cap added two entries
+back doing exactly what it was built to do, just far too aggressively: at normal
+desktop widths the "natural gap" it measured between the text and the mark's
+*wrapper* box was small (~14px at one tested width), so the cap clamped the
+shift to near zero regardless of how large a shift the alignment target actually
+called for.
+
+**Checked against the actual design file** (`Excel Automate Landing.dc.html`,
+served locally and measured the same way) at 1440px width: it shows the exact
+same large negative number for `markWrapper.left - text.right` (-102px) that
+my uncapped version produces here. The reference doesn't cap the shift at all —
+confirmed both by the doc Chris had Opus 5 write (which describes the mechanism
+with no mention of any such safety net) and by this direct measurement. The
+wrapper-bounding-box "gap" was never a meaningful proxy for real visual overlap
+in the first place: the mark's wrapper box is mostly transparent margin around
+the actual cog/grid graphic (the composition's own `-40px` translate exists
+specifically to correct for viewBox padding), so a "negative gap" by that
+metric doesn't mean the visible artwork actually collides with the text.
+
+**Removed the cap entirely** — `alignHero()` now applies the raw computed
+shift, matching the reference's own `_alignHero` exactly, with no capping.
+The `z-index` safety net (text above mark) added earlier stays, since it's
+harmless and free insurance if a genuine collision ever does show up at some
+width. Screenshots were unreliable for a direct visual check while making this
+change (an environment issue this session — even a brand new tab rendered
+pages at a fraction of their real size), so **this is worth Chris explicitly
+re-confirming at both a narrow-ish desktop width and something like 1440-1600px**
+— flag it if the mark visibly sits on top of the text anywhere in that range.
+
 ## Still open (raised for Chris, not decided here)
 
 - **GitHub Pages base path.** `astro.config.mjs` assumes `site: excelautomate.github.io`,

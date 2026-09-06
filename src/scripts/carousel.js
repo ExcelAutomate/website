@@ -188,23 +188,7 @@ function initCarousel() {
     if (window.innerWidth < 720) return;
 
     const inset = parseFloat(getComputedStyle(card).paddingLeft || '0') / 2;
-    const textRect = text.getBoundingClientRect();
-    const desiredShift = Math.max(0, Math.round(card.getBoundingClientRect().left + inset - textRect.left));
-
-    // The hero copy's line breaks are forced (<br>), not fluid, so its
-    // rendered width barely changes with viewport width — but the natural
-    // gap between it and the mark does. Chasing the carousel's card edge
-    // regardless of that gap can push the two into each other at some
-    // widths. Cap the shift so they always keep at least a little daylight
-    // between them; landing short of the "ideal" aligned position is a far
-    // better failure mode than the mark overlapping the heading.
-    let shift = desiredShift;
-    if (mark) {
-      const markRect = mark.getBoundingClientRect();
-      const naturalGap = markRect.left - textRect.right;
-      const maxShift = Math.max(0, Math.floor(naturalGap / 2) - 8);
-      shift = Math.min(desiredShift, maxShift);
-    }
+    const shift = Math.max(0, Math.round(card.getBoundingClientRect().left + inset - text.getBoundingClientRect().left));
 
     text.style.transform = `translateX(${shift}px)`;
     if (mark) mark.style.transform = `translateX(${-shift}px)`;
