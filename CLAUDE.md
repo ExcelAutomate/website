@@ -36,6 +36,31 @@ space the way HTML normally would. This has caused missing spaces more than once
 (see `DECISIONS.md`). Where prose text is immediately followed by a `<span>` on
 its own line, add an explicit `{' '}` between them.
 
+## Comparing against the actual design files — do this instead of guessing
+
+`design-pack/design/*.dc.html` are runnable, not just reference reading — they're
+self-contained pages (need `support.js` and `assets/` alongside them, both already
+in that folder) that render and behave exactly like the live design in a browser.
+For anything about exact layout, spacing, or positioning — not just "what does
+the spec say" but "what does this actually measure as" — **serve that folder
+locally and query it with the same script you're checking your own build with**,
+rather than reasoning about CSS/JS behaviour from first principles or guessing.
+This is how the hero-mark alignment bugs got solved (see `DECISIONS.md`,
+2026-09-06 entries): reasoning abstractly about the grid/margin math got it
+wrong twice in a row; measuring the actual reference page with
+`getBoundingClientRect()` and comparing the numbers directly settled it in one
+step.
+
+To do this in Claude Code: add a second entry to `.claude/launch.json` serving
+`design-pack/design` on the same port as the dev server (they can't run
+simultaneously, so swap between them), e.g. a `serve -l 5050 design-pack/design`
+config alongside the `astro dev` one. Open the relevant `.dc.html` file in the
+Browser pane, then use the JS execution tool to measure elements directly —
+screenshots of these bundled pages have been unreliable in this environment, but
+direct DOM measurement (`getBoundingClientRect`, `getComputedStyle`) works fine
+and is what actually resolved things. This needs a real, fresh page load per
+comparison; don't try to run both servers at once.
+
 ## Stack
 
 Astro, static output, plain CSS (no Tailwind, no UI framework). `npm run dev` /

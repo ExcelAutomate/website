@@ -70,19 +70,25 @@ article title as the page's only `<h1>` — a semantic correction from the desig
 (which nested a visual "h3" style under what would have been a second h2 on the page),
 not a visual change; sizing still matches the design's h3 treatment.
 
-## 2026-09-06 — "Get in touch" CTA line sizing: went with the fitted JS, not plain clamp()
+## 2026-09-06 — "Get in touch" CTA line sizing: fitted JS confirmed correct (resolved)
 
-`docs/Design Decisions - Landing page.md` has a note dated 6 September 2026 saying the
-green CTA band's line "is now plain `clamp(16px,1.8vw,20px)`... matching the bands on
-Our approach, For non-profits and About." But the actual `.dc.html` source for **all
-four** of those pages still uses the canvas-measured `_fitFontSize` sizer for that
-exact line, as of the files handed over. Build Notes says design files are the
-executable reference ("open them in a browser to see the real thing"), so I went with
-what the design files actually do — a shared `src/scripts/cta-fit.js` used on Landing
-(both its Get-in-touch line and its two Learn-more lines), Our-approach, For
-non-profits and About's Get-in-touch line. **Flagging this discrepancy for Chris** —
-if the decisions note is the one that's current and the design files are stale, this
-should switch to plain `clamp()` everywhere instead.
+`docs/Design Decisions - Landing page.md` had a note dated 6 September 2026 saying the
+green CTA band's line was changed to plain `clamp(16px,1.8vw,20px)`, matching Our
+approach/For non-profits/About. The actual `.dc.html` source for all four pages
+disagreed, still using the canvas-measured `_fitFontSize` sizer. Went with what the
+design files actually execute (this repo's `src/scripts/cta-fit.js`, used on Landing's
+Get-in-touch line and both Learn-more lines, plus Our-approach/For non-profits/About's
+Get-in-touch lines) and flagged the discrepancy for Chris to confirm.
+
+**Confirmed via Opus 5** (which made the original edit): the plain-`clamp()` change was
+real but short-lived — made on 6 September, then reversed about twenty minutes later
+after Chris compared it against the Learn-more panel and preferred the larger measured
+size, pushing the fitted sizer out to all four pages instead. The decisions note was
+never updated after the reversal, making it describe a superseded state. **The fitted
+sizer (14px floor, 20px cap, wrapping below the floor rather than shrinking further) is
+correct on all four pages, including the Landing Learn-more band** — matching
+`design-pack/docs/Build Notes.md` Part 1 (Contact CTA band section), which had the
+current version. No further action needed; this build already matches it.
 
 ## 2026-09-06 — Contact form: real validation now, Netlify wiring inert until the move
 
@@ -350,8 +356,6 @@ now pixel-identical to the reference's own values at each one.
 - **GitHub Pages base path.** `astro.config.mjs` assumes `site: excelautomate.github.io`,
   `base: /website` (matching the current repo name). Update both — and drop `base`
   entirely — once `excelautomate.com.au` is connected.
-- **The CTA-line-sizing discrepancy above** between the Landing page's Design
-  Decisions note and its actual `.dc.html` source.
 - Everything already listed as open in the design pack's own Build Notes (phone
   number — resolved above as "none" — analytics, and the Our-approach reveal
   replay question — resolved above as once-only).
