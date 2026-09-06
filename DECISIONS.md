@@ -184,6 +184,68 @@ Five issues reported after seeing the live rebuild, all fixed:
   silently did nothing, and both were visible at once from the start. Fixed by
   scoping both rules to `:not([hidden])`.
 
+## 2026-09-06 — Second round of fixes (more first-look feedback)
+
+- **Hero/mark misalignment, still not right after the first fix.** Two more
+  problems on top of the transition-timing bug fixed earlier. First: the
+  previous fix had also unified the hero section's container to
+  `var(--w-carousel)` (1000px, matching the carousel) on a theory that the
+  container-width mismatch was causing the huge shift values — disproved by
+  direct measurement at the time (changing the container didn't change the
+  computed shift at all; the transition-timing bug was the whole cause), but
+  the container change was left in anyway and pushed the hero content further
+  right than intended. Reverted — the hero section uses the ordinary 1240px
+  `.container` again. Second: the animated mark was reimplemented by hand from
+  the full Landing page source, using CSS `@keyframes` for the cog
+  rotation/header-pulse/cell-flash — and the cell-flash rects' inline
+  `style="animation: cellFlash ..."` referenced a keyframe name that was never
+  actually defined (only a differently-named `heroCellFlash` was, on a
+  separate, incomplete rule with no duration/delay), so those four animations
+  silently did nothing. **Replaced the whole component with
+  `design-pack/design/assets/animated-mark-snippet.html` copied verbatim** —
+  pure SMIL (`<animate>`/`<animateTransform>`/`<animateMotion>`), no CSS
+  keyframes at all, which is what the Brand Pack actually intended ("ready to
+  paste"). Reduced-motion is now handled via the SVG's own `pauseAnimations()`
+  method instead of CSS overrides, since SMIL has no CSS off-switch. This also
+  fixed the mark rendering smaller than the design — the old version fixed the
+  SVG's own `height` at a flat 300px (matching the source verbatim) with the
+  wrapper never given a matching height, which produced letterboxing; the new
+  version sizes via `width: 100%; height: auto` off the viewBox's intrinsic
+  ratio, so it actually fills the space the `clamp(280px,24vw,360px)` wrapper
+  gives it.
+- **Header CTA button and Our-approach hamburger submenu.** (Covered in the
+  previous entry below — see "Header CTA button had no rounded corners".)
+  Additionally, **Chris decided the hamburger menu's Our-approach submenu
+  (Key ideas / Modern Excel / Excel tips / Beyond Excel) isn't needed** —
+  removed from the mobile menu only; the desktop hover dropdown is unchanged.
+- **Contact page: Phone field stayed visible even when hidden.** Same root
+  cause as the form/confirmation bug above, this time via a *class* rather
+  than an id: `.field { display: flex; }` is an ordinary author rule, and
+  author rules beat the browser's built-in `[hidden]` rule at equal
+  specificity regardless of origin — so the Phone field's `hidden` attribute
+  was doing nothing. Fixed with `.field[hidden] { display: none; }`.
+- **Contact page: Email/Phone reply-preference buttons showed no pointer
+  cursor.** They're `<label>` elements (for the visually-hidden radio inputs
+  backing them), not `<button>`s — labels don't get a pointer cursor by
+  default the way real buttons and links do. Added `cursor: pointer` to
+  `.segmented-option`.
+- **Missing space between "answer" and "we'll" on the contact page** (and the
+  same bug found in one spot on the About page, "that Modern Excel"). Astro
+  trims a newline-only gap between inline text and the start of a `<span>` on
+  the next source line down to nothing, rather than collapsing it to a single
+  space the way HTML normally would — a `{' '}` between them makes the space
+  explicit. Worth checking for again if new copy is added with an inline
+  `<span>` on its own line.
+- **About page photo still cropped wrong after the first attempt.** Chris
+  pointed out the design pack already ships a pre-cropped, correctly-framed
+  photo (`design-pack/design/assets/chris-duff.png`, 620x775) — the first fix
+  was still trying to *re-derive* that same crop from the uncropped source via
+  a guessed `object-position` value, which was never going to reliably match
+  what a human framed by eye. Switched to using the pre-cropped asset directly
+  (copied to `src/assets/chris-duff.png`); `object-position` guesswork removed
+  entirely. The lesson: prefer an already-correct design asset over
+  reconstructing it, when one exists.
+
 ## Still open (raised for Chris, not decided here)
 
 - **GitHub Pages base path.** `astro.config.mjs` assumes `site: excelautomate.github.io`,

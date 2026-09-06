@@ -79,15 +79,6 @@ const { current, isContactPage = false } = Astro.props;
             <a href={NAV_HREFS[label]} class:list={['mobile-nav-link', { current: current === label }]}>
               {label}
             </a>
-            {label === 'Our approach' && (
-              <ul class="mobile-sub">
-                {OUR_APPROACH_SUB.map((sub) => (
-                  <li>
-                    <a href={sub.href}>{sub.label}</a>
-                  </li>
-                ))}
-              </ul>
-            )}
           </li>
         ))
       }
@@ -372,23 +363,6 @@ const { current, isContactPage = false } = Astro.props;
   }
   .mobile-nav-link.current {
     color: var(--green);
-  }
-  .mobile-sub {
-    display: flex;
-    flex-direction: column;
-    padding: 0 0 6px 16px;
-    border-left: 2px solid var(--border);
-    margin-left: 2px;
-    margin-bottom: 6px;
-  }
-  .mobile-sub a {
-    display: block;
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 15.5px;
-    text-decoration: none;
-    color: var(--text-muted);
-    padding: 7px 0;
   }
   /* `.mobile-nav` is a column flex container, whose default `align-items:
      stretch` would otherwise stretch this to the full width of the menu —

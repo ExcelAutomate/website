@@ -244,6 +244,13 @@ img {
   flex-direction: column;
   gap: 7px;
 }
+/* A same-specificity author rule beats the browser's own [hidden] rule, so
+   without this a field marked `hidden` (e.g. the contact form's Phone field,
+   toggled from JS) would stay visible regardless — same class of bug as the
+   contact form/confirmation swap, see DECISIONS.md. */
+.field[hidden] {
+  display: none;
+}
 .field > span,
 .field > label {
   font-family: var(--font-heading);
@@ -304,6 +311,9 @@ img {
   background: var(--page);
   color: var(--text-muted);
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  /* This is a <label> (for a visually-hidden radio), not a <button> — labels
+     don't get a pointer cursor by default the way real buttons do. */
+  cursor: pointer;
 }
 .segmented-option[data-selected='true'] {
   color: var(--green);

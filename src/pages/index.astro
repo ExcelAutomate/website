@@ -141,15 +141,6 @@ const ICONS: Record<string, string> = {
     padding: clamp(56px, 10vw, 120px) 24px clamp(32px, 4.4vw, 54px);
     background: var(--page);
   }
-  /* Same reference width as the carousel below it (var(--w-carousel), not
-     the site-wide 1240px .container) — the hero copy's JS-measured
-     alignment to the carousel card's left edge (see alignHero() in
-     carousel.js) assumes both are centred within the same container width.
-     A mismatch here is what let the computed shift grow very large (and
-     push the heading off-screen) at some viewport widths. */
-  .hero-section .container {
-    max-width: var(--w-carousel);
-  }
   .hero-grid {
     position: relative;
     display: grid;

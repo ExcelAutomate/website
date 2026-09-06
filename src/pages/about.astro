@@ -1,7 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
-import chrisDuffSource from '../assets/chris-duff-source.jpg';
+// The pre-cropped 620x775 photo from the design pack (already correctly
+// framed by the design tool), not a fresh crop from the source photo — an
+// earlier attempt to re-derive the crop via CSS object-position from the
+// uncropped source guessed the framing wrong. src/assets/chris-duff-source.jpg
+// (the original, uncropped) is kept only in case the crop ever needs redoing.
+import chrisDuff from '../assets/chris-duff.png';
 import { CONTACT_HREF, NAV_HREFS } from '../data/nav';
 ---
 
@@ -27,9 +32,10 @@ import { CONTACT_HREF, NAV_HREFS } from '../data/nav';
       </div>
       <div class="about-photo">
         <Image
-          src={chrisDuffSource}
+          src={chrisDuff}
           alt="Chris Duff"
           width={620}
+          height={775}
           format="webp"
           class="about-photo-img"
           loading="eager"
@@ -48,7 +54,7 @@ import { CONTACT_HREF, NAV_HREFS } from '../data/nav';
         the slow manual way, which has its own costs over time.
       </p>
       <p>
-        With a business focused on finding fast and efficient custom solutions - something that
+        With a business focused on finding fast and efficient custom solutions - something that{' '}
         <span class="accent">Modern Excel</span> is perfect for - I'm aiming to help more organisations across Australia
         save time, costs, and headaches.
       </p>
@@ -119,8 +125,10 @@ import { CONTACT_HREF, NAV_HREFS } from '../data/nav';
     width: 100%;
     height: auto;
     aspect-ratio: 4 / 5;
+    /* The source photo is already the pre-cropped, correctly-framed 620x775
+       design asset (not a fresh crop derived here), so this is just a
+       safety net against fractional-pixel rendering, not doing real work. */
     object-fit: cover;
-    object-position: 50% 30%;
     border-radius: 20px;
     background: var(--icon-tile);
   }

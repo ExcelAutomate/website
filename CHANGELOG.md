@@ -37,3 +37,20 @@ this build was made from.
   actual successful send, not immediately under the form.
 
 See `DECISIONS.md` for what caused each of these.
+
+## 2026-09-06 — Second round of fixes
+
+- Landing page: the animated mark is now the exact snippet from the design pack
+  (fixes the cell-flash animations that weren't firing, and the mark rendering
+  smaller than intended); the hero heading no longer sits further left than the
+  design's spacing.
+- Header: hamburger menu no longer shows the Our-approach section links —
+  Chris decided they weren't needed there. The desktop hover menu is unchanged.
+- Contact page: the Phone field now genuinely hides/shows with the reply
+  preference (it was visible the whole time before), the Email/Phone buttons
+  show a pointer cursor on hover, and a missing space in the pull-quote text
+  is fixed (also fixed on the About page).
+- About page: photo now uses the design pack's own pre-cropped image instead
+  of a guessed re-crop, so the framing is correct.
+
+See `DECISIONS.md` for what caused each of these.
