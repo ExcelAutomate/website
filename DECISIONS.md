@@ -370,6 +370,32 @@ now pixel-identical to the reference's own values at each one.
   scoped in the page itself. Checked every other `.accent` usage site-wide —
   all the others already sit inside one of the three existing scopes.
 
+## 2026-09-06 — Header lockup mark: fixed wrong intrinsic size attributes
+
+Chris reported the curved feed lines in the header's mark looking noticeably more
+pixellated than in the Claude Design preview. The SVG file itself
+(`public/assets/img/excel-automate-mark.svg`) is a byte-for-byte copy of the
+design pack's own asset — confirmed with `diff` against
+`design-pack/design/assets/excel-automate-mark.svg` — and is pure vector (no
+raster content), so the file itself isn't the issue.
+
+Found: the `<img>` tag's `width="66" height="66"` attributes declared a square,
+but the SVG's real aspect ratio is 505:288 (viewBox `70 26 505 288`, ~1.75:1) —
+CSS renders it at `height: clamp(42px,6.4vw,66px); width: auto`, which at full
+size is really about 116×66, not 66×66. Corrected the attributes to `width="505"
+height="288"` (the file's actual intrinsic size) — `naturalWidth`/`naturalHeight`
+now correctly report 505×288 instead of the wrong 66×66, matching the ~116×66
+CSS-rendered box's proportions exactly instead of a squished square.
+
+**Not fully verified visually** — screenshot rendering was unreliable in this
+session (see the hero-mark entries above), so this is a confirmed, objectively
+correct metadata fix, but Chris should confirm on the deployed site that the
+lines are actually crisper now. If not, the next thing to try is inlining the
+SVG directly in the page instead of loading it via `<img src="...">` — Build
+Notes only requires that for the lockup-with-text SVG (to reach page fonts),
+not the mark alone, but it would rule out any `<img>`-specific rendering
+behaviour entirely.
+
 ## Still open (raised for Chris, not decided here)
 
 - **GitHub Pages base path.** `astro.config.mjs` assumes `site: excelautomate.github.io`,
