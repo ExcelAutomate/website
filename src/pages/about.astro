@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import chrisDuffSource from '../assets/chris-duff-source.jpg';
+import { CONTACT_HREF, NAV_HREFS } from '../data/nav';
+---
+
+<BaseLayout
+  title="About - Excel Automate | Hobart"
+  description="Chris Duff has been building tools and automations in Excel for 25 years. Excel Automate brings that to businesses and non-profits across Australia."
+  current="About"
+>
+  <section class="prose-section" style="background: var(--page);">
+    <div class="about-hero" data-reveal="hero">
+      <div>
+        <h1 class="hero-heading">Nice to <span class="accent">meet</span> you</h1>
+        <div class="hero-rule"></div>
+        <p class="hero-standfirst" style="margin-bottom: 22px;">
+          Excel Automate is freshly sprung in Hobart, but the person behind it has been around a while.
+        </p>
+        <p style="font-size: clamp(16px, 1.8vw, 19px); line-height: 1.7; color: var(--text-muted); margin: 0; text-wrap: pretty;">
+          Hi, I'm <span class="accent" style="font-weight: 700;">Chris</span>. I've been building tools and automations in
+          Excel for 25 years across a range of different organisations, picking up plenty of database and CRM knowledge
+          along the way. A degree in software engineering was the starting point, and experience has taught me a lot
+          since.
+        </p>
+      </div>
+      <div class="about-photo">
+        <Image
+          src={chrisDuffSource}
+          alt="Chris Duff"
+          width={620}
+          height={775}
+          format="webp"
+          class="about-photo-img"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="prose-section" style="background: var(--tint);">
+    <div class="prose-col" data-reveal="origin">
+      <h2>Where I'm coming from</h2>
+      <p>
+        A lot of my recent work has been with non-profit organisations, where money is better spent on doing good than
+        on sophisticated systems and large IT teams. The downside I've seen is that a lot of tasks get stuck being done
+        the slow manual way, which has its own costs over time.
+      </p>
+      <p>
+        With a business focused on finding fast and efficient custom solutions - something that
+        <span class="accent">Modern Excel</span> is perfect for - I'm aiming to help more organisations across Australia
+        save time, costs, and headaches.
+      </p>
+      <p>Being based in Hobart, I'm also keen to work with any businesses in Tasmania who might be dealing with similar issues.</p>
+    </div>
+  </section>
+
+  <section class="prose-section" style="background: var(--page);">
+    <div class="prose-col" data-reveal="about">
+      <h2>What I'm about</h2>
+      <p>
+        I always enjoy solving problems, but the part of this work I like best isn't the code and the data. It's
+        working with the <span class="accent">people</span> who use the systems day in day out, who labour over data and
+        wrestle with spreadsheets.
+      </p>
+      <p style="margin-bottom: clamp(24px, 3vw, 34px);">
+        Not everyone has time to become an expert at Excel, and if I can do my part to make the job easier, they can
+        focus on all the other things they do to bring value.
+      </p>
+      <div class="pulled-quote closing">
+        <p>And that's a pretty good outcome.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band cta-band--green">
+    <div class="cta-band-inner" data-reveal="cta">
+      <h2>Get in touch</h2>
+      <p data-fit-text="Think we might be able to help with something?" data-fit-group="cta-contact">
+        Think we might be able to help with something?
+      </p>
+      <a href={CONTACT_HREF} class="btn btn-solid-inverse">Get in touch</a>
+    </div>
+  </section>
+
+  <section class="cta-band cta-band--dark">
+    <div class="cta-band-inner" data-reveal="ctaLearn">
+      <h2>Learn more</h2>
+      <p>Enough about me! Learn more about Excel and how we use it.</p>
+      <a href={NAV_HREFS['Our approach']} class="btn btn-ghost">Learn more</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script src="../scripts/cta-fit.js"></script>
+
+<style>
+  .about-hero {
+    max-width: var(--w-prose);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 310px;
+    gap: clamp(28px, 3.4vw, 44px);
+    align-items: start;
+  }
+  .about-photo {
+    width: 100%;
+    max-width: 310px;
+    justify-self: end;
+    /* Optical alignment: the h1's glyphs start below the top of its line box
+       (Manrope 800 / line-height 1.08 puts the cap height ~0.197x font-size
+       down), so a box-aligned photo reads as sitting high without this nudge
+       — see Design Decisions - About page.md. */
+    margin-top: calc(clamp(38px, 5.2vw, 58px) * 0.2);
+  }
+  .about-photo-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: 20px;
+    background: var(--icon-tile);
+  }
+
+  @media (max-width: 899px) {
+    .about-hero {
+      grid-template-columns: 1fr;
+    }
+    .about-photo {
+      justify-self: start;
+      margin-top: 0;
+    }
+  }
+</style>

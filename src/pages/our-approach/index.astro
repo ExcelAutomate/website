@@ -1,0 +1,287 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { SECTIONS, type SectionId } from '../../data/sections';
+import { CONTACT_HREF, withBase } from '../../data/nav';
+
+const allArticles = await getCollection('articles');
+function tilesFor(sectionId: SectionId) {
+  return allArticles.filter((a) => a.data.section === sectionId).sort((a, b) => a.data.order - b.data.order);
+}
+const keyIdeas = tilesFor('key-ideas');
+const modernExcel = tilesFor('modern-excel');
+const excelTips = tilesFor('excel-tips');
+const beyondExcel = tilesFor('beyond-excel');
+---
+
+<BaseLayout
+  title="Our approach - Excel Automate | Hobart"
+  description="How we think about Modern Excel, practical tips for working in Excel, and the tools we use alongside it."
+  current="Our approach"
+>
+  <section class="approach-hero-section">
+    <div class="container approach-shell">
+      <nav class="side-nav" aria-label="Sections">
+        {
+          SECTIONS.map((s) => (
+            <a href={`#${s.id}`} data-section-nav-link={s.id} class="side-nav-link">
+              {s.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="approach-content">
+        <div class="approach-hero" data-reveal="hero">
+          <h1 class="hero-heading">Our <span class="accent">approach</span> to Excel</h1>
+          <div class="hero-rule"></div>
+          <p class="hero-standfirst">
+            Start with three short articles that explore some key ideas.<br />We'll be adding to the other sections over
+            time.
+          </p>
+        </div>
+
+        <div class="approach-sections">
+          <!-- Sections are written out explicitly rather than looped, so each
+               one's colours and copy stay directly editable — see
+               Design Decisions - Our approach page.md. Only the tile lists
+               within a panel come from the content collection. -->
+
+          <section id="key-ideas" data-approach-section data-reveal="key-ideas" class="approach-panel approach-panel--green">
+            <div class="tile-grid" data-reveal-tiles>
+              {
+                keyIdeas.map((tile) => (
+                  <a href={withBase(`/our-approach/${tile.id}/`)} class="card-clickable on-green tile-in-panel approach-tile">
+                    <h3>{tile.data.title}</h3>
+                    <p>{tile.data.excerpt}</p>
+                    {tile.data.readThis && <span class="read-this">Read this &rarr;</span>}
+                  </a>
+                ))
+              }
+            </div>
+          </section>
+
+          <!-- Pre-launch: permanently dimmed to 45% — all three sections
+               below Key ideas hold only placeholder articles for this soft
+               launch. Tiles stay clickable. Reinstate the old
+               dim-once-then-clear-on-hover behaviour once real articles
+               exist here (see Design Decisions - Our approach page.md). -->
+          <section id="modern-excel" data-approach-section data-reveal="modern-excel" class="approach-panel approach-panel--tint">
+            <div class="approach-panel-dim" style="opacity: 0.45;">
+              <h2>Modern Excel</h2>
+              <p class="approach-panel-intro">
+                More on the ideas behind the way we build, and the judgement calls that come up on almost every job.
+              </p>
+              <div class="tile-grid" data-reveal-tiles>
+                {
+                  modernExcel.map((tile) => (
+                    <a href={withBase(`/our-approach/${tile.id}/`)} class="card-clickable tile-in-panel approach-tile">
+                      <h3>{tile.data.title}</h3>
+                      <p>{tile.data.excerpt}</p>
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+          </section>
+
+          <section id="excel-tips" data-approach-section data-reveal="excel-tips" class="approach-panel approach-panel--dark">
+            <div class="approach-panel-dim" style="opacity: 0.45;">
+              <h2 style="color: #ffffff;">Excel tips</h2>
+              <p class="approach-panel-intro" style="color: var(--on-dark-body);">
+                Practical things worth knowing if you work in spreadsheets every day, whether or not any of the tools
+                were built by us.
+              </p>
+              <div class="tile-grid" data-reveal-tiles>
+                {
+                  excelTips.map((tile) => (
+                    <a href={withBase(`/our-approach/${tile.id}/`)} class="card-clickable on-dark tile-in-panel approach-tile">
+                      <h3>{tile.data.title}</h3>
+                      <p>{tile.data.excerpt}</p>
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+          </section>
+
+          <section id="beyond-excel" data-approach-section data-reveal="beyond-excel" class="approach-panel approach-panel--tint">
+            <div class="approach-panel-dim" style="opacity: 0.45;">
+              <h2>Beyond Excel</h2>
+              <p class="approach-panel-intro">
+                Excel is not always the whole answer, and pretending otherwise does nobody any favours. These are the
+                tools we most often use alongside it.
+              </p>
+              <div class="tile-grid" data-reveal-tiles>
+                {
+                  beyondExcel.map((tile) => (
+                    <a href={withBase(`/our-approach/${tile.id}/`)} class="card-clickable tile-in-panel approach-tile">
+                      <h3>{tile.data.title}</h3>
+                      <p>{tile.data.excerpt}</p>
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band cta-band--green">
+    <div class="cta-band-inner" data-reveal="ctaContact">
+      <h2>Get in touch</h2>
+      <p data-fit-text="Have some ideas about how this could work for you?" data-fit-group="cta-contact">
+        Have some ideas about how this could work for you?
+      </p>
+      <a href={CONTACT_HREF} class="btn btn-solid-inverse">Get in touch</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script src="../../scripts/section-nav.js"></script>
+<script src="../../scripts/cta-fit.js"></script>
+
+<style>
+  .approach-hero-section {
+    padding: clamp(56px, 9vw, 100px) 24px clamp(56px, 9vw, 100px);
+    background: var(--page);
+  }
+  .approach-shell {
+    display: grid;
+    grid-template-columns: 176px minmax(0, 1fr);
+    gap: clamp(28px, 4vw, 56px);
+    align-items: start;
+  }
+
+  .side-nav {
+    position: sticky;
+    top: 106px;
+    margin-top: 10px;
+    align-self: start;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 12px;
+    box-shadow: 0 2px 10px rgba(20, 40, 30, 0.06);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .side-nav-link {
+    position: relative;
+    display: block;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 16.5px;
+    text-decoration: none;
+    color: var(--text-body);
+    background: transparent;
+    padding: 11px 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .side-nav-link:hover,
+  .side-nav-link.active {
+    background: var(--icon-tile);
+    color: var(--green);
+  }
+
+  .approach-hero {
+    margin: 0 0 clamp(28px, 3.6vw, 44px);
+  }
+  .approach-hero .hero-standfirst {
+    max-width: 660px;
+  }
+
+  .approach-sections {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 2.6vw, 32px);
+  }
+  /* The gap below Key ideas is roughly triple the others, separating the
+     three featured pieces from the browsable material below it. */
+  #key-ideas {
+    margin-bottom: clamp(28px, 4.4vw, 60px);
+  }
+
+  .approach-panel {
+    scroll-margin-top: 110px;
+    border-radius: 20px;
+    padding: clamp(26px, 3.2vw, 42px);
+  }
+  .approach-panel--green {
+    background: var(--green);
+  }
+  .approach-panel--tint {
+    background: var(--tint);
+  }
+  .approach-panel--dark {
+    background: var(--ink);
+  }
+  .approach-panel h2 {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: clamp(28px, 3.6vw, 40px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 0 0 14px;
+    color: var(--text);
+  }
+  .approach-panel-intro {
+    max-width: 620px;
+    font-size: clamp(16px, 1.8vw, 18.5px);
+    line-height: 1.7;
+    color: var(--text-body);
+    margin: 0 0 clamp(22px, 2.6vw, 30px);
+    text-wrap: pretty;
+  }
+
+  .tile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
+    gap: 16px;
+  }
+  .approach-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .approach-tile h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 18.5px;
+    line-height: 1.3;
+    margin: 0;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+  .approach-tile p {
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+    color: var(--text-muted);
+  }
+  .read-this {
+    margin-top: auto;
+    padding-top: 6px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 14.5px;
+    color: var(--green);
+  }
+
+  @media (max-width: 899px) {
+    .approach-shell {
+      grid-template-columns: 1fr;
+    }
+    .side-nav {
+      position: static;
+      margin-top: 0;
+      flex-direction: row;
+      overflow-x: auto;
+    }
+  }
+</style>

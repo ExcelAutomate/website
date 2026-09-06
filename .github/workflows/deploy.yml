@@ -1,0 +1,42 @@
+name: Deploy to GitHub Pages
+
+# Test-build deploy: builds the Astro site and publishes it to GitHub Pages
+# on every push to main. See DECISIONS.md — this requires the repo's
+# Settings > Pages > Source to be set to "GitHub Actions" (not "Deploy from
+# a branch"), which is a one-time manual step.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install, build and upload the site
+        uses: withastro/action@v3
+        with:
+          node-version: 22
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

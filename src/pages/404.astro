@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { NAV_HREFS } from '../data/nav';
+---
+
+<BaseLayout title="Page not found - Excel Automate" description="This page doesn't exist.">
+  <section class="not-found">
+    <div class="container">
+      <h1 class="hero-heading">Page not <span class="accent">found</span></h1>
+      <div class="hero-rule"></div>
+      <p class="hero-standfirst">
+        That page doesn't exist, or it's moved. <a href={NAV_HREFS.Home}>Head back to the homepage</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding: clamp(80px, 12vw, 140px) 24px;
+    background: var(--page);
+    text-align: center;
+  }
+</style>

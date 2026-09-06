@@ -1,0 +1,250 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroMark from '../components/HeroMark.astro';
+import Carousel from '../components/Carousel.astro';
+import { CONTACT_HREF, NAV_HREFS } from '../data/nav';
+
+const SERVICES = [
+  {
+    title: 'Power Query automation',
+    text: "Fast and powerful data integration and transformations - the best way to combine data from multiple sources and prepare it for importing, reporting, migrating and more.",
+    icon: 'funnel',
+  },
+  {
+    title: 'VBA automation',
+    text: "The full featured programming language that sits behind Excel - automate everything that isn't just data tables, including forms, files, formatting and more, or even running other programs from Excel.",
+    icon: 'brackets',
+  },
+  {
+    title: 'Data cleansing',
+    text: 'Identify duplicates and inconsistencies, standardise formatting, fix or remove bad data, and prepare a file ready to import back into your system.',
+    icon: 'check',
+  },
+  {
+    title: 'Data migration',
+    text: "Take the data from your existing system and prepare it for import into a new one - all in a repeatable process that can be used for testing, initial import, and final cutover.",
+    icon: 'migrate',
+  },
+  {
+    title: 'Reports and dashboards',
+    text: 'Take the cleaned and consolidated data from Power Query, and distil it down to the figures and charts that tell you what you need to know.',
+    icon: 'chart',
+  },
+  {
+    title: 'System design',
+    text: 'Find the best way to combine your existing data platforms, your in-house talent, and the full Excel toolkit to streamline your tasks.',
+    icon: 'network',
+  },
+];
+
+// Icons transcribed directly from the design source (Excel Automate
+// Landing.dc.html) — same paths, same stroke weights.
+const ICONS: Record<string, string> = {
+  funnel:
+    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><g opacity="0.55"><ellipse cx="8" cy="6" rx="6" ry="2.3" stroke="#146B3D" stroke-width="1.5"/><path d="M2 6v11c0 1.3 2.7 2.3 6 2.3s6-1 6-2.3V6" stroke="#146B3D" stroke-width="1.5"/><path d="M2 11.3c0 1.3 2.7 2.3 6 2.3s6-1 6-2.3" stroke="#146B3D" stroke-width="1.5"/><path d="M2 16.3c0 1.3 2.7 2.3 6 2.3s6-1 6-2.3" stroke="#146B3D" stroke-width="1.5"/></g><rect x="11" y="11" width="11" height="9.5" rx="1.2" fill="#E7F5EC" stroke="#146B3D" stroke-width="1.6"/><path d="M11 14.9h11M14.7 11v9.5M18.4 11v9.5" stroke="#146B3D" stroke-width="1.1"/></svg>',
+  brackets:
+    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l-5 7 5 7M15 5l5 7-5 7"/></svg>',
+  check:
+    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg>',
+  migrate:
+    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="6" height="8" rx="1"/><rect x="15" y="8" width="6" height="8" rx="1"/><path d="M10 12h4m0 0l-2-2m2 2l-2 2"/></svg>',
+  chart:
+    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19V10M12 19V5M19 19v-7"/></svg>',
+  network:
+    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M8.2 7.2L15.8 11M8.2 16.8L15.8 13"/></svg>',
+};
+---
+
+<BaseLayout
+  title="Excel Automate - Save time with modern Excel automation | Hobart"
+  description="Excel Automate turns manual processes into a handful of clicks. Power Query automation, data integration and custom Excel tools for businesses and non-profits."
+  ogTitle="Excel Automate - Save time with modern Excel"
+  ogDescription="Take your tedious manual processes and use the hidden power of Excel to turn them into just a handful of clicks."
+  current="Home"
+>
+  <section class="hero-section" id="top">
+    <div class="container hero-grid" data-reveal="hero">
+      <div data-hero-text>
+        <h1 class="hero-heading">Make Excel<br /><span class="accent">work</span> for you</h1>
+        <div class="hero-rule"></div>
+        <p class="hero-body">
+          Take your <span class="accent-bold">tedious manual processes</span><br />and use the hidden power of Excel to
+          turn them into<br />just a <span class="accent-bold">handful of clicks</span>.
+        </p>
+      </div>
+      <div class="hero-mark-wrap" data-hero-mark>
+        <HeroMark />
+      </div>
+    </div>
+  </section>
+
+  <section class="carousel-section" aria-label="What modern Excel can do">
+    <div class="container" data-reveal="carousel">
+      <Carousel />
+    </div>
+  </section>
+
+  <section class="services-section" aria-label="Services">
+    <div class="container">
+      <div class="services-head" data-reveal="servicesHead">
+        <h2>How Excel Automate can help</h2>
+      </div>
+      <div class="services-grid" data-reveal-tiles>
+        {
+          SERVICES.map((svc) => (
+            <div class="card-static service-tile">
+              <div class="service-tile-top">
+                <span class="service-icon" set:html={ICONS[svc.icon]} />
+                <h3>{svc.title}</h3>
+              </div>
+              <p>{svc.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band cta-band--green" id="contact-cta">
+    <div class="cta-band-inner" data-reveal="ctaContact">
+      <h2>Get in touch</h2>
+      <p data-fit-text="Have a problem that might be looking for an Excel-shaped solution?" data-fit-group="cta-contact">
+        Have a problem that might be looking for an Excel-shaped solution?
+      </p>
+      <a href={CONTACT_HREF} class="btn btn-solid-inverse">Get in touch</a>
+    </div>
+  </section>
+
+  <section class="cta-band cta-band--dark">
+    <div class="cta-band-inner" data-reveal="ctaLearn">
+      <h2>Learn more</h2>
+      <p data-fit-group="cta-learn">
+        What's <span class="accent">Modern Excel</span>? Why <span class="accent">Power Query</span>? What about{' '}
+        <span class="accent">Formulas</span>?
+      </p>
+      <p
+        data-fit-text="Learn more about our approach to Excel, and how it might work for you."
+        data-fit-group="cta-learn"
+      >
+        Learn more about our approach to Excel, and how it might work for you.
+      </p>
+      <a href={NAV_HREFS['Our approach']} class="btn btn-ghost">Learn more</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script src="../scripts/cta-fit.js"></script>
+
+<style>
+  .hero-section {
+    position: relative;
+    padding: clamp(56px, 10vw, 120px) 24px clamp(32px, 4.4vw, 54px);
+    background: var(--page);
+  }
+  .hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: clamp(12px, 1.6vw, 28px);
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-body {
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.62;
+    color: var(--text-body);
+    margin: 0;
+    max-width: 620px;
+    font-weight: 500;
+    text-wrap: pretty;
+  }
+  .accent-bold {
+    color: var(--green);
+    font-weight: 800;
+  }
+  .hero-mark-wrap {
+    display: flex;
+    width: clamp(280px, 24vw, 360px);
+    align-items: center;
+    justify-content: center;
+    margin-top: -72px;
+  }
+
+  .carousel-section {
+    padding: clamp(24px, 3.9vw, 47px) 24px clamp(48px, 8vw, 96px);
+    background: var(--page);
+  }
+  .carousel-section .container {
+    max-width: var(--w-carousel);
+  }
+
+  .services-section {
+    padding: clamp(56px, 9vw, 100px) 24px clamp(56px, 9vw, 110px);
+    background: var(--tint);
+  }
+  .services-head {
+    max-width: var(--w-content);
+    margin: 0 auto clamp(32px, 5vw, 56px);
+  }
+  .services-head h2 {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: clamp(30px, 4.2vw, 44px);
+    margin: 0;
+    text-align: center;
+    color: var(--text);
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 22px;
+  }
+  /* No hover lift, deliberately — these tiles have no destination yet
+     (Design Decisions - Landing page.md). Don't add one back without
+     giving them somewhere to go. */
+  .service-tile {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .service-tile-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .service-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: var(--icon-tile);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .service-tile h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 19px;
+    margin: 0;
+    color: var(--text);
+    flex: 1;
+  }
+  .service-tile p {
+    font-size: 15.5px;
+    line-height: 1.6;
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 719px) {
+    .hero-mark-wrap {
+      display: none;
+    }
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

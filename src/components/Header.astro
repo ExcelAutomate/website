@@ -1,0 +1,420 @@
+---
+import { NAV_LINKS, NAV_HREFS, OUR_APPROACH_SUB, CONTACT_HREF, withBase, type NavLabel } from '../data/nav';
+
+interface Props {
+  /** Which nav item to underline. Undefined on pages not in the nav (e.g. Contact). */
+  current?: NavLabel;
+  /** Contact page shows the CTA as a flat, non-interactive chip instead of a button. */
+  isContactPage?: boolean;
+}
+
+const { current, isContactPage = false } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="header-row container">
+    <a href={withBase('/')} class="lockup">
+      <img
+        src={withBase('/assets/img/excel-automate-mark.svg')}
+        alt=""
+        class="lockup-mark"
+        width="66"
+        height="66"
+      />
+      <span class="lockup-text">
+        <span class="lockup-word">Excel <span class="accent">Automate</span></span>
+        <span class="lockup-tagline">INTEGRATE &middot; ACCELERATE &middot; TRANSFORM</span>
+      </span>
+    </a>
+
+    <nav class="main-nav" aria-label="Primary">
+      <ul>
+        {
+          NAV_LINKS.map((label) => (
+            <li class:list={['nav-item', { 'has-sub': label === 'Our approach' }]}>
+              <a href={NAV_HREFS[label]} class:list={['nav-link', { current: current === label }]}>
+                {label}
+              </a>
+              {label === 'Our approach' && (
+                <div class="sub-menu">
+                  <div class="sub-menu-inner">
+                    {OUR_APPROACH_SUB.map((sub) => (
+                      <a href={sub.href}>{sub.label}</a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+      {
+        isContactPage ? (
+          <span class="nav-cta nav-cta-chip">Get in touch</span>
+        ) : (
+          <a href={CONTACT_HREF} class="nav-cta btn-solid">
+            Get in touch
+          </a>
+        )
+      }
+    </nav>
+
+    <button
+      type="button"
+      class="burger"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      id="burger-btn"
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav">
+    <ul>
+      {
+        NAV_LINKS.map((label) => (
+          <li>
+            <a href={NAV_HREFS[label]} class:list={['mobile-nav-link', { current: current === label }]}>
+              {label}
+            </a>
+            {label === 'Our approach' && (
+              <ul class="mobile-sub">
+                {OUR_APPROACH_SUB.map((sub) => (
+                  <li>
+                    <a href={sub.href}>{sub.label}</a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+    {
+      isContactPage ? (
+        <span class="mobile-nav-cta nav-cta-chip">Get in touch</span>
+      ) : (
+        <a href={CONTACT_HREF} class="mobile-nav-cta btn-solid">
+          Get in touch
+        </a>
+      )
+    }
+  </div>
+</header>
+
+<script>
+  const burgerBtn = document.getElementById('burger-btn');
+  const mobileNav = document.getElementById('mobile-nav');
+
+  burgerBtn?.addEventListener('click', () => {
+    const isOpen = mobileNav?.classList.toggle('is-open');
+    burgerBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  // Close the mobile panel if the viewport grows past the burger breakpoint
+  // while it's open (e.g. rotating a tablet).
+  const mq = window.matchMedia('(min-width: 1180px)');
+  mq.addEventListener('change', (e) => {
+    if (e.matches) {
+      mobileNav?.classList.remove('is-open');
+      burgerBtn?.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // The dropdown opens on hover (CSS) or keyboard focus (:focus-within, CSS).
+  // Escape closes it and returns focus to the parent link when focus is
+  // anywhere inside it — the parent stays a working link either way.
+  document.querySelectorAll('.has-sub').forEach((item) => {
+    item.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') {
+        const parentLink = item.querySelector('a');
+        (parentLink as HTMLElement | null)?.focus();
+        (document.activeElement as HTMLElement | null)?.blur();
+        parentLink instanceof HTMLElement && parentLink.focus();
+      }
+    });
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(252, 253, 252, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    gap: 24px;
+  }
+
+  .lockup {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    text-decoration: none;
+  }
+  .lockup-mark {
+    display: block;
+    height: clamp(42px, 6.4vw, 66px);
+    width: auto;
+    flex-shrink: 0;
+  }
+  .lockup-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+  }
+  .lockup-word {
+    font-family: var(--font-wordmark);
+    font-weight: 700;
+    font-size: clamp(19px, 3.1vw, 33px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .lockup-word .accent {
+    color: var(--green);
+  }
+  .lockup-tagline {
+    font-family: var(--font-wordmark);
+    font-weight: 600;
+    font-size: clamp(7px, 1.2vw, 11.5px);
+    letter-spacing: 0.2em;
+    color: var(--green);
+    white-space: nowrap;
+  }
+
+  .main-nav {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+  }
+  .main-nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-item {
+    position: relative;
+  }
+  .nav-link {
+    position: relative;
+    display: block;
+    white-space: nowrap;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 18px;
+    text-decoration: none;
+    color: var(--text);
+    padding-bottom: 6px;
+    transition: color 0.2s ease;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--green);
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform 0.28s var(--ease-reveal);
+  }
+  .nav-link:hover,
+  .nav-link.current {
+    color: var(--green);
+  }
+  .nav-link:hover::after,
+  .nav-link.current::after {
+    transform: scaleX(1);
+  }
+
+  .nav-cta {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .nav-cta-chip {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--green);
+    background: var(--icon-tile);
+    padding: 12px 24px;
+    border-radius: 10px;
+  }
+
+  .sub-menu {
+    position: absolute;
+    top: 100%;
+    left: -16px;
+    padding-top: 12px; /* transparent bridge so hover survives the gap */
+    z-index: 60;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  }
+  .has-sub:hover .sub-menu,
+  .has-sub:focus-within .sub-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .sub-menu-inner {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 12px 28px rgba(20, 40, 30, 0.12);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 190px;
+  }
+  .sub-menu-inner a {
+    display: block;
+    white-space: nowrap;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .sub-menu-inner a:hover,
+  .sub-menu-inner a:focus-visible {
+    background: var(--icon-tile);
+    color: var(--green);
+  }
+
+  .burger {
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+  }
+  .burger span {
+    display: block;
+    width: 32px;
+    height: 3px;
+    background: var(--text);
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+  .burger[aria-expanded='true'] span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .burger[aria-expanded='true'] span:nth-child(2) {
+    opacity: 0;
+  }
+  .burger[aria-expanded='true'] span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .mobile-nav {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 24px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+  .mobile-nav.is-open {
+    padding: 4px 24px 20px;
+    max-height: 580px;
+  }
+  .mobile-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .mobile-nav-link {
+    position: relative;
+    display: block;
+    align-self: flex-start;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 17px;
+    text-decoration: none;
+    color: var(--text);
+    padding: 9px 0 10px;
+  }
+  .mobile-nav-link.current {
+    color: var(--green);
+  }
+  .mobile-sub {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 6px 16px;
+    border-left: 2px solid var(--border);
+    margin-left: 2px;
+    margin-bottom: 6px;
+  }
+  .mobile-sub a {
+    display: block;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 15.5px;
+    text-decoration: none;
+    color: var(--text-muted);
+    padding: 7px 0;
+  }
+  .mobile-nav-cta {
+    margin-top: 6px;
+    text-align: center;
+  }
+  .mobile-nav-cta.nav-cta-chip {
+    display: block;
+    padding: 11px 21px;
+  }
+
+  /* Breakpoint driven by the nav's content width — re-check if items are
+     added or renamed (Brand Brief > Breakpoints). */
+  @media (max-width: 1179px) {
+    .main-nav {
+      display: none;
+    }
+    .burger {
+      display: flex;
+    }
+    .mobile-nav {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .lockup-tagline {
+      display: none;
+    }
+  }
+  @media (max-width: 419px) {
+    .lockup-text {
+      display: none;
+    }
+  }
+</style>

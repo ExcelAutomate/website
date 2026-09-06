@@ -1,0 +1,29 @@
+---
+// Year is resolved at build time, not hard-coded — see DECISIONS.md. Re-run
+// the build to roll it over; there is no runtime logic to go stale.
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>&copy; {year} Excel Automate &middot; ABN 51 680 585 107 &middot; Hobart, Tasmania</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--tint);
+    padding: 34px 24px 30px;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: center;
+  }
+  .footer-inner p {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--text-faint);
+    text-align: center;
+    line-height: 1.7;
+  }
+</style>

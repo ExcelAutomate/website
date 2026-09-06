@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Our approach - Excel Automate | Hobart</title>
+<meta name="description" content="How we think about Modern Excel, practical tips for working in Excel, and the tools we use alongside it.">
+<link rel="icon" type="image/svg+xml" href="./assets/excel-automate-favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="./assets/excel-automate-favicon-32.png">
+<link rel="apple-touch-icon" href="./assets/excel-automate-favicon-256.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&family=Spectral:ital,wght@1,300&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #146B3D; }
+  a:hover { color: #1E9E58; }
+  button { font-family: inherit; cursor: pointer; }
+</style>
+</helmet>
+<div data-scroll-root="" style="font-family: 'Public Sans', system-ui, sans-serif; color: #1A1A1A; background: #FCFDFC; overflow-x: hidden; overflow-y: auto; height: 100vh; min-width: 320px;">
+
+  <header style="position: sticky; top: 0; z-index: 50; background: rgba(252,253,252,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid #E7EFE9;">
+    <div style="max-width: 1240px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 10px clamp(16px,2.5vw,32px); gap: 24px;">
+      <a href="./Excel%20Automate%20Landing.dc.html" style="display: flex; align-items: center; gap: 14px; min-width: 0; text-decoration: none;">
+        <img src="./assets/excel-automate-mark.svg" alt="" style="display: block; height: clamp(42px,6.4vw,66px); width: auto; flex-shrink: 0;"/>
+        <span style="display: {{ lockupTextDisplay }}; flex-direction: column; align-items: center; gap: 6px; min-width: 0;">
+          <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(19px,3.1vw,33px); line-height: 1; letter-spacing: -0.02em; color: #15291D; white-space: nowrap;">Excel <span style="color: #146B3D;">Automate</span></span>
+          <span style="display: {{ lockupTaglineDisplay }}; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: clamp(7px,1.2vw,11.5px); letter-spacing: 0.2em; color: #146B3D; white-space: nowrap;">INTEGRATE · ACCELERATE · TRANSFORM</span>
+        </span>
+      </a>
+      <nav style="display: {{ navDisplayDesktop }}; align-items: center; gap: 36px;">
+        <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="4">
+          <div onMouseEnter="{{ link.onEnter }}" onMouseLeave="{{ link.onLeave }}" style="position: relative; flex-shrink: 0;">
+            <a href="{{ link.href }}" onClick="{{ link.onClick }}" style="position: relative; display: block; white-space: nowrap; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 18px; text-decoration: none; color: {{ link.color }}; transition: color 0.2s ease; padding-bottom: 6px;">{{ link.label }}<span style="position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px; background: #146B3D; transform-origin: left center; transform: {{ link.underline }}; transition: transform 0.28s cubic-bezier(0.22,1,0.36,1);"></span></a>
+            <sc-if value="{{ link.hasSub }}">
+              <div style="{{ link.subMenuStyle }}">
+                <div style="background: #ffffff; border: 1px solid #E7EFE9; border-radius: 12px; box-shadow: 0 12px 28px rgba(20,40,30,0.12); padding: 8px; display: flex; flex-direction: column; gap: 2px; min-width: 190px;">
+                  <sc-for list="{{ link.subLinks }}" as="sub" hint-placeholder-count="4">
+                    <a href="{{ sub.href }}" onClick="{{ sub.onClick }}" style="display: block; white-space: nowrap; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 16px; text-decoration: none; color: #1A1A1A; padding: 10px 16px; border-radius: 8px; transition: background 0.18s ease, color 0.18s ease;" style-hover="background: #E7F5EC; color: #146B3D;">{{ sub.label }}</a>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        <a href="./Excel%20Automate%20Contact.dc.html" style="flex-shrink: 0; white-space: nowrap; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; color: #ffffff; background: #146B3D; padding: 14px 26px; border-radius: 10px; transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;" style-hover="background: #0F5230; box-shadow: 0 10px 24px rgba(20,107,61,0.24); transform: translateY(-2px);" style-active="background: #0C4527; transform: translateY(0px);">Get in touch</a>
+      </nav>
+      <button aria-label="Toggle menu" onClick="{{ toggleNav }}" style="display: {{ navDisplayMobile }}; background: none; border: none; padding: 8px; flex-direction: column; gap: 5px; justify-content: center;">
+        <span style="display: block; width: 32px; height: 3px; background: #1A1A1A; transition: transform 0.25s ease; transform: {{ burgerLine1 }};"></span>
+        <span style="display: block; width: 32px; height: 3px; background: #1A1A1A; opacity: {{ burgerLine2Opacity }}; transition: opacity 0.2s ease;"></span>
+        <span style="display: block; width: 32px; height: 3px; background: #1A1A1A; transition: transform 0.25s ease; transform: {{ burgerLine3 }};"></span>
+      </button>
+    </div>
+    <div style="{{ mobileMenuStyle }}">
+      <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="4">
+        <div style="display: flex; flex-direction: column;">
+          <a href="{{ link.href }}" onClick="{{ link.onClick }}" style="position: relative; align-self: flex-start; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 17px; text-decoration: none; color: {{ link.color }}; transition: color 0.2s ease; padding: 9px 0 10px;">{{ link.label }}<span style="position: absolute; left: 0; right: 0; bottom: 2px; height: 2px; border-radius: 2px; background: #146B3D; transform-origin: left center; transform: {{ link.underlineMobile }}; transition: transform 0.28s cubic-bezier(0.22,1,0.36,1);"></span></a>
+          <sc-if value="{{ link.hasSub }}">
+            <div style="display: flex; flex-direction: column; padding: 0 0 6px 16px; border-left: 2px solid #E7EFE9; margin-left: 2px;">
+              <sc-for list="{{ link.subLinks }}" as="sub" hint-placeholder-count="4">
+                <a href="{{ sub.href }}" onClick="{{ sub.onClick }}" style="align-self: flex-start; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 15.5px; text-decoration: none; color: #4A4F4C; padding: 7px 0;">{{ sub.label }}</a>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+      <a href="./Excel%20Automate%20Contact.dc.html" style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; color: #ffffff; background: #146B3D; padding: 13px 21px; border-radius: 10px; text-align: center;">Get in touch</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section style="padding: clamp(56px,9vw,100px) 24px clamp(56px,9vw,100px); background: #FCFDFC;">
+      <div style="max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: {{ shellColumns }}; gap: clamp(28px,4vw,56px); align-items: start;">
+
+        <nav aria-label="Sections" style="{{ sideNavStyle }}">
+          <div style="display: flex; flex-direction: {{ sideNavDirection }}; gap: 4px;">
+            <sc-for list="{{ sideNav }}" as="item" hint-placeholder-count="3">
+              <a href="{{ item.href }}" data-section="{{ item.id }}" onClick="{{ item.onClick }}" onMouseEnter="{{ item.onEnter }}" onMouseLeave="{{ item.onLeave }}" style="position: relative; display: block; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 16.5px; text-decoration: none; color: #3A3F3C; background: transparent; padding: 11px 14px; border-radius: 10px; transition: background 0.2s ease, color 0.2s ease;">{{ item.label }}</a>
+            </sc-for>
+          </div>
+        </nav>
+
+        <div>
+          <sc-if value="{{ showIndex }}" hint-placeholder-val="{{ true }}">
+            <div data-reveal="hero" style="margin: 0 0 clamp(28px,3.6vw,44px); opacity: {{ reveal.hero.opacity }}; transform: {{ reveal.hero.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+              <h1 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(38px,5.2vw,58px); line-height: 1.08; letter-spacing: -0.02em; color: #15291D; margin: 0;">Our <span style="color: #146B3D;">approach</span> to Excel</h1>
+              <div style="width: 76px; height: 3px; background: #146B3D; margin: clamp(16px,2vw,24px) 0;"></div>
+              <p style="max-width: 660px; font-size: clamp(17px,2vw,21px); line-height: 1.62; color: #3A3F3C; margin: 0; font-weight: 500; text-wrap: pretty;">Start with three short articles that explore some key ideas.<br/>We'll be adding to the other sections over time.</p>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showIndex }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-direction: column; gap: clamp(20px,2.6vw,32px);">
+
+              <section id="key-ideas" data-reveal="key-ideas" style="scroll-margin-top: 110px; margin-bottom: clamp(28px,4.4vw,60px); background: #146B3D; border-radius: 20px; padding: clamp(26px,3.2vw,42px); opacity: {{ reveal.keyIdeas.opacity }}; transform: {{ reveal.keyIdeas.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);">
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); gap: 16px;">
+                  <sc-for list="{{ keyIdeasTiles }}" as="tile" hint-placeholder-count="3">
+                    <div data-reveal="{{ tile.revealId }}" style="display: flex; opacity: {{ tile.opacity }}; transform: {{ tile.transform }}; transition: {{ tile.transition }};">
+                      <a href="{{ tile.href }}" onClick="{{ tile.onClick }}" style="flex: 1; display: flex; flex-direction: column; gap: 10px; text-decoration: none; background: #ffffff; border-radius: 16px; padding: 22px; box-shadow: 0 2px 10px rgba(0,0,0,0.10); transition: box-shadow 0.3s ease, transform 0.3s ease;" style-hover="box-shadow: 0 16px 34px rgba(0,0,0,0.22); transform: translateY(-4px);">
+                      <h3 style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 18.5px; line-height: 1.3; margin: 0; color: #15291D; text-wrap: pretty;">{{ tile.title }}</h3>
+                      <p style="font-size: 15px; line-height: 1.6; margin: 0; color: #4A4F4C; text-wrap: pretty;">{{ tile.excerpt }}</p>
+                      <span style="margin-top: auto; padding-top: 6px; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 14.5px; color: #146B3D;">Read this &rarr;</span>
+                    </a>
+                    </div>
+                  </sc-for>
+                </div>
+              </section>
+
+              <section id="modern-excel" data-reveal="modern-excel" style="scroll-margin-top: 110px; background: #F3FAF6; border-radius: 20px; padding: clamp(26px,3.2vw,42px); opacity: {{ reveal.modernExcel.opacity }}; transform: {{ reveal.modernExcel.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);">
+                <div style="opacity: {{ dimLater }};">
+                <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(28px,3.6vw,40px); line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 14px; color: #1A1A1A;">Modern Excel</h2>
+                <p style="max-width: 620px; font-size: clamp(16px,1.8vw,18.5px); line-height: 1.7; color: #3A3F3C; margin: 0 0 clamp(22px,2.6vw,30px); text-wrap: pretty;">More on the ideas behind the way we build, and the judgement calls that come up on almost every job.</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); gap: 16px;">
+                  <sc-for list="{{ modernExcelTiles }}" as="tile" hint-placeholder-count="4">
+                    <div data-reveal="{{ tile.revealId }}" style="display: flex; opacity: {{ tile.opacity }}; transform: {{ tile.transform }}; transition: {{ tile.transition }};">
+                      <a href="{{ tile.href }}" onClick="{{ tile.onClick }}" style="flex: 1; display: flex; flex-direction: column; gap: 10px; text-decoration: none; background: #ffffff; border-radius: 16px; padding: 22px; box-shadow: 0 2px 10px rgba(20,40,30,0.06); transition: box-shadow 0.3s ease, transform 0.3s ease;" style-hover="box-shadow: 0 16px 34px rgba(20,107,61,0.16); transform: translateY(-4px);">
+                      <h3 style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 18.5px; line-height: 1.3; margin: 0; color: #15291D; text-wrap: pretty;">{{ tile.title }}</h3>
+                      <p style="font-size: 15px; line-height: 1.6; margin: 0; color: #4A4F4C; text-wrap: pretty;">{{ tile.excerpt }}</p>
+                    </a>
+                    </div>
+                  </sc-for>
+                </div>
+                </div>
+              </section>
+
+              <section id="excel-tips" data-reveal="excel-tips" style="scroll-margin-top: 110px; background: #15291D; border-radius: 20px; padding: clamp(26px,3.2vw,42px); opacity: {{ reveal.excelTips.opacity }}; transform: {{ reveal.excelTips.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);">
+                <div style="opacity: {{ dimLater }};">
+                <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(28px,3.6vw,40px); line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 14px; color: #ffffff;">Excel tips</h2>
+                <p style="max-width: 620px; font-size: clamp(16px,1.8vw,18.5px); line-height: 1.7; color: #C9CFCB; margin: 0 0 clamp(22px,2.6vw,30px); text-wrap: pretty;">Practical things worth knowing if you work in spreadsheets every day, whether or not any of the tools were built by us.</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); gap: 16px;">
+                  <sc-for list="{{ excelTipsTiles }}" as="tile" hint-placeholder-count="4">
+                    <div data-reveal="{{ tile.revealId }}" style="display: flex; opacity: {{ tile.opacity }}; transform: {{ tile.transform }}; transition: {{ tile.transition }};">
+                      <a href="{{ tile.href }}" onClick="{{ tile.onClick }}" style="flex: 1; display: flex; flex-direction: column; gap: 10px; text-decoration: none; background: #ffffff; border-radius: 16px; padding: 22px; box-shadow: 0 2px 10px rgba(0,0,0,0.10); transition: box-shadow 0.3s ease, transform 0.3s ease;" style-hover="box-shadow: 0 16px 34px rgba(0,0,0,0.28); transform: translateY(-4px);">
+                      <h3 style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 18.5px; line-height: 1.3; margin: 0; color: #15291D; text-wrap: pretty;">{{ tile.title }}</h3>
+                      <p style="font-size: 15px; line-height: 1.6; margin: 0; color: #4A4F4C; text-wrap: pretty;">{{ tile.excerpt }}</p>
+                    </a>
+                    </div>
+                  </sc-for>
+                </div>
+                </div>
+              </section>
+
+              <section id="beyond-excel" data-reveal="beyond-excel" style="scroll-margin-top: 110px; background: #F3FAF6; border-radius: 20px; padding: clamp(26px,3.2vw,42px); opacity: {{ reveal.beyondExcel.opacity }}; transform: {{ reveal.beyondExcel.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);">
+                <div style="opacity: {{ dimLater }};">
+                <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(28px,3.6vw,40px); line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 14px; color: #1A1A1A;">Beyond Excel</h2>
+                <p style="max-width: 620px; font-size: clamp(16px,1.8vw,18.5px); line-height: 1.7; color: #3A3F3C; margin: 0 0 clamp(22px,2.6vw,30px); text-wrap: pretty;">Excel is not always the whole answer, and pretending otherwise does nobody any favours. These are the tools we most often use alongside it.</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); gap: 16px;">
+                  <sc-for list="{{ beyondExcelTiles }}" as="tile" hint-placeholder-count="4">
+                    <div data-reveal="{{ tile.revealId }}" style="display: flex; opacity: {{ tile.opacity }}; transform: {{ tile.transform }}; transition: {{ tile.transition }};">
+                      <a href="{{ tile.href }}" onClick="{{ tile.onClick }}" style="flex: 1; display: flex; flex-direction: column; gap: 10px; text-decoration: none; background: #ffffff; border-radius: 16px; padding: 22px; box-shadow: 0 2px 10px rgba(20,40,30,0.06); transition: box-shadow 0.3s ease, transform 0.3s ease;" style-hover="box-shadow: 0 16px 34px rgba(20,107,61,0.16); transform: translateY(-4px);">
+                      <h3 style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 18.5px; line-height: 1.3; margin: 0; color: #15291D; text-wrap: pretty;">{{ tile.title }}</h3>
+                      <p style="font-size: 15px; line-height: 1.6; margin: 0; color: #4A4F4C; text-wrap: pretty;">{{ tile.excerpt }}</p>
+                    </a>
+                    </div>
+                  </sc-for>
+                </div>
+                </div>
+              </section>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showArticle }}">
+            <article data-article-section="{{ article.sectionId }}" style="max-width: 720px;">
+              <a href="{{ article.backHref }}" onClick="{{ closeArticle }}" style="display: inline-block; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 15px; text-decoration: none; color: #146B3D; margin-bottom: 22px;">&larr; {{ article.sectionLabel }}</a>
+              <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(30px,4.2vw,44px); line-height: 1.14; letter-spacing: -0.01em; margin: 0 0 clamp(20px,2.6vw,28px); color: #15291D; text-wrap: pretty;">{{ article.title }}</h2>
+              <div style="display: flex; flex-direction: column; gap: 20px;">
+                <sc-for list="{{ article.body }}" as="para" hint-placeholder-count="4">
+                  <sc-if value="{{ para.isHeading }}">
+                    <h3 style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: clamp(20px,2.3vw,25px); line-height: 1.25; letter-spacing: -0.01em; color: #15291D; margin: clamp(12px,1.6vw,18px) 0 0; text-wrap: pretty;">{{ para.text }}</h3>
+                  </sc-if>
+                  <sc-if value="{{ para.plain }}" hint-placeholder-val="{{ true }}">
+                    <p style="font-size: clamp(16px,1.8vw,18.5px); line-height: 1.75; color: #3A3F3C; margin: 0; text-wrap: pretty;">{{ para.text }}</p>
+                  </sc-if>
+                  <sc-if value="{{ para.isList }}">
+                    <ul style="display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0 0 0 22px; list-style: none;">
+                      <sc-for list="{{ para.items }}" as="item" hint-placeholder-count="4">
+                        <li style="position: relative; font-size: clamp(16px,1.8vw,18.5px); line-height: 1.7; color: #3A3F3C; text-wrap: pretty;"><span style="position: absolute; left: -22px; top: 0; color: #146B3D; font-weight: 700;">&bull;</span>{{ item.text }}</li>
+                      </sc-for>
+                    </ul>
+                  </sc-if>
+                  <sc-if value="{{ para.hasLink }}">
+                    <p style="font-size: clamp(16px,1.8vw,18.5px); line-height: 1.75; color: #3A3F3C; margin: 0; text-wrap: pretty;">{{ para.text }} <a href="{{ para.linkHref }}" onClick="{{ para.linkClick }}" style="font-weight: 600; color: #146B3D; text-decoration: none; border-bottom: 1px solid rgba(20,107,61,0.4); transition: color 0.2s ease, border-color 0.2s ease;" style-hover="color: #0C4527; border-bottom-color: #0C4527;">{{ para.linkText }}</a></p>
+                  </sc-if>
+                </sc-for>
+              </div>
+              <sc-if value="{{ article.hasCta }}">
+                <div style="margin-top: clamp(30px,3.6vw,42px);">
+                  <a href="{{ article.ctaHref }}" onClick="{{ article.ctaClick }}" style="display: inline-block; box-sizing: border-box; text-align: center; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; color: #ffffff; background: #146B3D; border: 2px solid #146B3D; padding: 14px 30px; border-radius: 10px; transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;" style-hover="background: #0C4527; border-color: #0C4527; box-shadow: 0 10px 24px rgba(12,69,39,0.22); transform: translateY(-2px);" style-active="transform: translateY(0px);">{{ article.ctaLabel }}</a>
+                </div>
+              </sc-if>
+              <div style="margin-top: clamp(32px,4vw,48px); padding-top: 26px; border-top: 1px solid #DCEAE1;">
+                <a href="{{ article.backHref }}" onClick="{{ closeArticle }}" style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 15.5px; text-decoration: none; color: #146B3D;">&larr; Back to {{ article.sectionLabel }}</a>
+              </div>
+            </article>
+          </sc-if>
+        </div>
+      </div>
+    </section>
+
+    <sc-if value="{{ showIndex }}" hint-placeholder-val="{{ true }}">
+    <section style="padding: clamp(56px,9vw,100px) 24px; background: #146B3D;">
+      <div data-reveal="ctaContact" style="max-width: 720px; margin: 0 auto; text-align: center; opacity: {{ reveal.ctaContact.opacity }}; transform: {{ reveal.ctaContact.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(30px,4.4vw,46px); margin: 0 0 18px; color: #ffffff;">Get in touch</h2>
+        <p style="font-size: {{ ctaContactFontSize }}px; line-height: 1.6; margin: 0 0 32px; color: #DFF3E8; text-wrap: pretty;">Have some ideas about how this could work for you?</p>
+        <a href="./Excel%20Automate%20Contact.dc.html" style="display: inline-block; box-sizing: border-box; min-width: 190px; text-align: center; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; color: #146B3D; background: #ffffff; border: 2px solid #ffffff; padding: 14px 34px; border-radius: 10px; transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;" style-hover="background: #DFF3E8; color: #0C4527; box-shadow: 0 10px 24px rgba(0,0,0,0.18); transform: translateY(-2px);" style-active="background: #C9E7D6; transform: translateY(0px);">Get in touch</a>
+      </div>
+    </section>
+    </sc-if>
+  </main>
+
+  <footer style="background: #F3FAF6; padding: 34px 24px 30px;">
+    <div style="max-width: 1240px; margin: 0 auto; display: flex; justify-content: center;">
+      <p style="margin: 0; font-size: 13.5px; color: #6B7570; text-align: center; line-height: 1.7;">&copy; 2026 Excel Automate &middot; ABN 51 680 585 107 &middot; Hobart, Tasmania</p>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1100},&quot;revealsEnabled&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Scroll reveals&quot;}}">
+const OUR_APPROACH = './Excel%20Automate%20Our%20Approach.dc.html';
+
+const NAV_LINKS = [
+  { label: 'Home', href: './Excel%20Automate%20Landing.dc.html' },
+  { label: 'Our approach', href: OUR_APPROACH, current: true },
+  { label: 'For non-profits', href: './Excel%20Automate%20For%20Non-profits.dc.html' },
+  { label: 'About', href: './Excel%20Automate%20About.dc.html' }
+];
+
+const NAV_SUB = {
+  'Our approach': [
+    { label: 'Key ideas', href: OUR_APPROACH + '#key-ideas' },
+    { label: 'Modern Excel', href: OUR_APPROACH + '#modern-excel' },
+    { label: 'Excel tips', href: OUR_APPROACH + '#excel-tips' },
+    { label: 'Beyond Excel', href: OUR_APPROACH + '#beyond-excel' }
+  ]
+};
+
+const NAV_BREAKPOINT = 1180;
+
+const P = (...paras) => paras.map((text) => ({ text }));
+// Paragraph that ends with an inline link to another article on this page.
+const PL = (text, linkTile, linkText) => ({ text, linkTile, linkText });
+// Section heading inside an article body.
+const H = (text) => ({ text, heading: true });
+// Bulleted list inside an article body.
+const UL = (...items) => ({ list: items.map((text) => ({ text })) });
+
+// Every article body is placeholder text, written to show the shape and length
+// of a real one. The first paragraph says so on purpose, so nothing ships by
+// accident. Replace them one at a time.
+const SECTIONS = [
+  {
+    id: 'key-ideas',
+    label: 'Key ideas',
+    title: 'Key ideas',
+    intro: "If you read nothing else, read these three. They cover what has changed in Excel, why it matters, and what it means for the way your own spreadsheets are built.",
+    tiles: [
+      {
+        id: 'whats-modern-excel',
+        title: "What's Modern Excel?",
+        excerpt: 'Open it up and it looks much the same. Underneath, there is a whole new side to Excel that most people have never met.',
+        cta: { tile: 'why-power-query', label: 'Why Power Query?' },
+        body: [
+          H('A new direction'),
+          ...P(
+            "Excel has fundamentally changed in recent years, and it passed a lot of people by. Open it up and it looks much the same. You can still use it the same way everyone's been using it for the last 30 years, and in your day-to-day work that might be all you need. But there's a whole new side to Excel that can transform the way you get work done.",
+            "A big part of what makes Modern Excel different is that it's started to work a lot more like a database. But the real story for many organisations is the data processing tools that came along as part of this transformation."
+          ),
+          H('Built-in automation'),
+          ...P(
+            'Power Query and Power Pivot are the headline acts. Somewhat innocuously named, these are enterprise-grade data processing and analysis tools, built right into Excel for anyone to use. And for us, Power Query is the one that steals the show.'
+          ),
+          PL(
+            'Power Query lets you pull in data from any number of sources, clean it, combine it, re-shape it, and deliver it straight into Excel. If you want to skip ahead to see how we can use it to automate your processes, you can read the next article here:',
+            'why-power-query',
+            'Why Power Query?'
+          ),
+          ...P(
+            'You can create a whole Power Query process that sits behind a single table on a sheet. Simply refresh the table and it all spins up and goes to work, pulling in and processing the new data - usually within a few seconds. Excel has had automation in the past, but never as rapid or robust as with Power Query.'
+          ),
+          H('A data warehouse'),
+          ...P(
+            "The other way to use Power Query is to push the cleaned and consolidated data into the 'Data Model'. This works like a relational database that lives inside Excel - something that can hold millions of rows and support complex analysis. That's where Power Pivot comes in.",
+            "Power Pivot sounds like it's just a more advanced pivot table, which is maybe something relatable for Excel users, but seriously undersells it. What it gives you is a highly efficient data warehouse, a data analysis engine and language (DAX), and the visualisations to go along with them. It delivers a full analysis and reporting experience inside Excel and shares a lot of its core DNA with Microsoft's Business Intelligence suite, Power BI."
+          ),
+          H('Structured sheets'),
+          ...P(
+            'Modern Excel also brings some database-like behaviours directly into the worksheet, first with tables and then with dynamic array formulas.',
+            'Tables bring more structure to your data, and are a key part of how Excel and Power Query work together. They allow data ranges and formulas to grow to fit the data, and allow you to use table and column names in formulas to make them more comprehensible.',
+            "Dynamic array formulas like FILTER() and UNIQUE() allow you to write formulas that work a lot like the SQL queries that drive most databases. Instead of having a whole range full of individual formulas, one for each cell, you can write a single formula that returns a whole range worth of data.",
+            "You'll get just the rows and columns you want, with transformations and calculations all defined within that formula. Helper functions like LET() and LAMBDA() allow you to make these formulas even more powerful without becoming incomprehensible."
+          ),
+          H('Future interest'),
+          ...P(
+            'Beyond what we think of as Modern Excel, but worth following into the future, are the inclusion of the Python programming language, and the inclusion of AI. Unlike the other functionality though, both of these have limitations depending on your subscription tier.',
+            'The PY() function already allows Excel to run Python code in the cloud and return it back into the sheet, giving access to functionality well beyond what Excel can natively offer.',
+            "Copilot is the AI tool that can help with writing formulas, creating charts, and doing some basic data analysis. Though limited currently, it's already impressive compared to what it was a year ago."
+          ),
+          H('Best of both'),
+          ...P(
+            'At Excel Automate we use the best features from both Modern and Classic Excel to create our solutions. And the key that unlocks a lot of that is Power Query. Read on to see how this can work for you.'
+          )
+        ]
+      },
+      {
+        id: 'why-power-query',
+        title: 'Why Power Query?',
+        excerpt: "The tool we build most solutions around. Here's what it does, and how it could work for you.",
+        body: [
+          ...P(
+            'Excel is used for a lot of repetitive tasks. There have always been ways to speed these up - filling sheets with formulas, recording macros, writing VBA. They all still have a place, but for most data handling problems these days the solution starts with Power Query.',
+            "Power Query is built into Excel, and it's designed specifically for this kind of work. You build a process once, a series of steps that bring in your data and shape it exactly how you need. Then next time, you just refresh it."
+          ),
+          H('Data in'),
+          ...P('A big advantage of Power Query is just how easy it is to bring in data from different sources. Some examples:'),
+          UL(
+            'A folder of CSVs or PDFs - Power Query can open and combine them all at once, even if they have some different columns or formatting',
+            'Data from the web - this can range from simple HTML tables that contain some useful data, to connecting with cloud-based CRMs',
+            'Database queries - if you have access to the database that sits behind a system, you can query the data directly and efficiently',
+            'Excel tables - you can just copy/paste in the data you want it to use'
+          ),
+          ...P('A single Power Query process can bring in data from all of these sources at once, then combine them in whichever way you need to get the result.'),
+          H('Data transformed'),
+          ...P(
+            'A lot of the work you do in Excel - lookups, conditionals, totals and other formulas, moving data around, filtering and sorting - can be turned into a step-by-step, repeatable process in Power Query.',
+            "It's designed to work with whole tables rather than individual cells, which makes each of those steps cleaner and safer. There are no cell references to get mixed up, and no ranges that miss some of the data.",
+            "Working with tables also means that it can behave more like a database when it comes to combining those tables - not just combining columns but changing the number of rows. Joining tables where you only keep the rows that match in both, or ones where you might have multiple matches that produce extra rows. Things that traditional formulas just don't do.",
+            'The data transformations in Power Query are great for things like:'
+          ),
+          UL(
+            'Cleaning data that comes in from online platforms',
+            'Creating a single import file from multiple, varying files',
+            'Finding and fixing problems in your data',
+            'Creating a perfectly formatted output file from messy data',
+            'Identifying and handling duplicate records',
+            'Reconciling transactions from different systems'
+          ),
+          H('Data out'),
+          ...P(
+            "When we're talking process automation, the output from a Power Query process will always be to a table in Excel.",
+            "If you're wanting to use the data to build a report from, it's in the perfect place already.",
+            "Often though, the next step might be to turn it into a CSV for import, or its own XLSX to forward on. It's something you can always do yourself with a few clicks, but it's something we can automate too.",
+            'Adding a button that runs a little bit of VBA (the classic programming language in Excel) we can turn your table into a file, in the right folder and with the right filename.'
+          ),
+          H('Control when you need it'),
+          ...P(
+            "It's one thing to automate a process exactly as it is now, but often you'll want to allow for future changes and give it room to grow. Instead of just hard-coding values, we can make the process highly dynamic instead.",
+            'What this looks like is a Settings sheet, with fields and tables containing key values that you can change and add to. These might be lookup tables with codes and categories, or numbers to use in calculations - anything you might want to have easy control of without needing someone to delve back into the code.',
+            "Another way we can give you control is by adding interim steps for processes that need human review. Say some records get flagged for review, based on rules you've worked out with us. We can push them out to a table, where you make any necessary changes. Then it all gets folded back into the next stage of processing.",
+            "Excel provides the ideal interface for letting you pass settings and data back and forth within a process. It's easy for you to use, and easy for us to build, saving time all round."
+          ),
+          H('Hidden but accessible'),
+          ...P(
+            "Power Query lives inside an individual Excel file, the same as any simple spreadsheet. It's kept in the background though, so the person running the process never even has to see it. They could have as little as a single sheet with a single table to deal with - just click a button to refresh it and see the data appear, however much processing goes on behind the scenes.",
+            "The other side of this is that you can always view the Power Query process with just a couple of clicks if you want to. You don't have to go looking for extra files, you don't have to open it in another program, nothing gets in the way."
+          ),
+          H('Easy to maintain'),
+          ...P(
+            "When you look at a Power Query process you won't see blocks of code. You'll see a number of 'Queries' that each contain a list of steps. Those steps will all be named - either automatically or by us - to describe their actions: 'Replaced Value', 'Removed Columns', 'Filtered Rows' etc.",
+            'Not all of it will make sense to a casual observer, but it can help provide an entry point to anyone needing to make small tweaks. Additionally, a lot of actions can be done entirely via the GUI without needing to type any code at all. Realistically, for a full solution we might spend half the time working from the GUI and half the time in the code editor, but for most simple tasks the GUI can be enough.',
+            "While we look forward to building relationships with organisations and businesses and continuing to support the tools we develop, we want to make it clear that you'll never be locked into anything. If you're comfortable making tweaks yourself, we can show you how it works a little during handover."
+          ),
+          H('How we work'),
+          ...P(
+            "At Excel Automate we've done a lot of this work before. We have patterns and approaches that work, and a ready-made toolkit of handy functions that speed the work along. We don't have to start from scratch each time, which means less development time, and less cost to you.",
+            "The same basic value proposition is why we try to centre solutions around Power Query to begin with. When it fits the shape of the process you need, it's simply the quickest way to build something powerful, robust, easy to use and maintainable."
+          )
+        ]
+      },
+      {
+        id: 'what-about-formulas',
+        title: 'What about formulas?',
+        excerpt: 'Where formulas are still the right choice, and where something else works better.',
+        body: [
+          ...P(
+            "Formulas have always been at the heart of Excel, and that hasn't changed. But they're not always the right tool for every job. They're great for people who know Excel already, but not as well suited to building a repeatable process that you can hand off to anyone."
+          ),
+          H('Where they have a place'),
+          ...P("Here's where they might still be the first choice:"),
+          UL(
+            'Ad-hoc data interrogation or analysis',
+            "One-off solutions that don't need automating",
+            'Small tools for personal use, or to share with people who also understand how they work',
+            'Calculation templates - locked down sheets with data that gets entered into individual fields or selected from dropdowns',
+            'Lower complexity reports, where the amount of data is manageable'
+          ),
+          H("Why they're not for everything"),
+          ...P('These are some of the issues with using formulas when things get more complicated:'),
+          UL(
+            'Formulas based on ranges are fragile - inserting or deleting rows and columns can break them',
+            'Small inconsistencies in the data - numbers stored as text, extra spaces, inconsistent date formats - can quietly break a lookup or calculation without any obvious error',
+            'Sheets involving a lot of nested formulas or helper columns can quickly become unwieldy - easy to set up, but hard to update or debug',
+            "There isn't always a clear flow of logic - it's fine for something you create and use yourself, but difficult for anyone else to maintain"
+          ),
+          H('What works instead'),
+          ...P(
+            "The right solution depends on the problem you're trying to solve.",
+            'For smaller-scale problems such as simple reports, some of the downsides that come with classic formulas can be alleviated by using the new dynamic array formulas instead. When used carefully they can make the flow of complex logic more comprehensible, and work better with dynamic data ranges.',
+            "For complex reporting and analysis, a better option is Power Pivot and DAX. This works well with data that sits in more than one table, where you can define relationships and use those to filter it dynamically via slicers. It's also the most practical option for large amounts of data, where unlike regular worksheets it can handle millions of rows.",
+            "For automating regular processes, the right tool is usually Power Query. It's built from the ground up to extract, combine, and transform tables of data. You can hand a process over to an Excel novice to run, and there'll be very little that can go wrong. The way the steps are structured make it a lot easier to understand and maintain. This allows your processes to truly belong to the organisation, not to the individuals that built them."
+          )
+        ]
+      }
+    ]
+  },
+  {
+    id: 'modern-excel',
+    label: 'Modern Excel',
+    title: 'Modern Excel',
+    intro: "More on the ideas behind the way we build, and the judgement calls that come up on almost every job.",
+    tiles: [
+      {
+        id: 'power-query-vs-vba',
+        title: 'Power Query vs VBA',
+        excerpt: 'Both have their place. Choosing the wrong one is how automations end up unmaintainable.',
+        body: P(
+          'Placeholder - this article has not been written yet. This is a sketch of the comparison.',
+          "Power Query is for getting data in and shaping it. It is declarative, it refreshes on demand, it survives being handed to somebody else, and it does not require macros to be enabled.",
+          "VBA is for making Excel itself do things: moving files about, driving other applications, building an interface, or any job that has to happen in a particular order at a particular moment. It can do almost anything, which is both its strength and its risk.",
+          "The rule of thumb we use is simple. If the job is a transformation of data, it goes in Power Query. If the job is an action, it goes in VBA. Plenty of tools use both, with the query doing the loading and a small amount of code doing the orchestration.",
+          "What we try to avoid is VBA that laboriously reproduces what a query would do in three clicks, because that is the code that nobody can maintain in two years."
+        )
+      },
+      {
+        id: 'tables-vs-ranges',
+        title: 'Tables vs Ranges',
+        excerpt: 'Turning a range into a table is the cheapest structural improvement available in Excel.',
+        body: P(
+          'Placeholder - this article has not been written yet. Outline below.',
+          "A table is just a named range that knows where it ends. That sounds trivial, and it changes the behaviour of nearly everything that touches it.",
+          "Formulas can refer to columns by name instead of by letter, which makes them readable. New rows are picked up automatically, so charts and queries do not need their ranges adjusted. Sorting and filtering stop breaking neighbouring cells.",
+          "The one habit worth building is naming tables as you create them. A workbook with Table1 through Table14 in it is barely better than no tables at all."
+        )
+      },
+      {
+        id: 'excel-as-a-database',
+        title: 'Excel as a database',
+        excerpt: 'Where the spreadsheet-as-database approach holds up, and the point at which it stops being a good idea.',
+        body: P(
+          'Placeholder - this article has not been written yet. Draft argument follows.',
+          "Excel is used as a database constantly, usually without anyone deciding to. A sheet gets a header row, people add records to it, and a database is what it has become.",
+          "For a single person or a small team that can be perfectly reasonable. It is visible, everyone can already use it, and it costs nothing. Problems arrive with concurrent editing, with data that needs validating, and with history that needs keeping.",
+          "The honest answer is that there is a threshold, and it is worth knowing which side of it you are on. Part of what we do is say when a spreadsheet has outgrown itself - and when it hasn't, which is more often than you might expect."
+        )
+      },
+      {
+        id: 'excel-and-ai',
+        title: 'Excel and AI',
+        excerpt: 'What the current generation of tools is genuinely useful for, and where it will confidently mislead you.',
+        body: P(
+          'Placeholder - this article has not been written yet. Notes towards it below.',
+          "AI tools are good at the parts of spreadsheet work that are fiddly rather than difficult: explaining a formula somebody else wrote, suggesting an approach, drafting a first attempt at a transformation, or naming things consistently.",
+          "They are much less reliable at anything requiring certainty about your actual data. A confident wrong answer about a number is worse than no answer, because it looks finished.",
+          "Our position is that these tools belong in the building, not in the running. Using them to help write a query is sensible. Having them decide what the numbers mean, on a report somebody acts on, is not."
+        )
+      }
+    ]
+  },
+  {
+    id: 'excel-tips',
+    label: 'Excel tips',
+    title: 'Excel tips',
+    intro: "Practical things worth knowing if you work in spreadsheets every day, whether or not any of the tools were built by us. No general instruction, just the parts that come up most.",
+    tiles: [
+      {
+        id: 'tips-working-with-tables',
+        title: 'Working with tables',
+        excerpt: 'The handful of table behaviours that trip people up, and the shortcuts worth committing to memory.',
+        body: P(
+          'Placeholder - this article has not been written yet. Rough contents below.',
+          "This one is the practical companion to the Modern Excel piece on tables. Less about why they are a good idea, more about what they actually do when you use them.",
+          "Expect the basics of creating one, renaming it to something meaningful, and adding rows without breaking anything. Then structured references - what the square bracket syntax means when it appears in a formula, and why it is easier to read than it looks.",
+          "It will also cover the two things that catch people out: total rows behaving differently from ordinary rows, and what happens to a table when you paste over the top of it."
+        )
+      },
+      {
+        id: 'navigating-large-sheets',
+        title: 'Navigating large sheets',
+        excerpt: 'Getting around a big workbook without scrolling, and keeping your bearings once you are there.',
+        body: P(
+          'Placeholder - this article has not been written yet. Outline follows.',
+          "Scrolling is the slowest way to move around a spreadsheet, and on a sheet with fifty thousand rows it is close to useless. There are half a dozen keyboard moves that replace nearly all of it.",
+          "The article will cover jumping to the edges of a region, selecting to the end of a column without dragging, using the name box to go straight to a reference, and moving between sheets without the mouse.",
+          "Then keeping your place: freezing panes properly, splitting a window to see two parts of one sheet at once, and opening the same workbook in two windows side by side."
+        )
+      },
+      {
+        id: 'security-warnings',
+        title: 'Security warnings and enabling content',
+        excerpt: 'Why the yellow bar appears, what the warnings actually mean, and how to handle a file you trust.',
+        body: P(
+          'Placeholder - this article has not been written yet. Draft below.',
+          "If we have built you something with macros in it, you will meet the security bar, and possibly a more alarming red one. Knowing what they mean makes the difference between using the tool and being afraid of it.",
+          "The article will explain the difference between the ordinary yellow trust bar and the blocked-file message that appears on downloads, and why a file emailed to you behaves differently from the same file on a network drive.",
+          "It will also cover the safe way to unblock a file you are expecting, trusted locations as an alternative to enabling content every time, and the one situation where you should not click enable: a workbook you were not expecting, from someone you cannot verify."
+        )
+      },
+      {
+        id: 'where-automations-live',
+        title: 'Where automations live',
+        excerpt: 'Finding the queries, macros and connections inside a workbook, so nothing feels like a black box.',
+        body: P(
+          'Placeholder - this article has not been written yet. Notes below.',
+          "One of the more common worries about a custom tool is not knowing where the machinery is. It is all visible if you know which panes to open.",
+          "The article will walk through the Queries and Connections pane, opening a query in the editor to read its steps in plain language, and where refresh settings hide. Then the macro list, and how to see the code without changing it.",
+          "The point is not to turn anyone into a developer. It is that you should be able to look inside something you depend on, and satisfy yourself that it is doing what you think it is."
+        )
+      }
+    ]
+  },
+  {
+    id: 'beyond-excel',
+    label: 'Beyond Excel',
+    title: 'Beyond Excel',
+    intro: "Excel is not always the whole answer, and pretending otherwise does nobody any favours. These are the tools we most often use alongside it, and how we decide when they are worth the extra cost.",
+    tiles: [
+      {
+        id: 'power-bi',
+        title: 'Power BI',
+        excerpt: 'When a dashboard needs to be a dashboard, and when an Excel report is doing the job perfectly well already.',
+        body: P(
+          'Placeholder - this article has not been written yet. Sketch follows.',
+          "Power BI is built for one job: presenting data to people who are not going to edit it. Interactive charts, filters that apply everywhere at once, and a report that refreshes itself on a schedule and looks the same for everybody.",
+          "It shares a great deal with Modern Excel, which is what makes it a natural next step rather than a fresh start. Power Query is the same tool, and the modelling ideas carry across directly.",
+          "It is not free, and it is not always warranted. If three people look at a report monthly and want to poke at the underlying numbers, Excel is genuinely better. Board reporting, or a figure a dozen people check weekly, is where Power BI starts paying for itself."
+        )
+      },
+      {
+        id: 'sql',
+        title: 'SQL',
+        excerpt: 'What a proper database gives you that a spreadsheet cannot, and how the two work together comfortably.',
+        body: P(
+          'Placeholder - this article has not been written yet. Notes towards it below.',
+          "A database handles the things a spreadsheet struggles with: many people writing at once, rules about what counts as valid data, a reliable record of what changed and when, and volumes that make Excel unhappy.",
+          "It does not replace Excel. In most of the setups we build, the database holds the data and Excel remains the place people look at it, with Power Query pulling straight from the source.",
+          "The article will also cover the modest end of this: a small database on a single server, or even a file-based one, is often enough. Not every improvement needs to be an enterprise system."
+        )
+      },
+      {
+        id: 'azure',
+        title: 'Azure',
+        excerpt: 'Cloud hosting in plain terms, and the specific problems it solves for a small organisation.',
+        body: P(
+          'Placeholder - this article has not been written yet. Outline below.',
+          "Azure is Microsoft's cloud platform, and for our purposes that mostly means somewhere to put a database or a scheduled job that is not somebody's desktop.",
+          "The problem it solves is availability. A refresh that runs on a machine under a desk stops working when that machine is off, or when the person who set it up leaves. A hosted one keeps going.",
+          "It is also where the costs need watching most carefully, because it is billed by consumption. Part of the job is sizing it honestly and saying when the answer is a shared folder instead."
+        )
+      },
+      {
+        id: 'power-automate',
+        title: 'Power Automate',
+        excerpt: 'Joining up the gaps between systems, and getting things to happen without anyone remembering to do them.',
+        body: P(
+          'Placeholder - this article has not been written yet. Draft notes below.',
+          "Power Automate handles the joins: an email arrives with an attachment, the attachment lands in the right folder, a query refreshes, somebody gets notified. Each step is unremarkable, and stringing them together removes a surprising amount of routine work.",
+          "It is at its best on the boundaries between systems, where nobody owns the handover and it gets done manually by whoever notices. Those are the tasks most likely to be forgotten under pressure.",
+          "The caution is that a long chain of automated steps can be hard to follow when it breaks. We keep flows short, make failures visible, and write down what each one is for."
+        )
+      }
+    ]
+  }
+];
+
+// Reveal timings match the landing page exactly: text blocks fade and rise 26px
+// over 0.7s; tiles use 0.65s and stagger 90ms apart across a grid.
+const BASE_STAGGER = 90;
+const TILE_DELAYS = {};
+SECTIONS.forEach((s) => s.tiles.forEach((t, i) => { TILE_DELAYS['t-' + t.id] = i * BASE_STAGGER; }));
+
+const REVEAL_IDS = ['hero', 'ctaContact'].concat(SECTIONS.map((s) => s.id)).concat(Object.keys(TILE_DELAYS));
+
+// The section highlight is driven from MODULE scope, not from a per-instance
+// closure. The runtime remounts and hot-reloads the component, which leaves
+// stale listeners registered against dead instances: their captured `this` has
+// a frozen state, so their setState calls no-op and the highlight silently
+// freezes. One listener, one pointer to whichever instance is currently live.
+// The pointer and the guards live on `window` (see G below) so they are shared
+// even if the runtime evaluates a second copy of this module.
+const G = (typeof window !== 'undefined' ? window : globalThis);
+
+const SECTION_IDS = SECTIONS.map((s) => s.id);
+
+// The header is sticky and overlays the top of the scroll container, so every
+// programmatic scroll has to stop short of the section by its height or the
+// heading lands underneath it. Matches the sections' scroll-margin-top.
+const HEADER_OFFSET = 110;
+
+// The side-nav highlight is written straight onto the anchors rather than
+// rendered from component state. Five attempts to drive it through setState
+// failed the same way: the runtime keeps more than one component instance
+// alive, and a stale one's setState updates a tree that isn't mounted, so the
+// highlight froze or lagged a scroll behind. These anchors are plain static
+// markup, so touching them directly has nothing to go stale.
+// Nothing is stored between calls. Every caller — the scroll handler, a React
+// update, a hover ending, opening or closing an article — recomputes from the
+// DOM and therefore converges on the same answer, however many copies of this
+// module or instances of the component the runtime happens to be keeping alive.
+// Earlier versions cached the active id at module scope, and a stale copy's
+// repaint kept overwriting the correct one, leaving the highlight a scroll
+// behind.
+function activeSectionFromDom() {
+  const art = document.querySelector('[data-article-section]');
+  if (art) return art.getAttribute('data-article-section');
+  const rootEl = document.querySelector('[data-scroll-root]');
+  const line = (rootEl ? rootEl.getBoundingClientRect().top : 0) + 140;
+  let current = SECTION_IDS[0];
+  SECTION_IDS.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top <= line) current = id;
+  });
+  return current;
+}
+function paintNav() {
+  const active = activeSectionFromDom();
+  document.querySelectorAll('nav[aria-label="Sections"] a[data-section]').forEach((a) => {
+    const on = a.getAttribute('data-section') === active;
+    a.style.background = on ? '#E7F5EC' : 'transparent';
+    a.style.color = on ? '#146B3D' : '#3A3F3C';
+  });
+}
+function repaintNav() { paintNav(); }
+
+// A repaint also has to happen after React's LAST render, and nothing
+// guarantees a scroll event arrives then: the staggered reveal setState calls
+// land up to ~90ms after the final scroll, recreating the nav anchors with
+// their static styles and wiping the direct writes. A slow interval converges
+// regardless of render timing, instance count, or module copies.
+//
+// The same interval also drives the reveal sweep. Scroll events alone were not
+// enough: on a cold start there is a window before the listener and the live
+// pointer have settled where scrolling fired nothing, and a visitor who landed and scrolled
+// immediately saw three of the four sections blank. The interval converges
+// within 200ms regardless of render timing, instance count, or module copies.
+// Guards live on `window`, not in module scope. If the runtime evaluates a
+// second copy of this module, module-scoped flags reset while the first copy's
+// listener and interval are still registered — so a stale copy could hold a
+// null pointer and silently do nothing. Keying off window means one listener
+// and one interval per page, whichever copy gets there first.
+function startNavPainter() {
+  if (G.__eaNavTimer) return;
+  G.__eaNavTimer = setInterval(() => {
+    paintNav();
+    const live = G.__eaLive;
+    if (live && !TWEENING) live._sweepReveals();
+  }, 200);
+}
+
+// Native `behavior: 'smooth'` on this scroll container doesn't start for over a
+// second and then teleports, so the animation is done by hand. Direct writes to
+// scrollTop take effect within a frame.
+let TWEEN = null;
+let TWEENING = false;
+function scrollTween(rootEl, to, duration) {
+  if (TWEEN) cancelAnimationFrame(TWEEN);
+  const el = rootEl || document.scrollingElement;
+  if (!el) return;
+  const from = el.scrollTop;
+  const dist = to - from;
+  const ms = duration || 380;
+  if (Math.abs(dist) < 2) { el.scrollTop = to; return; }
+  const start = performance.now();
+  // Reveal sweeps are suspended for the duration. A long jump drags a dozen or
+  // more elements through the trigger line at once, and the resulting burst of
+  // renders starves rAF badly enough to stall the tween for over a second.
+  TWEENING = true;
+  const step = (now) => {
+    const t = Math.min(1, (now - start) / ms);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.scrollTop = from + dist * eased;
+    if (t < 1) { TWEEN = requestAnimationFrame(step); return; }
+    TWEEN = null;
+    TWEENING = false;
+    // One sweep at the end. Anything jumped past is marked revealed without
+    // animating, since the reader never saw it travel.
+    if (G.__eaLive) G.__eaLive._sweepReveals(true);
+  };
+  TWEEN = requestAnimationFrame(step);
+}
+
+// Layout position of a section within the scroll container, with its reveal
+// transform removed. getBoundingClientRect() includes the 26px translate of an
+// unrevealed section, so scrolling to it overshoots and the section then jumps
+// as the reveal fires.
+function layoutTop(el, rootEl) {
+  const rect = el.getBoundingClientRect();
+  const base = rootEl ? rootEl.getBoundingClientRect().top : 0;
+  const scrolled = rootEl ? rootEl.scrollTop : window.scrollY;
+  let ty = 0;
+  const tf = getComputedStyle(el).transform;
+  if (tf && tf !== 'none') {
+    const nums = tf.slice(tf.indexOf('(') + 1, -1).split(',').map(Number);
+    ty = nums.length === 6 ? nums[5] : (nums.length === 16 ? nums[13] : 0);
+  }
+  return rect.top - base + scrolled - ty;
+}
+function hoverSection(id) {
+  return () => {
+    const a = document.querySelector('nav[aria-label="Sections"] a[data-section="' + id + '"]');
+    if (!a) return;
+    a.style.background = '#E7F5EC';
+    a.style.color = '#146B3D';
+  };
+}
+function onDocScroll() {
+  const now = Date.now();
+  if (now - (G.__eaLastScroll || 0) < 60) return;
+  G.__eaLastScroll = now;
+  requestAnimationFrame(() => {
+    paintNav();
+    const live = G.__eaLive;
+    if (!live) return;
+    live.undim();
+    if (!TWEENING) live._sweepReveals();
+  });
+}
+
+const ALL_TILES = {};
+SECTIONS.forEach((s) => s.tiles.forEach((t) => { ALL_TILES[t.id] = { tile: t, section: s }; }));
+
+class Component extends DCLogic {
+  state = {
+    navOpen: false,
+    isMobile: false,
+    viewportWidth: typeof window !== 'undefined' ? window.innerWidth : 1200,
+    ctaContactFontSize: 20,
+    hoveredNav: null,
+    revealed: {},
+    activeSection: SECTIONS[0].id,
+    openArticle: null,
+    // Kept in state so the pre-launch dim can go back to being interactive
+    // without restructuring anything (see DIM_LATER below).
+    dimSecond: true
+  };
+
+  // Pre-launch: the three sections after Key ideas are permanently dimmed,
+  // because their articles are all placeholder. Previously only Modern Excel
+  // dimmed, and any hover or focus cleared it for the session — restore that by
+  // returning `this.state.dimSecond ? 0.45 : 1` from renderVals, putting back
+  // the onMouseEnter/onFocus `undim` handlers on the Modern Excel section, and
+  // removing the wrappers on Excel tips and Beyond Excel.
+  undim = () => {};
+
+  _timers = new Set();
+  _later(fn, ms) {
+    const id = setTimeout(() => { this._timers.delete(id); fn(); }, ms);
+    this._timers.add(id);
+    return id;
+  }
+
+  _ctaContactLine = "Have some ideas about how this could work for you?";
+  _measureCtx = typeof document !== 'undefined' ? document.createElement('canvas').getContext('2d') : null;
+
+  // Contact CTA line sizing, same as the landing page: measure the sentence on a
+  // canvas and take the largest size that fits the band width on one line, down
+  // to a floor of 14px. Wrapping is still allowed - below the floor the line
+  // wraps rather than shrinking further.
+  _fitFontSize(text, containerWidth, minSize, maxSize) {
+    if (!this._measureCtx) return maxSize;
+    const ref = 100;
+    this._measureCtx.font = `500 ${ref}px 'Public Sans', system-ui, sans-serif`;
+    const w = this._measureCtx.measureText(text).width;
+    // 1.5% headroom so canvas/layout rounding can't tip a fitted line into a wrap.
+    return Math.max(minSize, Math.min(maxSize, (containerWidth / w) * ref * 0.985));
+  }
+
+  componentDidMount() {
+    this._onResize = () => {
+      const w = window.innerWidth;
+      this.setState((s) => ({
+        viewportWidth: w,
+        isMobile: w < NAV_BREAKPOINT,
+        navOpen: w < NAV_BREAKPOINT ? s.navOpen : false,
+        ctaContactFontSize: this._fitFontSize(this._ctaContactLine, Math.min(720, w - 48), 14, 20)
+      }));
+    };
+    this._onResize();
+    window.addEventListener('resize', this._onResize);
+    this._startReveals();
+    this._startSpy();
+    this._applyHash();
+    this._onHashChange = () => this._applyHash();
+    window.addEventListener('hashchange', this._onHashChange);
+  }
+
+  // Fade + 26px rise, 0.7s, firing at 92% of the viewport. Once-only, and the
+  // revealed map is only ever added to.
+  _startReveals() {
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || typeof IntersectionObserver === 'undefined') { this._revealAll(); return; }
+    // Bounded safety net. An unconditional _revealAll() here would reveal the
+    // whole page 2.5s after mount, before anyone could scroll to it, and the
+    // stagger would never be seen. This only catches up what is genuinely on
+    // screen; everything below the fold waits for the observer or a scroll.
+    this._later(() => this._sweepReveals(), 2500);
+    const root = document.querySelector('[data-scroll-root]') || null;
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.getAttribute('data-reveal');
+        if (id) this._show(id);
+      });
+    }, { root, rootMargin: '0px 0px -8% 0px', threshold: 0 });
+    const observeAll = () => {
+      document.querySelectorAll('[data-reveal]').forEach((el) => {
+        if (el.__revealObserved) return;
+        el.__revealObserved = true;
+        this._io.observe(el);
+      });
+    };
+    observeAll();
+    [120, 400, 900].forEach((t) => this._later(observeAll, t));
+  }
+
+  // The side nav's current-section marker is driven by scroll-position maths,
+  // deliberately NOT by an IntersectionObserver. The runtime replaces the
+  // section nodes on re-render, so an observer bound to element identity ends
+  // up holding detached nodes and silently stops tracking. This looks the
+  // elements up fresh on every measurement instead.
+  _startSpy() {
+    this._measureSpy = paintNav;
+    G.__eaLive = this;
+    // Capture phase at the document: scroll events don't bubble, but they do
+    // pass through capture for whichever element scrolled, so this survives the
+    // runtime replacing the scroll container node. Bound once, ever.
+    if (!G.__eaScrollBound) {
+      document.addEventListener('scroll', onDocScroll, { capture: true, passive: true });
+      G.__eaScrollBound = true;
+    }
+    startNavPainter();
+    this._later(this._measureSpy, 200);
+  }
+
+  // Arriving from another page's dropdown, the #section anchor doesn't exist yet
+  // at parse time, so native hash scrolling has nothing to land on. Do it here.
+  _applyHash() {
+    const hash = (window.location.hash || '').replace('#', '');
+    if (!hash) return;
+    if (ALL_TILES[hash]) { this.setState({ openArticle: hash }); return; }
+    if (!SECTIONS.some((s) => s.id === hash)) return;
+    this.setState({ activeSection: hash });
+    const scrollToIt = () => {
+      const el = document.getElementById(hash);
+      const rootEl = document.querySelector('[data-scroll-root]');
+      if (!el) return;
+      const top = layoutTop(el, rootEl) - HEADER_OFFSET;
+      if (rootEl) rootEl.scrollTo({ top, behavior: 'auto' });
+      else window.scrollTo({ top, behavior: 'auto' });
+    };
+    [60, 260, 600].forEach((t) => this._later(scrollToIt, t));
+  }
+
+  // Scroll-driven backstop for the reveals, running alongside the observer and
+  // using the same 92% trigger line. Belt and braces: the observer misses
+  // elements if the runtime swaps a node after it was observed, and the landing
+  // page's history shows observers not firing at all in some preview contexts.
+  // ONE setState per sweep. Reveals and re-arms are collected first and applied
+  // together — a version that called _show() per element, plus a timeout per
+  // staggered tile, produced a separate full re-render for each and blocked the
+  // main thread for over a second on a long jump. The 90ms stagger is a CSS
+  // transition-delay on the tile (see _tiles), so it costs no extra renders.
+  _sweepReveals(instant) {
+    if (this.props.revealsEnabled === false) return;
+    const rootEl = document.querySelector('[data-scroll-root]');
+    const box = rootEl ? rootEl.getBoundingClientRect() : { top: 0, height: window.innerHeight };
+    const line = box.top + box.height * 0.92;
+    const below = box.top + box.height;
+    const add = [];
+    const drop = [];
+    document.querySelectorAll('[data-reveal]').forEach((el) => {
+      const id = el.getAttribute('data-reveal');
+      if (!id) return;
+      const top = el.getBoundingClientRect().top;
+      if (this.state.revealed[id]) {
+        // Re-arm anything that has scrolled back off the bottom, so the reveal
+        // plays again on the way down — same as the landing page. Only ever
+        // re-arms DOWNWARD: an element above the viewport stays revealed, which
+        // is what stops this oscillating.
+        if (top > below) drop.push(id);
+        return;
+      }
+      if (top < line) add.push(id);
+    });
+    if (!add.length && !drop.length) return;
+    this.setState((s) => {
+      const next = { ...s.revealed };
+      let changed = false;
+      add.forEach((id) => { if (!next[id]) { next[id] = true; changed = true; } });
+      drop.forEach((id) => { if (next[id]) { delete next[id]; changed = true; } });
+      return changed ? { revealed: next, instantReveal: !!instant } : null;
+    });
+  }
+
+  _show(id) {
+    if (this.state.revealed[id]) return;
+    this.setState((s) => ({ revealed: { ...s.revealed, [id]: true } }));
+  }
+
+  _revealAll() {
+    this.setState((s) => {
+      const all = { ...s.revealed };
+      let changed = false;
+      REVEAL_IDS.forEach((id) => { if (!all[id]) { all[id] = true; changed = true; } });
+      return changed ? { revealed: all } : null;
+    });
+  }
+
+  _revealStyle(id) {
+    const shown = this.props.revealsEnabled === false || !!this.state.revealed[id];
+    return { opacity: shown ? 1 : 0, transform: shown ? 'translateY(0px)' : 'translateY(26px)' };
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._onResize);
+    if (this._io) this._io.disconnect();
+    // The document listener and the interval stay attached, and G.__eaLive is
+    // deliberately NOT cleared. renderVals() reclaims the pointer on every
+    // render, so the live instance always owns it; clearing it on unmount would
+    // blank the pointer a just-mounted replacement is already using.
+    if (this._onHashChange) window.removeEventListener('hashchange', this._onHashChange);
+    this._timers.forEach(clearTimeout);
+    this._timers.clear();
+  }
+
+  navClick = (link) => (e) => {
+    if (link.href === '#') e.preventDefault();
+    this.setState({ hoveredNav: null, navOpen: false });
+  };
+  subClick = (sub) => (e) => {
+    // Same-page section links: close the article view and let the anchor land.
+    this.setState({ hoveredNav: null, navOpen: false, openArticle: null });
+  };
+  hoverNav = (label) => () => this.setState({ hoveredNav: label });
+  unhoverNav = () => this.setState({ hoveredNav: null });
+  toggleNav = () => this.setState((s) => ({ navOpen: !s.navOpen }));
+
+  gotoSection = (id) => (e) => {
+    e.preventDefault();
+    // Scroll synchronously rather than from a setState callback, and animate it
+    // with scrollTween — native smooth scrolling stalls badly in this container.
+    const wasArticle = !!this.state.openArticle;
+    const run = () => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const rootEl = document.querySelector('[data-scroll-root]');
+      const top = layoutTop(el, rootEl) - HEADER_OFFSET;
+      scrollTween(rootEl, top);
+      paintNav();
+    };
+    if (wasArticle) {
+      // The section only exists once the index is back, so this one case has to
+      // wait a frame for the swap.
+      this.setState({ openArticle: null });
+      this._later(run, 30);
+      this._later(run, 120);
+    } else {
+      run();
+    }
+  };
+
+  // In production each article is its own URL. Here they render in place so the
+  // whole set can be reviewed in one file — the tile is still a real link with a
+  // real href, so converting to routed pages is a template change, not a
+  // rewrite.
+  openTile = (tileId) => (e) => {
+    e.preventDefault();
+    // Remember where they were reading from, so closing the article puts them
+    // back on the same tile rather than at the top of its section. Article to
+    // article (an inline link or the end CTA) has no tile position to return
+    // to, so clear it and let closeArticle fall back to the section heading.
+    if (this.state.openArticle) {
+      this._returnScroll = undefined;
+    } else {
+      const rootEl = document.querySelector('[data-scroll-root]');
+      this._returnScroll = rootEl ? rootEl.scrollTop : window.scrollY;
+    }
+    this.setState({ openArticle: tileId }, () => {
+      const el = document.querySelector('[data-scroll-root]');
+      if (el) el.scrollTo({ top: 0, behavior: 'auto' });
+      else window.scrollTo({ top: 0, behavior: 'auto' });
+    });
+  };
+
+  closeArticle = (e) => {
+    e.preventDefault();
+    const entry = ALL_TILES[this.state.openArticle];
+    const back = entry ? entry.section.id : SECTIONS[0].id;
+    const remembered = this._returnScroll;
+    this.setState({ openArticle: null, activeSection: back }, () => {
+      const restore = () => {
+        const rootEl = document.querySelector('[data-scroll-root]');
+        // Fall back to the section heading if we never recorded a position
+        // (e.g. the article was opened from a deep link rather than a tile).
+        let top = remembered;
+        if (typeof top !== 'number') {
+          const el = document.getElementById(back);
+          if (!el) return;
+          const offset = layoutTop(el, rootEl);
+          top = offset - HEADER_OFFSET;
+        }
+        if (rootEl) rootEl.scrollTop = top;
+        else window.scrollTo({ top, behavior: 'auto' });
+      };
+      // Twice: once now, once after layout settles, since the index is taller
+      // than the article and the container may still be clamping scrollTop.
+      restore();
+      this._later(restore, 60);
+      this._later(() => { this._returnScroll = undefined; this._measureSpy(); }, 120);
+    });
+  };
+
+  componentDidUpdate() {
+    // React re-rendering the anchors wipes the direct style writes, so repaint
+    // after every update. paintNav recomputes, so this can't paint a stale value.
+    paintNav();
+  }
+
+  _tiles(sectionId) {
+    const s = SECTIONS.find((x) => x.id === sectionId);
+    if (!s) return [];
+    const instant = this.state.instantReveal;
+    return s.tiles.map((t, i) => {
+      const r = this._revealStyle('t-' + t.id);
+      return {
+        title: t.title,
+        excerpt: t.excerpt,
+        href: '#' + t.id,
+        revealId: 't-' + t.id,
+        opacity: r.opacity,
+        transform: r.transform,
+        // Stagger as a CSS delay rather than N timeouts. Zero delay when a menu
+        // jump revealed the section wholesale — nobody watched it arrive.
+        transition: instant
+          ? 'none'
+          : 'opacity 0.65s cubic-bezier(0.22,1,0.36,1) ' + (i * BASE_STAGGER) + 'ms, transform 0.65s cubic-bezier(0.22,1,0.36,1) ' + (i * BASE_STAGGER) + 'ms',
+        onClick: this.openTile(t.id)
+      };
+    });
+  }
+
+  renderVals() {
+    // Claim the pointer on every render, not just on mount. When the runtime
+    // hot-reloads, the new instance renders and takes over here; pointing it
+    // only from componentDidMount left a dead instance holding it, whose
+    // setState calls silently did nothing.
+    G.__eaLive = this;
+    const vw = this.state.viewportWidth;
+    const isMobile = this.state.isMobile;
+    const stacked = vw < 900;
+    const open = this.state.openArticle;
+    const entry = ALL_TILES[open];
+
+    const navLinks = NAV_LINKS.map((link) => {
+      const hovered = this.state.hoveredNav === link.label;
+      const on = hovered || link.current;
+      return {
+        label: link.label,
+        href: link.href,
+        hasSub: !!NAV_SUB[link.label],
+        subLinks: (NAV_SUB[link.label] || []).map((s) => ({ label: s.label, href: s.href, onClick: this.subClick(s) })),
+        subMenuStyle: {
+          position: 'absolute', top: '100%', left: '-16px', paddingTop: '12px', zIndex: 60,
+          opacity: hovered ? 1 : 0,
+          visibility: hovered ? 'visible' : 'hidden',
+          transform: hovered ? 'translateY(0px)' : 'translateY(-6px)',
+          transition: 'opacity 0.2s ease, transform 0.2s ease, visibility 0.2s'
+        },
+        color: on ? '#146B3D' : '#1A1A1A',
+        underline: on ? 'scaleX(1)' : 'scaleX(0)',
+        underlineMobile: link.current ? 'scaleX(1)' : 'scaleX(0)',
+        onClick: this.navClick(link),
+        onEnter: this.hoverNav(link.label),
+        onLeave: this.unhoverNav
+      };
+    });
+
+    const activeId = entry ? entry.section.id : this.state.activeSection;
+
+    return {
+      ctaContactFontSize: this.state.ctaContactFontSize,
+      navLinks,
+      navDisplayDesktop: isMobile ? 'none' : 'flex',
+      navDisplayMobile: isMobile ? 'flex' : 'none',
+      burgerLine1: this.state.navOpen ? 'translateY(9px) rotate(45deg)' : 'none',
+      burgerLine2Opacity: this.state.navOpen ? 0 : 1,
+      burgerLine3: this.state.navOpen ? 'translateY(-9px) rotate(-45deg)' : 'none',
+      mobileMenuStyle: {
+        display: isMobile ? 'flex' : 'none',
+        flexDirection: 'column',
+        gap: '4px',
+        padding: this.state.navOpen ? '4px 24px 20px' : '0 24px',
+        maxHeight: this.state.navOpen ? '580px' : '0px',
+        overflow: 'hidden',
+        transition: 'max-height 0.3s ease, padding 0.3s ease'
+      },
+      lockupTextDisplay: vw < 420 ? 'none' : 'flex',
+      lockupTaglineDisplay: vw < 640 ? 'none' : 'block',
+      // 176px is about 40px wider than the longest label needs. The slack is
+      // deliberate — the active pill needs room to read as a pill rather than a
+      // tight box — but it was 208px, which took too much off the content.
+      shellColumns: stacked ? '1fr' : '176px minmax(0,1fr)',
+      sideNavDirection: stacked ? 'row' : 'column',
+      // White card, so it reads consistently against the varied section panels
+      // it scrolls past.
+      sideNavStyle: {
+        position: stacked ? 'static' : 'sticky',
+        top: '106px',
+        alignSelf: 'start',
+        // Nudged up level with the h1's cap height, not its line box.
+        marginTop: stacked ? '0px' : '10px',
+        background: '#ffffff',
+        border: '1px solid #E7EFE9',
+        borderRadius: '16px',
+        padding: '16px 12px',
+        boxShadow: '0 2px 10px rgba(20,40,30,0.06)',
+        zIndex: 5
+      },
+      // The active marker is NOT rendered from state — see paintNav(). These
+      // anchors carry static styling and the scroll handler writes to them
+      // directly, so no stale component instance can freeze the highlight.
+      sideNav: SECTIONS.map((s) => ({
+        label: s.label,
+        id: s.id,
+        href: '#' + s.id,
+        onClick: this.gotoSection(s.id),
+        onEnter: hoverSection(s.id),
+        onLeave: repaintNav
+      })),
+      // Each section is written out explicitly in the template rather than
+      // looped, so its panel colours are literal and the copy stays directly
+      // editable. Only the tile lists and reveal styles come from here.
+      keyIdeasTiles: this._tiles('key-ideas'),
+      modernExcelTiles: this._tiles('modern-excel'),
+      excelTipsTiles: this._tiles('excel-tips'),
+      beyondExcelTiles: this._tiles('beyond-excel'),
+      dimLater: 0.45,
+      undim: this.undim,
+      reveal: {
+        hero: this._revealStyle('hero'),
+        ctaContact: this._revealStyle('ctaContact'),
+        keyIdeas: this._revealStyle('key-ideas'),
+        modernExcel: this._revealStyle('modern-excel'),
+        excelTips: this._revealStyle('excel-tips'),
+        beyondExcel: this._revealStyle('beyond-excel')
+      },
+      showIndex: !entry,
+      showArticle: !!entry,
+      article: entry ? {
+        title: entry.tile.title,
+        body: entry.tile.body.map((p) => {
+          if (p.heading) return { text: p.text, isHeading: true, plain: false, hasLink: false, isList: false };
+          if (p.list) return { isList: true, items: p.list, isHeading: false, plain: false, hasLink: false };
+          if (p.linkTile) return {
+            text: p.text,
+            isHeading: false,
+            plain: false,
+            hasLink: true,
+            isList: false,
+            linkText: p.linkText || (ALL_TILES[p.linkTile] ? ALL_TILES[p.linkTile].tile.title : ''),
+            linkHref: '#' + p.linkTile,
+            linkClick: this.openTile(p.linkTile)
+          };
+          return { text: p.text, isHeading: false, plain: true, hasLink: false, isList: false };
+        }),
+        hasCta: !!entry.tile.cta,
+        ctaLabel: entry.tile.cta ? entry.tile.cta.label : '',
+        ctaHref: entry.tile.cta ? (entry.tile.cta.href || '#' + entry.tile.cta.tile) : '#',
+        ctaClick: entry.tile.cta && entry.tile.cta.tile ? this.openTile(entry.tile.cta.tile) : null,
+        sectionLabel: entry.section.label,
+        sectionId: entry.section.id,
+        backHref: '#' + entry.section.id
+      } : { title: '', body: [], sectionLabel: '', sectionId: '', backHref: '#', hasCta: false, ctaLabel: '', ctaHref: '#', ctaClick: null },
+      closeArticle: this.closeArticle,
+      toggleNav: this.toggleNav
+    };
+  }
+}
+</script>
+</body>
+</html>

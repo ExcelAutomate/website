@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>For non-profits - Excel Automate | Hobart</title>
+<meta name="description" content="Automating the data work in fundraising organisations - CRM imports and exports, platform migrations, external partners, reporting gaps and continuity.">
+<link rel="icon" type="image/svg+xml" href="./assets/excel-automate-favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="./assets/excel-automate-favicon-32.png">
+<link rel="apple-touch-icon" href="./assets/excel-automate-favicon-256.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&family=Spectral:ital,wght@1,300&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #146B3D; }
+  a:hover { color: #1E9E58; }
+  button { font-family: inherit; cursor: pointer; }
+</style>
+</helmet>
+<div data-scroll-root="" style="font-family: 'Public Sans', system-ui, sans-serif; color: #1A1A1A; background: #FCFDFC; overflow-x: hidden; overflow-y: auto; height: 100vh; min-width: 320px;">
+
+  <header style="position: sticky; top: 0; z-index: 50; background: rgba(252,253,252,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid #E7EFE9;">
+    <div style="max-width: 1240px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 10px clamp(16px,2.5vw,32px); gap: 24px;">
+      <a href="./Excel%20Automate%20Landing.dc.html" style="display: flex; align-items: center; gap: 14px; min-width: 0; text-decoration: none;">
+        <img src="./assets/excel-automate-mark.svg" alt="" style="display: block; height: clamp(42px,6.4vw,66px); width: auto; flex-shrink: 0;"/>
+        <span style="display: {{ lockupTextDisplay }}; flex-direction: column; align-items: center; gap: 6px; min-width: 0;">
+          <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(19px,3.1vw,33px); line-height: 1; letter-spacing: -0.02em; color: #15291D; white-space: nowrap;">Excel <span style="color: #146B3D;">Automate</span></span>
+          <span style="display: {{ lockupTaglineDisplay }}; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: clamp(7px,1.2vw,11.5px); letter-spacing: 0.2em; color: #146B3D; white-space: nowrap;">INTEGRATE · ACCELERATE · TRANSFORM</span>
+        </span>
+      </a>
+      <nav style="display: {{ navDisplayDesktop }}; align-items: center; gap: 36px;">
+        <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="4">
+          <div onMouseEnter="{{ link.onEnter }}" onMouseLeave="{{ link.onLeave }}" style="position: relative; flex-shrink: 0;">
+            <a href="{{ link.href }}" onClick="{{ link.onClick }}" style="position: relative; display: block; white-space: nowrap; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 18px; text-decoration: none; color: {{ link.color }}; transition: color 0.2s ease; padding-bottom: 6px;">{{ link.label }}<span style="position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px; background: #146B3D; transform-origin: left center; transform: {{ link.underline }}; transition: transform 0.28s cubic-bezier(0.22,1,0.36,1);"></span></a>
+            <sc-if value="{{ link.hasSub }}">
+              <div style="{{ link.subMenuStyle }}">
+                <div style="background: #ffffff; border: 1px solid #E7EFE9; border-radius: 12px; box-shadow: 0 12px 28px rgba(20,40,30,0.12); padding: 8px; display: flex; flex-direction: column; gap: 2px; min-width: 190px;">
+                  <sc-for list="{{ link.subLinks }}" as="sub" hint-placeholder-count="4">
+                    <a href="{{ sub.href }}" onClick="{{ sub.onClick }}" style="display: block; white-space: nowrap; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 16px; text-decoration: none; color: #1A1A1A; padding: 10px 16px; border-radius: 8px; transition: background 0.18s ease, color 0.18s ease;" style-hover="background: #E7F5EC; color: #146B3D;">{{ sub.label }}</a>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        <a href="./Excel%20Automate%20Contact.dc.html" style="flex-shrink: 0; white-space: nowrap; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; color: #ffffff; background: #146B3D; padding: 14px 26px; border-radius: 10px; transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;" style-hover="background: #0F5230; box-shadow: 0 10px 24px rgba(20,107,61,0.24); transform: translateY(-2px);" style-active="background: #0C4527; transform: translateY(0px);">Get in touch</a>
+      </nav>
+      <button aria-label="Toggle menu" onClick="{{ toggleNav }}" style="display: {{ navDisplayMobile }}; background: none; border: none; padding: 8px; flex-direction: column; gap: 5px; justify-content: center;">
+        <span style="display: block; width: 32px; height: 3px; background: #1A1A1A; transition: transform 0.25s ease; transform: {{ burgerLine1 }};"></span>
+        <span style="display: block; width: 32px; height: 3px; background: #1A1A1A; opacity: {{ burgerLine2Opacity }}; transition: opacity 0.2s ease;"></span>
+        <span style="display: block; width: 32px; height: 3px; background: #1A1A1A; transition: transform 0.25s ease; transform: {{ burgerLine3 }};"></span>
+      </button>
+    </div>
+    <div style="{{ mobileMenuStyle }}">
+      <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="4">
+        <div style="display: flex; flex-direction: column;">
+          <a href="{{ link.href }}" onClick="{{ link.onClick }}" style="position: relative; align-self: flex-start; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 17px; text-decoration: none; color: {{ link.color }}; transition: color 0.2s ease; padding: 9px 0 10px;">{{ link.label }}<span style="position: absolute; left: 0; right: 0; bottom: 2px; height: 2px; border-radius: 2px; background: #146B3D; transform-origin: left center; transform: {{ link.underlineMobile }}; transition: transform 0.28s cubic-bezier(0.22,1,0.36,1);"></span></a>
+          <sc-if value="{{ link.hasSub }}">
+            <div style="display: flex; flex-direction: column; padding: 0 0 6px 16px; border-left: 2px solid #E7EFE9; margin-left: 2px;">
+              <sc-for list="{{ link.subLinks }}" as="sub" hint-placeholder-count="4">
+                <a href="{{ sub.href }}" onClick="{{ sub.onClick }}" style="align-self: flex-start; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 15.5px; text-decoration: none; color: #4A4F4C; padding: 7px 0;">{{ sub.label }}</a>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+      <a href="./Excel%20Automate%20Contact.dc.html" style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; color: #ffffff; background: #146B3D; padding: 13px 21px; border-radius: 10px; text-align: center;">Get in touch</a>
+    </div>
+  </header>
+
+  <main>
+    <section style="padding: clamp(56px,9vw,100px) 24px clamp(52px,8vw,96px); background: #FCFDFC;">
+      <div data-reveal="hero" style="max-width: 820px; margin: 0 auto; opacity: {{ reveal.hero.opacity }}; transform: {{ reveal.hero.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <h1 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(38px,5.2vw,58px); line-height: 1.08; letter-spacing: -0.02em; color: #15291D; margin: 0; text-wrap: pretty;"><span style="color: #146B3D;">Alongside</span> your CRM</h1>
+        <div style="width: 76px; height: 3px; background: #146B3D; margin: clamp(18px,2.4vw,28px) 0;"></div>
+        <p style="font-size: clamp(17px,2vw,21px); line-height: 1.62; color: #3A3F3C; margin: 0 0 20px; font-weight: 500; text-wrap: pretty;">When you work in a fundraising organisation your data never sits still for long. It's moving between your CRM and all your other platforms, it's going back and forth with external partners, and sometimes it needs a bulk update right where it is.</p>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.72; color: #3A3F3C; margin: 0 0 20px; text-wrap: pretty;">You end up with more admin work than you can handle, or a CRM that's always lagging behind. All the extra overhead can hold you back from implementing the programs you need to keep driving engagement and conversion.</p>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.72; color: #3A3F3C; margin: 0; text-wrap: pretty;">Using <span style="color: #146B3D; font-weight: 700;">Modern Excel</span> alongside your CRM, you can automate a lot of these problems away. It's fast, flexible, and gives you full control of your data.</p>
+      </div>
+    </section>
+
+    <section style="padding: clamp(56px,9vw,100px) 24px; background: #F3FAF6;">
+      <div data-reveal="dataInOut" style="max-width: 820px; margin: 0 auto; opacity: {{ reveal.dataInOut.opacity }}; transform: {{ reveal.dataInOut.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(30px,4.2vw,44px); line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 clamp(20px,2.6vw,30px); color: #1A1A1A; text-wrap: pretty;">Getting data in and out</h2>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0 0 20px; text-wrap: pretty;">CRMs do a lot of things well, but most of them expect you to do things their way. Either they don't give you the flexibility to do what you need with your data, or their customisation tools are more trouble than they're worth.</p>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0 0 20px; text-wrap: pretty;">But all you really need in order to clean, combine, compare and update every kind of data is a way to get it out of the CRM, and a way to get it back in. An Excel automation can sit in the middle and do all of the bulk updates in a way that's fast, reliable, and completely in your control.</p>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0; text-wrap: pretty;">Just about every CRM lets you export your data to CSV files one way or another. It doesn't matter how clunky or unwieldy the file is - as long as it has the data, Excel can handle the rest. A couple of clicks to run an automation, and you'll have a fresh file with all of the new or transformed data ready to import back in again.</p>
+      </div>
+    </section>
+
+    <section style="padding: clamp(56px,9vw,100px) 24px; background: #FCFDFC;">
+      <div data-reveal="platforms" style="max-width: 820px; margin: 0 auto; opacity: {{ reveal.platforms.opacity }}; transform: {{ reveal.platforms.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(30px,4.2vw,44px); line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 clamp(20px,2.6vw,30px); color: #1A1A1A; text-wrap: pretty;">Moving between platforms</h2>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0 0 20px; text-wrap: pretty;">When you start out with a new CRM it probably does most of what you need. You build your processes around it, and it works well enough for a while.</p>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0 0 20px; text-wrap: pretty;">Over time though, you start coming up against limitations and you have to find workarounds. Different platforms offer new or better functionality - maybe you want to do crowdfunding through Raisely, petitions in Do Gooder and email campaigns in Mailchimp.</p>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0 0 20px; text-wrap: pretty;">Getting data out of a system is easy, but bringing it back into a CRM that has its own unique format and structure can turn into a headache. Imports that should be done daily only happen weekly. Reports get out of date. Supporters call up with an issue and you have to look in three different places.</p>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0 0 20px; text-wrap: pretty;">Worse, if you're handling the data manually mistakes can be made. One file gets missed, another one gets imported twice. A formula points to the wrong row, or a copy paste goes awry. Making sure nothing goes wrong can take as long as doing the job itself. If something does go wrong, fixing it in the CRM can take a lot longer.</p>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0; text-wrap: pretty;">That's the kind of process that Power Query in Excel is built for. One click to convert the data to exactly the format you need, cleaned and ready for import. And you'll still have complete visibility and control of the data along the way, to handle any unexpected situations.</p>
+      </div>
+    </section>
+
+    <section style="padding: clamp(56px,9vw,100px) 24px; background: #F3FAF6;">
+      <div data-reveal="partners" style="max-width: 820px; margin: 0 auto; opacity: {{ reveal.partners.opacity }}; transform: {{ reveal.partners.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(30px,4.2vw,44px); line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 clamp(20px,2.6vw,30px); color: #1A1A1A; text-wrap: pretty;">Working with external partners</h2>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0 0 20px; text-wrap: pretty;">As your organisation has grown it might have started exchanging data with external providers, and there might be more to come - a mailing house, telemarketing agency, lead sharing group, and others.</p>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0; text-wrap: pretty;">Each of these exchanges usually comes with its own format requirements, and its own set of challenges. It might only happen a few times a year, but if finding the time to get it right puts you under pressure, automating the process can take a lot of that away.</p>
+      </div>
+    </section>
+
+    <section style="padding: clamp(56px,9vw,100px) 24px; background: #FCFDFC;">
+      <div data-reveal="gaps" style="max-width: 820px; margin: 0 auto; opacity: {{ reveal.gaps.opacity }}; transform: {{ reveal.gaps.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(30px,4.2vw,44px); line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 clamp(20px,2.6vw,30px); color: #1A1A1A; text-wrap: pretty;">Filling the gaps</h2>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0 0 20px; text-wrap: pretty;">There are always going to be smaller gaps in functionality, things that your CRM isn't able to handle. Other CRMs might have those tools, but it's usually not practical to change CRMs every time something better comes along. That leaves you handling some things manually, or going without.</p>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0 0 20px; text-wrap: pretty;">Direct mail campaigns can be a big job when not well supported by the CRM, and mistakes can have real costs. Getting the segmentation and exclusions right, implementing ask ladders, removing duplicates and cleaning the data - all things that matter.</p>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0 0 20px; text-wrap: pretty;">Reporting might be lacking, with only the most basic filters and groupings and none of the nuance you need. Supporter analysis might end at a LYBUNT list and the rest is up to you.</p>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0; text-wrap: pretty;">You might not need a new CRM just yet, but if there's a gap that's costing you time, an Excel automation can often fill it.</p>
+      </div>
+    </section>
+
+    <section style="padding: clamp(56px,9vw,100px) 24px; background: #F3FAF6;">
+      <div data-reveal="continuity" style="max-width: 820px; margin: 0 auto; opacity: {{ reveal.continuity.opacity }}; transform: {{ reveal.continuity.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(30px,4.2vw,44px); line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 clamp(20px,2.6vw,30px); color: #1A1A1A; text-wrap: pretty;">Continuity</h2>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0 0 20px; text-wrap: pretty;">Like a lot of non-profits, your organisation might run pretty lean when it comes to staff and roles - a small number of people getting a lot done, with not much room for overlap. It mostly works, until the one person who understands that key process leaves. Turning those complex processes into robust automated tools keeps all of the logic in one place, and usable by anyone.</p>
+        <p style="font-size: clamp(16px,1.8vw,19px); line-height: 1.75; color: #3A3F3C; margin: 0; text-wrap: pretty;">When building these tools in Excel there's no black box. The logic is all visible and accessible, so whoever picks it up next can see how it works and make changes to meet your changing needs. We're happy to keep supporting everything we build, but you won't be dependent on us to keep anything running.</p>
+      </div>
+    </section>
+
+    <section style="padding: clamp(56px,9vw,100px) 24px; background: #146B3D;">
+      <div data-reveal="ctaContact" style="max-width: 720px; margin: 0 auto; text-align: center; opacity: {{ reveal.ctaContact.opacity }}; transform: {{ reveal.ctaContact.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(30px,4.4vw,46px); margin: 0 0 18px; color: #ffffff;">Get in touch</h2>
+        <p style="font-size: {{ ctaContactFontSize }}px; line-height: 1.6; margin: 0 0 32px; color: #DFF3E8; text-wrap: pretty;">Could your organisation use some help with its processes?</p>
+        <a href="./Excel%20Automate%20Contact.dc.html" style="display: inline-block; box-sizing: border-box; min-width: 190px; text-align: center; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; color: #146B3D; background: #ffffff; border: 2px solid #ffffff; padding: 14px 34px; border-radius: 10px; transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;" style-hover="background: #DFF3E8; color: #0C4527; box-shadow: 0 10px 24px rgba(0,0,0,0.18); transform: translateY(-2px);" style-active="background: #C9E7D6; transform: translateY(0px);">Get in touch</a>
+      </div>
+    </section>
+
+    <section style="padding: clamp(56px,9vw,100px) 24px; background: #15291D;">
+      <div data-reveal="ctaLearn" style="max-width: 720px; margin: 0 auto; text-align: center; opacity: {{ reveal.ctaLearn.opacity }}; transform: {{ reveal.ctaLearn.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(30px,4.4vw,46px); margin: 0 0 18px; color: #ffffff;">Learn more</h2>
+        <p style="font-size: clamp(16px,1.8vw,20px); line-height: 1.6; margin: 0 0 32px; color: #C9CFCB; text-wrap: pretty;">Read more about how we use Power Query and Excel, and why they're so often the right tool for this kind of work.</p>
+        <a href="./Excel%20Automate%20Our%20Approach.dc.html" style="display: inline-block; box-sizing: border-box; min-width: 190px; text-align: center; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; color: #ffffff; background: transparent; border: 2px solid #34D17F; padding: 14px 34px; border-radius: 10px; transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;" style-hover="background: #34D17F; border-color: #34D17F; color: #15291D; transform: translateY(-2px);" style-active="background: #2ABF6C; border-color: #2ABF6C; transform: translateY(0px);">Learn more</a>
+      </div>
+    </section>
+  </main>
+
+  <footer style="background: #F3FAF6; padding: 34px 24px 30px;">
+    <div style="max-width: 1240px; margin: 0 auto; display: flex; justify-content: center;">
+      <p style="margin: 0; font-size: 13.5px; color: #6B7570; text-align: center; line-height: 1.7;">&copy; 2026 Excel Automate &middot; ABN 51 680 585 107 &middot; Hobart, Tasmania</p>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1100},&quot;revealsEnabled&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Scroll reveals&quot;}}">
+const OUR_APPROACH = './Excel%20Automate%20Our%20Approach.dc.html';
+
+const NAV_LINKS = [
+  { label: 'Home', href: './Excel%20Automate%20Landing.dc.html' },
+  { label: 'Our approach', href: OUR_APPROACH },
+  { label: 'For non-profits', href: '#', current: true },
+  { label: 'About', href: './Excel%20Automate%20About.dc.html' }
+];
+
+const NAV_SUB = {
+  'Our approach': [
+    { label: 'Key ideas', href: OUR_APPROACH + '#key-ideas' },
+    { label: 'Modern Excel', href: OUR_APPROACH + '#modern-excel' },
+    { label: 'Excel tips', href: OUR_APPROACH + '#excel-tips' },
+    { label: 'Beyond Excel', href: OUR_APPROACH + '#beyond-excel' }
+  ]
+};
+
+const NAV_BREAKPOINT = 1180;
+
+const REVEAL_IDS = ['hero', 'dataInOut', 'platforms', 'partners', 'gaps', 'continuity', 'ctaContact', 'ctaLearn'];
+
+class Component extends DCLogic {
+  state = {
+    navOpen: false,
+    isMobile: false,
+    viewportWidth: typeof window !== 'undefined' ? window.innerWidth : 1200,
+    ctaContactFontSize: 20,
+    hoveredNav: null,
+    revealed: {}
+  };
+
+  _timers = new Set();
+  _later(fn, ms) {
+    const id = setTimeout(() => { this._timers.delete(id); fn(); }, ms);
+    this._timers.add(id);
+    return id;
+  }
+
+  _ctaContactLine = "Could your organisation use some help with its processes?";
+  _measureCtx = typeof document !== 'undefined' ? document.createElement('canvas').getContext('2d') : null;
+
+  // Contact CTA line sizing, same as the landing page: measure the sentence on a
+  // canvas and take the largest size that fits the band width on one line, down
+  // to a floor of 14px. Wrapping is still allowed - below the floor the line
+  // wraps rather than shrinking further.
+  _fitFontSize(text, containerWidth, minSize, maxSize) {
+    if (!this._measureCtx) return maxSize;
+    const ref = 100;
+    this._measureCtx.font = `500 ${ref}px 'Public Sans', system-ui, sans-serif`;
+    const w = this._measureCtx.measureText(text).width;
+    // 1.5% headroom so canvas/layout rounding can't tip a fitted line into a wrap.
+    return Math.max(minSize, Math.min(maxSize, (containerWidth / w) * ref * 0.985));
+  }
+
+  componentDidMount() {
+    this._onResize = () => {
+      const w = window.innerWidth;
+      this.setState((s) => ({
+        viewportWidth: w,
+        isMobile: w < NAV_BREAKPOINT,
+        navOpen: w < NAV_BREAKPOINT ? s.navOpen : false,
+        ctaContactFontSize: this._fitFontSize(this._ctaContactLine, Math.min(720, w - 48), 14, 20)
+      }));
+    };
+    this._onResize();
+    window.addEventListener('resize', this._onResize);
+    this._startReveals();
+  }
+
+  // Fade + 26px rise, 0.7s, firing at 92% of the viewport. Reveals replay on
+  // scroll-back, matching the rest of the site: an element that scrolls off the
+  // BOTTOM is re-armed. Only ever downward — re-arming in both directions
+  // produced a render loop that blanked a page during the design phase.
+  _startReveals() {
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { this._revealAll(); return; }
+
+    if (typeof IntersectionObserver !== 'undefined') {
+      const root = document.querySelector('[data-scroll-root]') || null;
+      this._io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = entry.target.getAttribute('data-reveal');
+          if (id) this._show(id);
+        });
+      }, { root, rootMargin: '0px 0px -8% 0px', threshold: 0 });
+      const observeAll = () => {
+        document.querySelectorAll('[data-reveal]').forEach((el) => {
+          if (el.__revealObserved) return;
+          el.__revealObserved = true;
+          this._io.observe(el);
+        });
+      };
+      observeAll();
+      [120, 400, 900].forEach((t) => this._later(observeAll, t));
+    }
+
+    // Scroll sweep alongside the observer, deliberately redundant: the observer
+    // misses nodes the runtime swaps after they were observed, and observers
+    // have failed to fire at all in some preview contexts.
+    LIVE = this;
+    if (!SCROLL_BOUND) {
+      document.addEventListener('scroll', onDocScroll, { capture: true, passive: true });
+      SCROLL_BOUND = true;
+    }
+    this._later(() => this._sweep(), 200);
+  }
+
+  // ONE setState per sweep — collecting first and applying together avoids a
+  // full re-render per element.
+  _sweep() {
+    if (this.props.revealsEnabled === false) return;
+    const rootEl = document.querySelector('[data-scroll-root]');
+    const box = rootEl ? rootEl.getBoundingClientRect() : { top: 0, height: window.innerHeight };
+    const line = box.top + box.height * 0.92;
+    const below = box.top + box.height;
+    const add = [];
+    const drop = [];
+    document.querySelectorAll('[data-reveal]').forEach((el) => {
+      const id = el.getAttribute('data-reveal');
+      if (!id) return;
+      const top = el.getBoundingClientRect().top;
+      if (this.state.revealed[id]) {
+        if (top > below) drop.push(id);
+      } else if (top < line) {
+        add.push(id);
+      }
+    });
+    if (!add.length && !drop.length) return;
+    this.setState((s) => {
+      const next = { ...s.revealed };
+      let changed = false;
+      add.forEach((id) => { if (!next[id]) { next[id] = true; changed = true; } });
+      drop.forEach((id) => { if (next[id]) { delete next[id]; changed = true; } });
+      return changed ? { revealed: next } : null;
+    });
+  }
+
+  _show(id) {
+    if (this.state.revealed[id]) return;
+    this.setState((s) => ({ revealed: { ...s.revealed, [id]: true } }));
+  }
+
+  _revealAll() {
+    this.setState((s) => {
+      const all = { ...s.revealed };
+      let changed = false;
+      REVEAL_IDS.forEach((id) => { if (!all[id]) { all[id] = true; changed = true; } });
+      return changed ? { revealed: all } : null;
+    });
+  }
+
+  _revealStyle(id) {
+    const shown = this.props.revealsEnabled === false || !!this.state.revealed[id];
+    return { opacity: shown ? 1 : 0, transform: shown ? 'translateY(0px)' : 'translateY(26px)' };
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._onResize);
+    if (this._io) this._io.disconnect();
+    if (LIVE === this) LIVE = null;
+    this._timers.forEach(clearTimeout);
+    this._timers.clear();
+  }
+
+  navClick = (link) => (e) => {
+    if (link.href === '#') e.preventDefault();
+    this.setState({ hoveredNav: null, navOpen: false });
+  };
+  subClick = () => () => this.setState({ hoveredNav: null, navOpen: false });
+  hoverNav = (label) => () => this.setState({ hoveredNav: label });
+  unhoverNav = () => this.setState({ hoveredNav: null });
+  toggleNav = () => this.setState((s) => ({ navOpen: !s.navOpen }));
+
+  renderVals() {
+    LIVE = this;
+    const vw = this.state.viewportWidth;
+    const isMobile = this.state.isMobile;
+
+    const navLinks = NAV_LINKS.map((link) => {
+      const hovered = this.state.hoveredNav === link.label;
+      const on = hovered || link.current;
+      return {
+        label: link.label,
+        href: link.href,
+        hasSub: !!NAV_SUB[link.label],
+        subLinks: (NAV_SUB[link.label] || []).map((s) => ({ label: s.label, href: s.href, onClick: this.subClick() })),
+        subMenuStyle: {
+          position: 'absolute', top: '100%', left: '-16px', paddingTop: '12px', zIndex: 60,
+          opacity: hovered ? 1 : 0,
+          visibility: hovered ? 'visible' : 'hidden',
+          transform: hovered ? 'translateY(0px)' : 'translateY(-6px)',
+          transition: 'opacity 0.2s ease, transform 0.2s ease, visibility 0.2s'
+        },
+        color: on ? '#146B3D' : '#1A1A1A',
+        underline: on ? 'scaleX(1)' : 'scaleX(0)',
+        underlineMobile: link.current ? 'scaleX(1)' : 'scaleX(0)',
+        onClick: this.navClick(link),
+        onEnter: this.hoverNav(link.label),
+        onLeave: this.unhoverNav
+      };
+    });
+
+    return {
+      ctaContactFontSize: this.state.ctaContactFontSize,
+      navLinks,
+      navDisplayDesktop: isMobile ? 'none' : 'flex',
+      navDisplayMobile: isMobile ? 'flex' : 'none',
+      burgerLine1: this.state.navOpen ? 'translateY(9px) rotate(45deg)' : 'none',
+      burgerLine2Opacity: this.state.navOpen ? 0 : 1,
+      burgerLine3: this.state.navOpen ? 'translateY(-9px) rotate(-45deg)' : 'none',
+      mobileMenuStyle: {
+        display: isMobile ? 'flex' : 'none',
+        flexDirection: 'column',
+        gap: '4px',
+        padding: this.state.navOpen ? '4px 24px 20px' : '0 24px',
+        maxHeight: this.state.navOpen ? '580px' : '0px',
+        overflow: 'hidden',
+        transition: 'max-height 0.3s ease, padding 0.3s ease'
+      },
+      lockupTextDisplay: vw < 420 ? 'none' : 'flex',
+      lockupTaglineDisplay: vw < 640 ? 'none' : 'block',
+      reveal: REVEAL_IDS.reduce((acc, id) => { acc[id] = this._revealStyle(id); return acc; }, {}),
+      toggleNav: this.toggleNav
+    };
+  }
+}
+
+// Module scope: the runtime keeps more than one instance alive, and a stale
+// one's setState updates an unmounted tree. One listener, pointing at whichever
+// instance rendered most recently.
+let LIVE = null;
+let SCROLL_BOUND = false;
+let LAST_SWEEP = 0;
+function onDocScroll() {
+  const now = Date.now();
+  if (now - LAST_SWEEP < 60) return;
+  LAST_SWEEP = now;
+  requestAnimationFrame(() => { if (LIVE) LIVE._sweep(); });
+}
+</script>
+</body>
+</html>

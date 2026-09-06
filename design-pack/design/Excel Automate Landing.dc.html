@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Excel Automate - Save time with modern Excel automation | Hobart</title>
+<meta name="description" content="Excel Automate turns manual processes into a handful of clicks. Power Query automation, data integration and custom Excel tools for businesses and non-profits.">
+<link rel="icon" type="image/svg+xml" href="./assets/excel-automate-favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="./assets/excel-automate-favicon-32.png">
+<link rel="apple-touch-icon" href="./assets/excel-automate-favicon-256.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Excel Automate - Save time with modern Excel">
+<meta property="og:description" content="Take your tedious manual processes and use the hidden power of Excel to turn them into just a handful of clicks.">
+<meta property="og:image" content="./assets/excel-automate-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Public+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&family=Spectral:ital,wght@1,300&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #146B3D; }
+  a:hover { color: #1E9E58; }
+  button { font-family: inherit; cursor: pointer; }
+  @keyframes spinCW { to { transform: rotate(360deg); } }
+  @keyframes spinCCW { to { transform: rotate(-360deg); } }
+  @keyframes cellFlash {
+    0%, 62% { fill: rgba(20,107,61,0); }
+    70% { fill: rgba(20,107,61,0.55); }
+    100% { fill: rgba(20,107,61,0); }
+  }
+  @keyframes headerPulse {
+    0%, 62% { opacity: 1; }
+    70% { opacity: 0.55; }
+    100% { opacity: 1; }
+  }
+  @keyframes lineUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  @keyframes ruleGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+</style>
+</helmet>
+<div data-scroll-root="" style="font-family: 'Public Sans', system-ui, sans-serif; color: #1A1A1A; background: #FCFDFC; overflow-x: hidden; overflow-y: auto; height: 100vh; min-width: 320px;">
+
+  <header style="position: sticky; top: 0; z-index: 50; background: rgba(252,253,252,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid #E7EFE9;">
+    <div style="max-width: 1240px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 10px clamp(16px,2.5vw,32px); gap: 24px;">
+<a href="#top" onClick="{{ scrollToTop }}" style="display: flex; align-items: center; gap: 14px; min-width: 0; text-decoration: none;">
+        <img src="./assets/excel-automate-mark.svg" alt="" style="display: block; height: clamp(42px,6.4vw,66px); width: auto; flex-shrink: 0;"/>
+        <span style="display: {{ lockupTextDisplay }}; flex-direction: column; align-items: center; gap: 6px; min-width: 0;">
+          <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(19px,3.1vw,33px); line-height: 1; letter-spacing: -0.02em; color: #15291D; white-space: nowrap;">Excel <span style="color: #146B3D;">Automate</span></span>
+          <span style="display: {{ lockupTaglineDisplay }}; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: clamp(7px,1.2vw,11.5px); letter-spacing: 0.2em; color: #146B3D; white-space: nowrap;">INTEGRATE · ACCELERATE · TRANSFORM</span>
+        </span>
+      </a>
+      <nav style="display: {{ navDisplayDesktop }}; align-items: center; gap: 36px;">
+        <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="3">
+          <div onMouseEnter="{{ link.onEnter }}" onMouseLeave="{{ link.onLeave }}" style="position: relative; flex-shrink: 0;">
+            <a href="{{ link.href }}" onClick="{{ link.onClick }}" style="position: relative; display: block; white-space: nowrap; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 18px; text-decoration: none; color: {{ link.color }}; transition: color 0.2s ease; padding-bottom: 6px;">{{ link.label }}<span style="position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px; background: #146B3D; transform-origin: left center; transform: {{ link.underline }}; transition: transform 0.28s cubic-bezier(0.22,1,0.36,1);"></span></a>
+            <sc-if value="{{ link.hasSub }}">
+              <div style="{{ link.subMenuStyle }}">
+                <div style="background: #ffffff; border: 1px solid #E7EFE9; border-radius: 12px; box-shadow: 0 12px 28px rgba(20,40,30,0.12); padding: 8px; display: flex; flex-direction: column; gap: 2px; min-width: 190px;">
+                  <sc-for list="{{ link.subLinks }}" as="sub" hint-placeholder-count="4">
+                    <a href="{{ sub.href }}" onClick="{{ sub.onClick }}" style="display: block; white-space: nowrap; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 16px; text-decoration: none; color: #1A1A1A; padding: 10px 16px; border-radius: 8px; transition: background 0.18s ease, color 0.18s ease;" style-hover="background: #E7F5EC; color: #146B3D;">{{ sub.label }}</a>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        <a href="./Excel%20Automate%20Contact.dc.html" style="flex-shrink: 0; white-space: nowrap; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 18px; text-decoration: none; color: #ffffff; background: #146B3D; padding: 12px 24px; border-radius: 10px; transition: background 0.2s ease, box-shadow 0.2s ease;" style-hover="background: #0F5230; box-shadow: 0 6px 16px rgba(20,107,61,0.28);" style-active="background: #0C4527;">Get in touch</a>
+      </nav>
+      <button aria-label="Toggle menu" onClick="{{ toggleNav }}" style="display: {{ navDisplayMobile }}; background: none; border: none; padding: 8px; flex-direction: column; gap: 5px; justify-content: center;">
+        <span style="display: block; width: 32px; height: 3px; background: #1A1A1A; transition: transform 0.25s ease; transform: {{ burgerLine1 }};"></span>
+        <span style="display: block; width: 32px; height: 3px; background: #1A1A1A; opacity: {{ burgerLine2Opacity }}; transition: opacity 0.2s ease;"></span>
+        <span style="display: block; width: 32px; height: 3px; background: #1A1A1A; transition: transform 0.25s ease; transform: {{ burgerLine3 }};"></span>
+      </button>
+    </div>
+    <div style="{{ mobileMenuStyle }}">
+      <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="3">
+        <div style="display: flex; flex-direction: column;">
+          <a href="{{ link.href }}" onClick="{{ link.onClick }}" style="position: relative; align-self: flex-start; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 17px; text-decoration: none; color: {{ link.color }}; transition: color 0.2s ease; padding: 9px 0 10px;">{{ link.label }}<span style="position: absolute; left: 0; right: 0; bottom: 2px; height: 2px; border-radius: 2px; background: #146B3D; transform-origin: left center; transform: {{ link.underlineMobile }}; transition: transform 0.28s cubic-bezier(0.22,1,0.36,1);"></span></a>
+          <sc-if value="{{ link.hasSub }}">
+            <div style="display: flex; flex-direction: column; padding: 0 0 6px 16px; border-left: 2px solid #E7EFE9; margin-left: 2px;">
+              <sc-for list="{{ link.subLinks }}" as="sub" hint-placeholder-count="4">
+                <a href="{{ sub.href }}" onClick="{{ sub.onClick }}" style="align-self: flex-start; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 15.5px; text-decoration: none; color: #4A4F4C; padding: 7px 0;">{{ sub.label }}</a>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+      <a href="./Excel%20Automate%20Contact.dc.html" style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; color: #ffffff; background: #146B3D; padding: 11px 21px; border-radius: 10px; text-align: center; transition: background 0.2s ease;" style-hover="background: #0F5230;" style-active="background: #0C4527;">Get in touch</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section style="position: relative; padding: clamp(56px,10vw,120px) 24px clamp(32px,4.4vw,54px); background: #FCFDFC;">
+      <div data-reveal="hero" style="position: relative; max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: {{ heroColumns }}; gap: clamp(12px,1.6vw,28px); align-items: center; justify-content: center; opacity: {{ reveal.hero.opacity }}; transform: {{ reveal.hero.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <div data-hero-text="1" style="text-align: left; margin-left: {{ heroTextShift }}px;">
+          <h1 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(38px,5.2vw,58px); line-height: 1.08; letter-spacing: -0.02em; color: #15291D; margin: 0;">Make Excel<br/><span style="color: #146B3D;">work</span> for you</h1>
+          <div style="width: 76px; height: 3px; background: #146B3D; margin: clamp(18px,2.4vw,28px) 0;"></div>
+          <p style="font-size: clamp(17px,2vw,21px); line-height: 1.62; color: #3A3F3C; margin: 0; max-width: 620px; font-weight: 500; text-wrap: pretty;">Take your <span style="color: #146B3D; font-weight: 800;">tedious manual processes</span><br/>and use the hidden power of Excel to turn them into<br/>just a <span style="color: #146B3D; font-weight: 800;">handful of clicks</span>.</p>
+        </div>
+        <div style="display: {{ heroMarkDisplay }}; width: clamp(280px,24vw,360px); align-items: center; justify-content: center; margin-top: -72px; margin-left: {{ heroMarkShift }}px;">
+          <svg viewBox="62 22 517 296" width="100%" height="300" preserveAspectRatio="xMidYMid meet" aria-hidden="true" style="transform: translateX(-40px); transform-origin: left center; overflow: visible;">
+            <defs>
+              <linearGradient id="heroFeed" gradientUnits="userSpaceOnUse" x1="205" y1="0" x2="262" y2="0">
+                <stop offset="0" stop-color="#146B3D" stop-opacity="0"></stop>
+                <stop offset="0.4" stop-color="#146B3D" stop-opacity="0.35"></stop>
+                <stop offset="1" stop-color="#146B3D" stop-opacity="1"></stop>
+              </linearGradient>
+            </defs>
+            <g fill="none" stroke="url(#heroFeed)" stroke-width="3">
+              <path id="LH1" d="M150 166H230C285 166 300 58 385 58"></path>
+              <path id="LH2" d="M150 168H236C276 168 308 114 385 114"></path>
+              <path id="LH3" d="M150 170H385"></path>
+              <path id="LH4" d="M150 171H236C276 171 308 226 385 226"></path>
+              <path id="LH5" d="M150 173H230C285 173 300 282 385 282"></path>
+            </g>
+            <g fill="#146B3D">
+              <circle r="7"><animateMotion dur="3.2s" begin="0s" repeatCount="indefinite"><mpath href="#LH1"></mpath></animateMotion><animate attributeName="opacity" values="0;0.35;1;1" keyTimes="0;0.12;0.28;1" dur="3.2s" begin="0s" repeatCount="indefinite"></animate></circle>
+              <circle r="7"><animateMotion dur="3.2s" begin="-0.55s" repeatCount="indefinite"><mpath href="#LH2"></mpath></animateMotion><animate attributeName="opacity" values="0;0.35;1;1" keyTimes="0;0.12;0.28;1" dur="3.2s" begin="-0.55s" repeatCount="indefinite"></animate></circle>
+              <circle r="7"><animateMotion dur="3.2s" begin="-1.10s" repeatCount="indefinite"><mpath href="#LH3"></mpath></animateMotion><animate attributeName="opacity" values="0;0.35;1;1" keyTimes="0;0.12;0.28;1" dur="3.2s" begin="-1.10s" repeatCount="indefinite"></animate></circle>
+              <circle r="7"><animateMotion dur="3.2s" begin="-1.65s" repeatCount="indefinite"><mpath href="#LH4"></mpath></animateMotion><animate attributeName="opacity" values="0;0.35;1;1" keyTimes="0;0.12;0.28;1" dur="3.2s" begin="-1.65s" repeatCount="indefinite"></animate></circle>
+              <circle r="7"><animateMotion dur="3.2s" begin="-2.20s" repeatCount="indefinite"><mpath href="#LH5"></mpath></animateMotion><animate attributeName="opacity" values="0;0.35;1;1" keyTimes="0;0.12;0.28;1" dur="3.2s" begin="-2.20s" repeatCount="indefinite"></animate></circle>
+            </g>
+            <g style="transform-box: fill-box; transform-origin: center; animation: spinCW 26s linear infinite;">
+              <g transform="translate(157,200)"><rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D"></rect><rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(45)"></rect><rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(90)"></rect><rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(135)"></rect><rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(180)"></rect><rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(225)"></rect><rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(270)"></rect><rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(315)"></rect><circle r="54" fill="#146B3D"></circle><circle r="21" fill="#FCFDFC"></circle><circle r="8" fill="#146B3D"></circle></g>
+            </g>
+            <g style="transform-box: fill-box; transform-origin: center; animation: spinCCW 17s linear infinite;">
+              <g transform="translate(236,112)"><rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D"></rect><rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(45)"></rect><rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(90)"></rect><rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(135)"></rect><rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(180)"></rect><rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(225)"></rect><rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(270)"></rect><rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(315)"></rect><circle r="31" fill="#146B3D"></circle><circle r="12" fill="#FCFDFC"></circle><circle r="4.5" fill="#146B3D"></circle></g>
+            </g>
+            <rect x="385" y="30" width="186" height="56" fill="#146B3D" style="animation: headerPulse 3.2s linear 0.96s infinite;"></rect>
+            <g stroke="#146B3D" stroke-width="3" fill="none">
+              <rect x="385" y="30" width="186" height="280"></rect>
+              <path d="M447 30v280M509 30v280M385 86h186M385 142h186M385 198h186M385 254h186"></path>
+            </g>
+            <g stroke="none">
+              <rect x="386" y="87" width="60" height="54" fill="rgba(20,107,61,0)" style="animation: cellFlash 3.2s linear 0.41s infinite;"></rect>
+              <rect x="386" y="143" width="60" height="54" fill="rgba(20,107,61,0)" style="animation: cellFlash 3.2s linear -0.14s infinite;"></rect>
+              <rect x="386" y="199" width="60" height="54" fill="rgba(20,107,61,0)" style="animation: cellFlash 3.2s linear -0.69s infinite;"></rect>
+              <rect x="386" y="255" width="60" height="54" fill="rgba(20,107,61,0)" style="animation: cellFlash 3.2s linear -1.24s infinite;"></rect>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="What modern Excel can do" style="padding: clamp(24px,3.9vw,47px) 24px clamp(48px,8vw,96px); background: #FCFDFC;">
+      <div data-reveal="carousel" style="position: relative; max-width: 1000px; margin: 0 auto; opacity: {{ reveal.carousel.opacity }}; transform: {{ reveal.carousel.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <div style="position: relative; width: {{ carousel.viewportWidth }}px; max-width: 100%; margin: 0 auto; overflow: hidden; transition: width 0.45s cubic-bezier(0.22,1,0.36,1);">
+          <div style="display: flex; gap: {{ carousel.gap }}px; transform: translateX({{ carousel.trackOffset }}px); transition: transform 0.55s cubic-bezier(0.22,1,0.36,1);">
+            <sc-for list="{{ carousel.track }}" as="item" hint-placeholder-count="6">
+              <article data-carousel-card="1" style="flex: 0 0 {{ carousel.cardWidth }}px; width: {{ carousel.cardWidth }}px; min-height: clamp(240px,32vw,320px); background: {{ item.bg }}; border-radius: 20px; padding: clamp(28px,4vw,44px); display: flex; flex-direction: column; justify-content: center; opacity: {{ item.opacity }}; transition: opacity 0.5s ease;">
+                <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(28px,4vw,38px); margin: 0 0 16px; color: {{ item.titleColor }};">{{ item.title }}</h2>
+                <p style="font-family: 'Spectral', Georgia, serif; font-weight: 300; font-style: italic; letter-spacing: 0.01em; font-size: clamp(18px,2vw,21px); line-height: 1.75; margin: 0; color: {{ item.textColor }};">{{ item.text }}</p>
+              </article>
+            </sc-for>
+          </div>
+          <button aria-label="Previous" onClick="{{ carouselPrev }}" style="position: absolute; left: 0; top: 0; bottom: 0; width: 52px; background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0)); border: none; display: flex; align-items: center; justify-content: flex-start; padding-left: 6px; z-index: 5; cursor: {{ carousel.prevCursor }}; pointer-events: {{ carousel.prevEvents }};">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: {{ carousel.prevArrowOpacity }}; transition: opacity 0.3s ease;"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <button aria-label="Next" onClick="{{ carouselNext }}" style="position: absolute; right: 0; top: 0; bottom: 0; width: 52px; background: linear-gradient(270deg, rgba(255,255,255,0.95), rgba(255,255,255,0)); border: none; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; z-index: 5;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 24px;">
+          <sc-for list="{{ carousel.items }}" as="item" hint-placeholder-count="5">
+            <button aria-label="{{ item.dotLabel }}" onClick="{{ item.onSelect }}" style="width: 22px; height: 22px; padding: 0; border: none; background: none; display: flex; align-items: center; justify-content: center;">
+              <span style="width: {{ item.dotSize }}px; height: {{ item.dotSize }}px; border-radius: 50%; background: {{ item.dotColor }}; display: block; transition: background 0.25s ease, width 0.25s ease, height 0.25s ease;"></span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="Services" style="padding: clamp(56px,9vw,100px) 24px clamp(56px,9vw,110px); background: #F3FAF6;">
+      <div data-reveal="servicesHead" style="max-width: 1240px; margin: 0 auto clamp(32px,5vw,56px); opacity: {{ reveal.servicesHead.opacity }}; transform: {{ reveal.servicesHead.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(30px,4.2vw,44px); margin: 0; text-align: center; color: #1A1A1A;">How Excel Automate can help</h2>
+      </div>
+      <div style="max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px;">
+        <sc-for list="{{ services }}" as="svc" hint-placeholder-count="6">
+          <div data-reveal="svc{{ svc.index }}" style="display: flex; opacity: {{ svc.opacity }}; transform: {{ svc.transform }}; transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1);">
+          <div style="flex: 1; text-align: left; border: none; background: #ffffff; border-radius: 18px; padding: 30px; box-shadow: 0 2px 10px rgba(20,40,30,0.06); display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+              <div style="width: 52px; height: 52px; border-radius: 12px; background: #E7F5EC; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <sc-if value="{{ svc.isFunnel }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><g opacity="0.55"><ellipse cx="8" cy="6" rx="6" ry="2.3" stroke="#146B3D" stroke-width="1.5"/><path d="M2 6v11c0 1.3 2.7 2.3 6 2.3s6-1 6-2.3V6" stroke="#146B3D" stroke-width="1.5"/><path d="M2 11.3c0 1.3 2.7 2.3 6 2.3s6-1 6-2.3" stroke="#146B3D" stroke-width="1.5"/><path d="M2 16.3c0 1.3 2.7 2.3 6 2.3s6-1 6-2.3" stroke="#146B3D" stroke-width="1.5"/></g><rect x="11" y="11" width="11" height="9.5" rx="1.2" fill="#E7F5EC" stroke="#146B3D" stroke-width="1.6"/><path d="M11 14.9h11M14.7 11v9.5M18.4 11v9.5" stroke="#146B3D" stroke-width="1.1"/></svg></sc-if>
+                <sc-if value="{{ svc.isBrackets }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l-5 7 5 7M15 5l5 7-5 7"/></svg></sc-if>
+                <sc-if value="{{ svc.isCheck }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></sc-if>
+                <sc-if value="{{ svc.isMigrate }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="6" height="8" rx="1"/><rect x="15" y="8" width="6" height="8" rx="1"/><path d="M10 12h4m0 0l-2-2m2 2l-2 2"/></svg></sc-if>
+                <sc-if value="{{ svc.isChart }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19V10M12 19V5M19 19v-7"/></svg></sc-if>
+                <sc-if value="{{ svc.isNetwork }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M8.2 7.2L15.8 11M8.2 16.8L15.8 13"/></svg></sc-if>
+              </div>
+              <h3 style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 19px; margin: 0; color: #1A1A1A; flex: 1;">{{ svc.title }}</h3>
+            </div>
+            <p style="font-size: 15.5px; line-height: 1.6; margin: 0; color: #4A4F4C;">{{ svc.displayText }}</p>
+          </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="contact-cta" style="padding: clamp(56px,9vw,100px) 24px; background: #146B3D;">
+      <div data-reveal="ctaContact" style="max-width: 720px; margin: 0 auto; text-align: center; opacity: {{ reveal.ctaContact.opacity }}; transform: {{ reveal.ctaContact.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(30px,4.4vw,46px); margin: 0 0 18px; color: #ffffff;">Get in touch</h2>
+        <p style="font-size: {{ ctaContactFontSize }}px; line-height: 1.6; margin: 0 0 32px; color: #DFF3E8; text-wrap: pretty;">Have a problem that might be looking for an Excel-shaped solution?</p>
+        <a href="./Excel%20Automate%20Contact.dc.html" style="display: inline-block; box-sizing: border-box; min-width: 190px; text-align: center; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; color: #146B3D; background: #ffffff; border: 2px solid #ffffff; padding: 14px 34px; border-radius: 10px; transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;" style-hover="background: #DFF3E8; color: #0C4527; box-shadow: 0 10px 24px rgba(0,0,0,0.18); transform: translateY(-2px);" style-active="background: #C9E7D6; transform: translateY(0px);">Get in touch</a>
+      </div>
+    </section>
+
+    <section style="padding: clamp(56px,9vw,100px) 24px; background: #15291D;">
+      <div data-reveal="ctaLearn" style="max-width: 720px; margin: 0 auto; text-align: center; opacity: {{ reveal.ctaLearn.opacity }}; transform: {{ reveal.ctaLearn.transform }}; transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform;">
+        <h2 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(30px,4.4vw,46px); margin: 0 0 18px; color: #ffffff;">Learn more</h2>
+        <p style="font-size: {{ ctaLearnFontSize }}px; line-height: 1.6; margin: 0; color: #C9CFCB; text-wrap: pretty;">What's <span style="color: #34D17F; font-weight: 700;">Modern Excel</span>? Why <span style="color: #34D17F; font-weight: 700;">Power Query</span>? What about <span style="color: #34D17F; font-weight: 700;">Formulas</span>?</p>
+        <p style="font-size: {{ ctaLearnFontSize }}px; line-height: 1.6; margin: 0 0 32px; color: #C9CFCB; text-wrap: pretty;">Learn more about our approach to Excel, and how it might work for you.</p>
+        <a href="./Excel%20Automate%20Our%20Approach.dc.html" style="display: inline-block; box-sizing: border-box; min-width: 190px; text-align: center; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; color: #ffffff; background: transparent; border: 2px solid #34D17F; padding: 14px 34px; border-radius: 10px; transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;" style-hover="background: #34D17F; border-color: #34D17F; color: #15291D; transform: translateY(-2px);" style-active="background: #2ABF6C; border-color: #2ABF6C; transform: translateY(0px);">Learn more</a>
+      </div>
+    </section>
+  </main>
+
+  <footer style="background: #F3FAF6; padding: 34px 24px 30px;">
+    <div style="max-width: 1240px; margin: 0 auto; display: flex; justify-content: center;">
+      <p style="margin: 0; font-size: 13.5px; color: #6B7570; text-align: center; line-height: 1.7;">&copy; 2026 Excel Automate &middot; ABN 51 680 585 107 &middot; Hobart, Tasmania</p>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1200},&quot;revealsEnabled&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Scroll reveals&quot;},&quot;revealsReplay&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Scroll reveals&quot;},&quot;ctaRevealDistance&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:26,&quot;min&quot;:0,&quot;max&quot;:120,&quot;step&quot;:2,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Bottom two sections&quot;},&quot;ctaRevealDelay&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:600,&quot;step&quot;:20,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Bottom two sections&quot;}}">
+const SERVICE_DATA = [
+  { title: "Power Query automation", full: "Fast and powerful data integration and transformations - the best way to combine data from multiple sources and prepare it for importing, reporting, migrating and more." },
+  { title: "VBA automation", full: "The full featured programming language that sits behind Excel - automate everything that isn't just data tables, including forms, files, formatting and more, or even running other programs from Excel." },
+  { title: "Data cleansing", full: "Identify duplicates and inconsistencies, standardise formatting, fix or remove bad data, and prepare a file ready to import back into your system." },
+  { title: "Data migration", full: "Take the data from your existing system and prepare it for import into a new one - all in a repeatable process that can be used for testing, initial import, and final cutover." },
+  { title: "Reports and dashboards", full: "Take the cleaned and consolidated data from Power Query, and distil it down to the figures and charts that tell you what you need to know." },
+  { title: "System design", full: "Find the best way to combine your existing data platforms, your in-house talent, and the full Excel toolkit to streamline your tasks." }
+];
+
+const CAROUSEL_DATA = [
+  { title: "Excel", text: "Modern Excel is more than just spreadsheets and formulas. Under the hood is a powerful platform for processing your data, a bridge that can bring your systems together, and a window that lets you see into it all. With a little bit of help it can become the right solution rather than part of the problem." },
+  { title: "Automate", text: "Turn hours of data wrangling into the click of a few buttons, so you can focus on the things you do best. Let Excel take over the repetitive tasks, with efficient, robust, repeatable processes." },
+  { title: "Integrate", text: "Bring together data from all your different platforms and sources - cloud based systems, CSV exports, databases, PDFs, other Excel spreadsheets and more. Combine, compare, and re-export with just a few clicks, or turn it into your own reporting dashboard." },
+  { title: "Accelerate", text: "Speed up your processes and enable greater responsiveness - get work done when it's needed, without it disrupting your day. And with rapid development in Modern Excel, you can have custom tools built and ready to use faster than ever." },
+  { title: "Transform", text: "Transform your data, transform your processes, and transform the way you use Excel." }
+];
+
+const ICON_KEYS = ['funnel', 'brackets', 'check', 'migrate', 'chart', 'network'];
+
+const NAV_LINKS = ['Home', 'Our approach', 'For non-profits', 'About'];
+// "Our approach" is a hub page with four sections. The parent link opens the
+// page at the top; the submenu jumps straight to a section.
+const NAV_SUB = {
+  'Our approach': [
+    { label: 'Key ideas', href: './Excel%20Automate%20Our%20Approach.dc.html#key-ideas' },
+    { label: 'Modern Excel', href: './Excel%20Automate%20Our%20Approach.dc.html#modern-excel' },
+    { label: 'Excel tips', href: './Excel%20Automate%20Our%20Approach.dc.html#excel-tips' },
+    { label: 'Beyond Excel', href: './Excel%20Automate%20Our%20Approach.dc.html#beyond-excel' }
+  ]
+};
+
+
+// Every nav item now has a destination. Anything not listed here would render
+// as an inert link, so add new pages here as they are built.
+const NAV_HREFS = {
+  'Our approach': './Excel%20Automate%20Our%20Approach.dc.html',
+  'For non-profits': './Excel%20Automate%20For%20Non-profits.dc.html',
+  'About': './Excel%20Automate%20About.dc.html'
+};
+
+// Logo 423 + gap 24 + nav ~470 at 18px + padding 64 = ~981px minimum row width,
+// plus headroom — below this the burger takes over.
+const NAV_BREAKPOINT = 1180;
+
+const SECTION_REVEALS = ['hero', 'carousel', 'servicesHead', 'ctaContact', 'ctaLearn'];
+const REVEAL_IDS = SECTION_REVEALS.concat(SERVICE_DATA.map((_, i) => 'svc' + i));
+
+// Tiles, hero, carousel and heading keep their tuned values; the tweak bar now
+// drives only the two bottom CTA sections.
+const BASE_DISTANCE = 26;
+const BASE_STAGGER = 90;
+const CTA_REVEALS = ['ctaContact', 'ctaLearn'];
+
+// Cards alternate between brand green and near-black so the faded neighbours
+// still read clearly against the page.
+const CARD_STYLES = [
+  { bg: '#146B3D', titleColor: '#ffffff', textColor: '#DFF3E8' },
+  { bg: '#15291D', titleColor: '#ffffff', textColor: '#C9DECF' }
+];
+const CAROUSEL_GAP = 28;
+
+class Component extends DCLogic {
+  state = {
+    navOpen: false,
+    isMobile: false,
+    viewportWidth: typeof window !== 'undefined' ? window.innerWidth : 1200,
+    heroFontSize: 24,
+    ctaContactFontSize: 20,
+    ctaLearnFontSize: 20,
+    carouselIndex: 0,
+    revealed: {},
+    activeNav: 'Home',
+    hoveredNav: null
+  };
+
+  // Measured per weight: the highlighted span renders at 800, which is wider than
+  // the 500 the rest of the line uses.
+  _heroLine2 = [
+    { text: 'Taking ', weight: 500 },
+    { text: 'tedious manual processes', weight: 800 },
+    { text: ' and using the hidden power of Excel', weight: 500 }
+  ];
+  _ctaContactLine1 = "Have a problem that might be looking for an Excel-shaped solution?";
+  _ctaLearnLine2 = "Learn more about our approach to Excel, and how it might work for you.";
+  _measureCtx = typeof document !== 'undefined' ? document.createElement('canvas').getContext('2d') : null;
+  _timers = new Set();
+
+  // setTimeout that forgets itself once it fires, so replayed reveals can't
+  // accumulate dead handles over a long scrolling session.
+  _later(fn, ms) {
+    const id = setTimeout(() => { this._timers.delete(id); fn(); }, ms);
+    this._timers.add(id);
+    return id;
+  }
+
+  // text: a string (weight 500) or [{ text, weight }] segments.
+  _fitFontSize(text, containerWidth, minSize, maxSize) {
+    if (!this._measureCtx) return maxSize;
+    const ref = 100;
+    const segs = typeof text === 'string' ? [{ text, weight: 500 }] : text;
+    let w = 0;
+    segs.forEach((s) => {
+      this._measureCtx.font = `${s.weight} ${ref}px 'Public Sans', system-ui, sans-serif`;
+      w += this._measureCtx.measureText(s.text).width;
+    });
+    // 1.5% headroom so canvas/layout rounding can't tip a fitted line into a wrap.
+    return Math.max(minSize, Math.min(maxSize, (containerWidth / w) * ref * 0.985));
+  }
+
+  componentDidMount() {
+    // One window resize handler for everything: font fitting, breakpoint, and
+    // the reveal system's viewport check.
+    this._onResize = () => {
+      const w = window.innerWidth;
+      this.setState((s) => ({
+        viewportWidth: w,
+        isMobile: w < NAV_BREAKPOINT,
+        navOpen: w < NAV_BREAKPOINT ? s.navOpen : false,
+        heroFontSize: this._fitFontSize(this._heroLine2, Math.min(820, w - 48), 19, 26),
+        ctaContactFontSize: this._fitFontSize(this._ctaContactLine1, Math.min(720, w - 48), 14, 20),
+        ctaLearnFontSize: this._fitFontSize(this._ctaLearnLine2, Math.min(720, w - 48), 14, 20)
+      }));
+      if (this._onViewportChange) this._onViewportChange();
+    };
+    this._onResize();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(this._onResize);
+    window.addEventListener('resize', this._onResize);
+    this._startReveals();
+  }
+
+  // Reveal targets are found in the DOM by [data-reveal], so nodes that stream in
+  // later (or remount) still get observed — no refs to go stale.
+  _startReveals() {
+    if (this.props.revealsEnabled === false) return;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { this._revealAll(); return; }
+
+    // The design owns its own scroll container, so reveals behave identically in a
+    // preview frame and in a normal browser window.
+    this._scrollRoot = document.querySelector('[data-scroll-root]');
+    this._live = true;
+
+    this._tick = () => {
+      if (this._queued) return;
+      this._queued = true;
+      requestAnimationFrame(() => { this._queued = false; this._sweep(false); });
+    };
+    // A host that measures the design by briefly rendering it at full content
+    // height would otherwise reveal everything at once and latch it. Any change of
+    // container height re-arms the reveals from the new viewport.
+    this._onViewportChange = () => {
+      const h = this._viewport().height;
+      if (Math.abs(h - (this._lastVpH || 0)) < 4) return; // ignore no-op resizes
+      this._lastVpH = h;
+      clearTimeout(this._reArmTimer);
+      this._reArmTimer = setTimeout(() => this._sweep(true), 120);
+    };
+
+    // Nodes may still be streaming in at mount; a few early sweeps catch them
+    // without leaving a permanent DOM observer running for the page's lifetime.
+    [120, 400, 900].forEach((t) => this._later(this._tick, t));
+    window.addEventListener('scroll', this._tick, { passive: true });
+    if (this._scrollRoot) {
+      this._scrollRoot.addEventListener('scroll', this._tick, { passive: true });
+      if (typeof ResizeObserver !== 'undefined') {
+        this._ro = new ResizeObserver(this._onViewportChange);
+        this._ro.observe(this._scrollRoot);
+      }
+    }
+    this._sweep(true);
+    [120, 400, 900].forEach((t) => this._later(this._alignHero, t));
+    window.addEventListener('resize', this._alignHero);
+  }
+
+  // Line the hero copy up with the left edge of the carousel's active card.
+  // The mark takes the opposite margin so its own left edge doesn't move.
+  _alignHero = () => {
+    const text = document.querySelector('[data-hero-text]');
+    const card = document.querySelectorAll('[data-carousel-card]')[1];
+    if (!text || !card) return;
+    // Target sits half a card-padding in from the card's left edge.
+    const inset = parseFloat(getComputedStyle(card).paddingLeft || 0) / 2;
+    const shift = (this.state.heroTextShift || 0) + (card.getBoundingClientRect().left + inset - text.getBoundingClientRect().left);
+    const next = Math.max(0, Math.round(shift));
+    if (Math.abs(next - (this.state.heroTextShift || 0)) > 1) this.setState({ heroTextShift: next });
+  };
+
+  _viewport() {
+    if (this._scrollRoot) {
+      const r = this._scrollRoot.getBoundingClientRect();
+      return { top: r.top, height: r.height };
+    }
+    return { top: 0, height: window.innerHeight };
+  }
+
+  // An element reveals once its top enters the lower 92% band of the viewport, or
+  // once it has scrolled past above it. A reArm (viewport height changed — e.g. the
+  // host briefly measured the page at full content height) re-hides only elements
+  // that are now BELOW the fold, so nothing visible can ever flicker or replay.
+  _sweep(reArm) {
+    if (!this._live) return;
+    const vp = this._viewport();
+    const limit = vp.top + vp.height * 0.92;
+    const prev = this.state.revealed;
+    const next = {};
+    let changed = false;
+
+    document.querySelectorAll('[data-reveal]').forEach((el) => {
+      const id = el.getAttribute('data-reveal');
+      if (!id) return;
+      const rect = el.getBoundingClientRect();
+      const inBand = rect.bottom <= vp.top || rect.top < limit;
+      if (inBand) {
+        if (prev[id]) { next[id] = true; return; }
+        const m = /^svc(\d+)$/.exec(id);
+        const delay = m ? Number(m[1]) * BASE_STAGGER
+          : CTA_REVEALS.indexOf(id) >= 0 ? Number(this.props.ctaRevealDelay ?? 0)
+          : 0;
+        if (delay > 0) {
+          this._later(() => this._show(id), delay);
+        } else {
+          next[id] = true;
+          changed = true;
+        }
+      } else if (prev[id]) {
+        // Below the fold again (scrolled back up, or the host re-measured):
+        // release it so it animates in on the next approach.
+        const below = rect.top > vp.top + vp.height;
+        if (reArm || (below && this.props.revealsReplay !== false)) changed = true;
+        else next[id] = true;
+      }
+    });
+
+    if (changed) this.setState({ revealed: next });
+  }
+
+  _show(id) {
+    if (this.state.revealed[id]) return;
+    this.setState((s) => ({ revealed: { ...s.revealed, [id]: true } }));
+  }
+
+  _revealAll() {
+    const all = {};
+    REVEAL_IDS.forEach((id) => { all[id] = true; });
+    this.setState({ revealed: all });
+  }
+
+  componentWillUnmount() {
+    this._live = false;
+    window.removeEventListener('resize', this._onResize);
+    if (this._tick) {
+      window.removeEventListener('scroll', this._tick);
+      if (this._scrollRoot) this._scrollRoot.removeEventListener('scroll', this._tick);
+    }
+    if (this._ro) this._ro.disconnect();
+    clearTimeout(this._reArmTimer);
+    this._timers.forEach(clearTimeout);
+    this._timers.clear();
+  }
+
+  _revealStyle(id) {
+    const shown = this.props.revealsEnabled === false || !!this.state.revealed[id];
+    const dist = CTA_REVEALS.indexOf(id) >= 0
+      ? Number(this.props.ctaRevealDistance ?? BASE_DISTANCE)
+      : BASE_DISTANCE;
+    return { opacity: shown ? 1 : 0, transform: shown ? 'translateY(0px)' : 'translateY(' + dist + 'px)' };
+  }
+
+  _scroller() { return this._scrollRoot || document.querySelector('[data-scroll-root]') || window; }
+
+  scrollToTop = (e) => { e.preventDefault(); this._scroller().scrollTo({ top: 0, behavior: 'smooth' }); this.setState({ navOpen: false }); };
+  scrollToContact = (e) => {
+    e.preventDefault();
+    const el = document.getElementById('contact-cta');
+    const sc = this._scroller();
+    if (el) {
+      const top = sc === window ? el.getBoundingClientRect().top + window.pageYOffset : el.offsetTop;
+      sc.scrollTo({ top: top - 70, behavior: 'smooth' });
+    }
+    this.setState({ navOpen: false });
+  };
+  preventNav = (e) => { e.preventDefault(); this.setState({ navOpen: false }); };
+  subClick = (sub) => (e) => {
+    if (sub.href === '#') e.preventDefault();
+    this.setState({ hoveredNav: null, navOpen: false });
+  };
+  selectNav = (label) => (e) => {
+    // Links with a real destination navigate; the rest stay inert and just take
+    // the active underline, as they did before any other page existed.
+    if (!NAV_HREFS[label]) e.preventDefault();
+    this.setState({ activeNav: label, hoveredNav: null, navOpen: false });
+  };
+  hoverNav = (label) => () => this.setState({ hoveredNav: label });
+  unhoverNav = () => this.setState({ hoveredNav: null });
+  toggleNav = () => this.setState((s) => ({ navOpen: !s.navOpen }));
+
+  // Once the deck has wrapped past the end, back is always available (and wraps too).
+  carouselNext = () => this.setState((s) => {
+    const wrap = s.carouselIndex >= CAROUSEL_DATA.length - 1;
+    return { carouselIndex: wrap ? 0 : s.carouselIndex + 1, carouselWrapped: s.carouselWrapped || wrap };
+  });
+  carouselPrev = () => this.setState((s) => ({
+    carouselIndex: s.carouselIndex === 0 ? CAROUSEL_DATA.length - 1 : s.carouselIndex - 1
+  }));
+  selectCarousel = (i) => () => this.setState({ carouselIndex: i });
+
+  renderVals() {
+    const vw = this.state.viewportWidth;
+    const isMobile = this.state.isMobile;
+
+    const cardWidth = Math.round(Math.min(640, Math.max(260, vw * 0.68)));
+    const basePeek = Math.round(Math.min(90, Math.max(28, vw * 0.09)));
+    // Forward peek is 30% deeper to pull the eye onward; the carousel simply
+    // extends that bit further right.
+    const prevPeek = basePeek;
+    const nextPeek = Math.round(basePeek * 1.3);
+    const gap = CAROUSEL_GAP;
+    const idx = this.state.carouselIndex;
+    const viewportW = prevPeek + cardWidth + nextPeek;
+    const trackOffset = -((idx + 1) * (cardWidth + gap)) + prevPeek;
+
+    const items = CAROUSEL_DATA.map((c, i) => {
+      const skin = CARD_STYLES[i % CARD_STYLES.length];
+      return {
+        title: c.title,
+        text: c.text,
+        opacity: i === idx ? 1 : Math.abs(i - idx) === 1 ? 0.4 : 0,
+        bg: skin.bg,
+        titleColor: skin.titleColor,
+        textColor: skin.textColor,
+        dotColor: i === idx ? '#146B3D' : '#C9DECF',
+        dotSize: i === idx ? 10 : 8,
+        dotLabel: 'Show ' + c.title,
+        onSelect: this.selectCarousel(i)
+      };
+    });
+
+    // Ghost copy of the last card sits ahead of card 0 so the left peek is
+    // present from the start; the "<" button is the only thing that appears later.
+    const lastI = CAROUSEL_DATA.length - 1;
+    const lastSkin = CARD_STYLES[lastI % CARD_STYLES.length];
+    const ghost = {
+      title: CAROUSEL_DATA[lastI].title,
+      text: CAROUSEL_DATA[lastI].text,
+      opacity: idx === 0 ? 0.4 : 0,
+      bg: lastSkin.bg,
+      titleColor: lastSkin.titleColor,
+      textColor: lastSkin.textColor
+    };
+    const track = [ghost].concat(items);
+    const canPrev = idx > 0 || !!this.state.carouselWrapped;
+
+    const services = SERVICE_DATA.map((svc, i) => {
+      const key = ICON_KEYS[i];
+      const r = this._revealStyle('svc' + i);
+      return {
+        index: i,
+        title: svc.title,
+        displayText: svc.full,
+        isFunnel: key === 'funnel', isBrackets: key === 'brackets', isCheck: key === 'check',
+        isMigrate: key === 'migrate', isChart: key === 'chart', isNetwork: key === 'network',
+        opacity: r.opacity,
+        transform: r.transform
+      };
+    });
+
+    const navLinks = NAV_LINKS.map((label) => {
+      const active = this.state.activeNav === label;
+      const hovered = this.state.hoveredNav === label;
+      return {
+        label,
+        href: NAV_HREFS[label] || '#',
+        hasSub: !!NAV_SUB[label],
+        subLinks: (NAV_SUB[label] || []).map((s) => ({ label: s.label, href: s.href, onClick: this.subClick(s) })),
+        subMenuStyle: {
+          position: 'absolute', top: '100%', left: '-16px', paddingTop: '12px', zIndex: 60,
+          opacity: hovered ? 1 : 0,
+          visibility: hovered ? 'visible' : 'hidden',
+          transform: hovered ? 'translateY(0px)' : 'translateY(-6px)',
+          transition: 'opacity 0.2s ease, transform 0.2s ease, visibility 0.2s'
+        },
+        color: active || hovered ? '#146B3D' : '#1A1A1A',
+        underline: active || hovered ? 'scaleX(1)' : 'scaleX(0)',
+        underlineMobile: active ? 'scaleX(1)' : 'scaleX(0)',
+        onClick: this.selectNav(label),
+        onEnter: this.hoverNav(label),
+        onLeave: this.unhoverNav
+      };
+    });
+
+    return {
+      navLinks,
+      navDisplayDesktop: isMobile ? 'none' : 'flex',
+      navDisplayMobile: isMobile ? 'flex' : 'none',
+      burgerLine1: this.state.navOpen ? 'translateY(9px) rotate(45deg)' : 'none',
+      burgerLine2Opacity: this.state.navOpen ? 0 : 1,
+      burgerLine3: this.state.navOpen ? 'translateY(-9px) rotate(-45deg)' : 'none',
+      mobileMenuStyle: {
+        display: isMobile ? 'flex' : 'none',
+        flexDirection: 'column',
+        gap: '4px',
+        padding: this.state.navOpen ? '4px 24px 20px' : '0 24px',
+        maxHeight: this.state.navOpen ? '580px' : '0px',
+        overflow: 'hidden',
+        transition: 'max-height 0.3s ease, padding 0.3s ease'
+      },
+      scrollToTop: this.scrollToTop,
+      scrollToContact: this.scrollToContact,
+      preventNav: this.preventNav,
+      toggleNav: this.toggleNav,
+      reveal: SECTION_REVEALS.reduce((acc, id) => { acc[id] = this._revealStyle(id); return acc; }, {}),
+      carousel: {
+        items, track, viewportWidth: viewportW, cardWidth, gap, trackOffset,
+        showPrev: canPrev,
+        prevArrowOpacity: canPrev ? 1 : 0,
+        prevEvents: canPrev ? 'auto' : 'none',
+        prevCursor: canPrev ? 'pointer' : 'default'
+      },
+      carouselNext: this.carouselNext,
+      carouselPrev: this.carouselPrev,
+      services,
+      lockupTextDisplay: this.state.viewportWidth < 420 ? 'none' : 'flex',
+      lockupTaglineDisplay: this.state.viewportWidth < 640 ? 'none' : 'block',
+      heroColumns: this.state.viewportWidth < 720 ? '1fr' : 'auto auto',
+      heroMarkDisplay: this.state.viewportWidth < 720 ? 'none' : 'flex',
+      heroTextShift: this.state.heroTextShift || 0,
+      heroMarkShift: -(this.state.heroTextShift || 0),
+      heroFontSize: this.state.heroFontSize,
+      ctaContactFontSize: this.state.ctaContactFontSize,
+      ctaLearnFontSize: this.state.ctaLearnFontSize
+    };
+  }
+}
+</script>
+</body>
+</html>

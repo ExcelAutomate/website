@@ -1,0 +1,187 @@
+---
+// "What modern Excel can do" — five cards, alternating brand-green and
+// near-black. Card 5 is deliberately shorter than the others (Design
+// Decisions - Landing page.md: "don't rewrite it to even things up without
+// asking").
+const CARDS = [
+  {
+    title: 'Excel',
+    text: "Modern Excel is more than just spreadsheets and formulas. Under the hood is a powerful platform for processing your data, a bridge that can bring your systems together, and a window that lets you see into it all. With a little bit of help it can become the right solution rather than part of the problem.",
+  },
+  {
+    title: 'Automate',
+    text: 'Turn hours of data wrangling into the click of a few buttons, so you can focus on the things you do best. Let Excel take over the repetitive tasks, with efficient, robust, repeatable processes.',
+  },
+  {
+    title: 'Integrate',
+    text: "Bring together data from all your different platforms and sources - cloud based systems, CSV exports, databases, PDFs, other Excel spreadsheets and more. Combine, compare, and re-export with just a few clicks, or turn it into your own reporting dashboard.",
+  },
+  {
+    title: 'Accelerate',
+    text: "Speed up your processes and enable greater responsiveness - get work done when it's needed, without it disrupting your day. And with rapid development in Modern Excel, you can have custom tools built and ready to use faster than ever.",
+  },
+  {
+    title: 'Transform',
+    text: 'Transform your data, transform your processes, and transform the way you use Excel.',
+  },
+];
+
+// Cards alternate green/near-black so faded neighbours still read clearly.
+function skinFor(i: number) {
+  return i % 2 === 0
+    ? { bg: '#146B3D', title: '#ffffff', body: 'var(--on-green-body)' }
+    : { bg: '#15291D', title: '#ffffff', body: 'var(--on-dark-muted)' };
+}
+
+const lastSkin = skinFor(CARDS.length - 1);
+---
+
+<div class="carousel-block">
+  <div class="carousel-viewport" id="carousel-viewport">
+    <div class="carousel-track" id="carousel-track">
+      <!-- Ghost: permanent duplicate of the last card in the back peek, so
+           layout never shifts when the back button appears. -->
+      <article
+        class="carousel-card"
+        data-carousel-card
+        aria-hidden="true"
+        tabindex="-1"
+        style={`background:${lastSkin.bg}`}
+      >
+        <h2 style={`color:${lastSkin.title}`}>{CARDS[CARDS.length - 1].title}</h2>
+        <p style={`color:${lastSkin.body}`}>{CARDS[CARDS.length - 1].text}</p>
+      </article>
+
+      {
+        CARDS.map((card, i) => {
+          const skin = skinFor(i);
+          return (
+            <article class="carousel-card" data-carousel-card style={`background:${skin.bg}`}>
+              <h2 style={`color:${skin.title}`}>{card.title}</h2>
+              <p style={`color:${skin.body}`}>{card.text}</p>
+            </article>
+          );
+        })
+      }
+    </div>
+
+    <button type="button" class="carousel-arrow carousel-arrow--prev" id="carousel-prev" aria-label="Previous">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 6l-6 6 6 6"></path>
+      </svg>
+    </button>
+    <button type="button" class="carousel-arrow carousel-arrow--next" id="carousel-next" aria-label="Next">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#146B3D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 6l6 6-6 6"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="carousel-dots">
+    {
+      CARDS.map((card, i) => (
+        <button type="button" class="carousel-dot" data-dot-index={i} aria-label={`Show ${card.title}`}>
+          <span />
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<script src="../scripts/carousel.js"></script>
+
+<style>
+  .carousel-block {
+    position: relative;
+  }
+  .carousel-viewport {
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    transition: width 0.45s var(--ease-reveal);
+  }
+  .carousel-track {
+    display: flex;
+    transition: transform 0.55s var(--ease-reveal);
+  }
+  .carousel-card {
+    min-height: clamp(240px, 32vw, 320px);
+    border-radius: 20px;
+    padding: clamp(28px, 4vw, 44px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+  }
+  .carousel-card h2 {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: clamp(28px, 4vw, 38px);
+    margin: 0 0 16px;
+  }
+  .carousel-card p {
+    font-family: var(--font-prose);
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: 0.01em;
+    font-size: clamp(18px, 2vw, 21px);
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  .carousel-arrow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 52px;
+    border: none;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+  }
+  .carousel-arrow--prev {
+    left: 0;
+    justify-content: flex-start;
+    padding-left: 6px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
+    transition: opacity 0.3s ease;
+  }
+  .carousel-arrow--next {
+    right: 0;
+    justify-content: flex-end;
+    padding-right: 6px;
+    background: linear-gradient(270deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
+  }
+
+  .carousel-dots {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 24px;
+  }
+  .carousel-dot {
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .carousel-dot span {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--on-dark-muted);
+    transition: background 0.25s ease, width 0.25s ease, height 0.25s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-track {
+      transition: none;
+    }
+  }
+</style>

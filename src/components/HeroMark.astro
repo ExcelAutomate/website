@@ -1,0 +1,200 @@
+---
+// Animated mark — inline SVG so it can sit beside the hero copy at a fixed
+// size (Brand Pack: "Animated mark as inline SVG, ready to paste"; the
+// static mark PNG/SVG used elsewhere has no motion). Only one animated
+// instance per page (Brand Brief). Hides below 720px — see the layout's
+// wrapping <div> in index.astro.
+---
+
+<svg
+  viewBox="62 22 517 296"
+  width="100%"
+  height="300"
+  preserveAspectRatio="xMidYMid meet"
+  aria-hidden="true"
+  class="hero-mark-svg"
+>
+  <defs>
+    <linearGradient id="heroFeed" gradientUnits="userSpaceOnUse" x1="205" y1="0" x2="262" y2="0">
+      <stop offset="0" stop-color="#146B3D" stop-opacity="0"></stop>
+      <stop offset="0.4" stop-color="#146B3D" stop-opacity="0.35"></stop>
+      <stop offset="1" stop-color="#146B3D" stop-opacity="1"></stop>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke="url(#heroFeed)" stroke-width="3">
+    <path id="LH1" d="M150 166H230C285 166 300 58 385 58"></path>
+    <path id="LH2" d="M150 168H236C276 168 308 114 385 114"></path>
+    <path id="LH3" d="M150 170H385"></path>
+    <path id="LH4" d="M150 171H236C276 171 308 226 385 226"></path>
+    <path id="LH5" d="M150 173H230C285 173 300 282 385 282"></path>
+  </g>
+  <g fill="#146B3D" class="hero-mark-dots">
+    <circle r="7"
+      ><animateMotion dur="3.2s" begin="0s" repeatCount="indefinite"><mpath href="#LH1"></mpath></animateMotion><animate
+        attributeName="opacity"
+        values="0;0.35;1;1"
+        keyTimes="0;0.12;0.28;1"
+        dur="3.2s"
+        begin="0s"
+        repeatCount="indefinite"></animate></circle
+    >
+    <circle r="7"
+      ><animateMotion dur="3.2s" begin="-0.55s" repeatCount="indefinite"><mpath href="#LH2"></mpath></animateMotion><animate
+        attributeName="opacity"
+        values="0;0.35;1;1"
+        keyTimes="0;0.12;0.28;1"
+        dur="3.2s"
+        begin="-0.55s"
+        repeatCount="indefinite"></animate></circle
+    >
+    <circle r="7"
+      ><animateMotion dur="3.2s" begin="-1.10s" repeatCount="indefinite"><mpath href="#LH3"></mpath></animateMotion><animate
+        attributeName="opacity"
+        values="0;0.35;1;1"
+        keyTimes="0;0.12;0.28;1"
+        dur="3.2s"
+        begin="-1.10s"
+        repeatCount="indefinite"></animate></circle
+    >
+    <circle r="7"
+      ><animateMotion dur="3.2s" begin="-1.65s" repeatCount="indefinite"><mpath href="#LH4"></mpath></animateMotion><animate
+        attributeName="opacity"
+        values="0;0.35;1;1"
+        keyTimes="0;0.12;0.28;1"
+        dur="3.2s"
+        begin="-1.65s"
+        repeatCount="indefinite"></animate></circle
+    >
+    <circle r="7"
+      ><animateMotion dur="3.2s" begin="-2.20s" repeatCount="indefinite"><mpath href="#LH5"></mpath></animateMotion><animate
+        attributeName="opacity"
+        values="0;0.35;1;1"
+        keyTimes="0;0.12;0.28;1"
+        dur="3.2s"
+        begin="-2.20s"
+        repeatCount="indefinite"></animate></circle
+    >
+  </g>
+  <g class="hero-mark-cog hero-mark-cog--big">
+    <g transform="translate(157,200)">
+      <rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D"></rect>
+      <rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(45)"></rect>
+      <rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(90)"></rect>
+      <rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(135)"></rect>
+      <rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(180)"></rect>
+      <rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(225)"></rect>
+      <rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(270)"></rect>
+      <rect x="-13" y="-72" width="26" height="22" rx="6" fill="#146B3D" transform="rotate(315)"></rect>
+      <circle r="54" fill="#146B3D"></circle>
+      <circle r="21" fill="#FCFDFC"></circle>
+      <circle r="8" fill="#146B3D"></circle>
+    </g>
+  </g>
+  <g class="hero-mark-cog hero-mark-cog--small">
+    <g transform="translate(236,112)">
+      <rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D"></rect>
+      <rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(45)"></rect>
+      <rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(90)"></rect>
+      <rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(135)"></rect>
+      <rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(180)"></rect>
+      <rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(225)"></rect>
+      <rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(270)"></rect>
+      <rect x="-7.5" y="-40" width="15" height="13" rx="3.5" fill="#146B3D" transform="rotate(315)"></rect>
+      <circle r="31" fill="#146B3D"></circle>
+      <circle r="12" fill="#FCFDFC"></circle>
+      <circle r="4.5" fill="#146B3D"></circle>
+    </g>
+  </g>
+  <rect x="385" y="30" width="186" height="56" fill="#146B3D" class="hero-mark-pulse"></rect>
+  <g stroke="#146B3D" stroke-width="3" fill="none">
+    <rect x="385" y="30" width="186" height="280"></rect>
+    <path d="M447 30v280M509 30v280M385 86h186M385 142h186M385 198h186M385 254h186"></path>
+  </g>
+  <g stroke="none" class="hero-mark-cells">
+    <rect x="386" y="87" width="60" height="54" fill="rgba(20,107,61,0)" style="animation: cellFlash 3.2s linear 0.41s infinite;"
+    ></rect>
+    <rect x="386" y="143" width="60" height="54" fill="rgba(20,107,61,0)" style="animation: cellFlash 3.2s linear -0.14s infinite;"
+    ></rect>
+    <rect x="386" y="199" width="60" height="54" fill="rgba(20,107,61,0)" style="animation: cellFlash 3.2s linear -0.69s infinite;"
+    ></rect>
+    <rect x="386" y="255" width="60" height="54" fill="rgba(20,107,61,0)" style="animation: cellFlash 3.2s linear -1.24s infinite;"
+    ></rect>
+  </g>
+</svg>
+
+<style>
+  .hero-mark-svg {
+    transform: translateX(-40px);
+    transform-origin: left center;
+    overflow: visible;
+  }
+  .hero-mark-cog {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .hero-mark-cog--big {
+    animation: heroSpinCW 26s linear infinite;
+  }
+  .hero-mark-cog--small {
+    animation: heroSpinCCW 17s linear infinite;
+  }
+  .hero-mark-pulse {
+    animation: heroHeaderPulse 3.2s linear 0.96s infinite;
+  }
+
+  @keyframes heroSpinCW {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes heroSpinCCW {
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+  @keyframes heroHeaderPulse {
+    0%,
+    62% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 0.55;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  :global(.hero-mark-cells rect) {
+    animation-name: heroCellFlash;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  @keyframes heroCellFlash {
+    0%,
+    62% {
+      fill: rgba(20, 107, 61, 0);
+    }
+    70% {
+      fill: rgba(20, 107, 61, 0.55);
+    }
+    100% {
+      fill: rgba(20, 107, 61, 0);
+    }
+  }
+
+  /* Stop the cog rotation and hide the SMIL-driven travelling dots / header
+     pulse / cell flashes — CSS `animation` can be disabled by media query,
+     but SMIL (<animateMotion>/<animate>) cannot, so those groups are hidden
+     outright instead (Build Notes non-negotiable: honour reduced motion). */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-mark-cog--big,
+    .hero-mark-cog--small,
+    .hero-mark-pulse {
+      animation: none;
+    }
+    .hero-mark-dots,
+    .hero-mark-cells {
+      visibility: hidden;
+    }
+  }
+</style>
