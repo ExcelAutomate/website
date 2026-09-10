@@ -109,8 +109,26 @@ function initCarousel() {
     }
 
     cards.forEach((card, i) => {
-      const opacity = i === slotIndex ? 1 : Math.abs(i - slotIndex) === 1 ? 0.4 : 0;
+      const distance = Math.abs(i - slotIndex);
+      const opacity = distance === 0 ? 1 : distance === 1 ? 0.4 : 0;
       card.style.opacity = String(opacity);
+      // Only the current card (distance 0) is exposed to assistive tech.
+      // The two visible "peek" cards either side are decorative previews —
+      // the dots are the real navigation once the deck is hidden — and the
+      // other twelve slots exist purely so the arrows always have a real
+      // card to slide onto. Without this, three full copies of the deck
+      // (15 cards) sit in the accessibility tree at once, so a screen
+      // reader reads all five card titles three times over. Driven by the
+      // same distance-from-current value that sets opacity above, not a
+      // separate "which copy" check — that's what kept this in sync when
+      // slotIndex drifts away from the middle copy between clicks.
+      if (distance === 0) {
+        card.removeAttribute('aria-hidden');
+        card.removeAttribute('tabindex');
+      } else {
+        card.setAttribute('aria-hidden', 'true');
+        card.setAttribute('tabindex', '-1');
+      }
     });
 
     const canPrev = wrapped;

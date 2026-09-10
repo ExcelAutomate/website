@@ -70,27 +70,29 @@ deploy can't run the Astro build step).
 placeholder content is gone:
 
 1. Update `astro.config.mjs`: change `site` to the real domain and remove `base`
-   entirely (it only exists for the GitHub Pages project-pages path).
-2. Remove the `noindex` meta tag in `src/layouts/BaseLayout.astro` and delete
-   `public/robots.txt`'s `Disallow: /` line (or the whole file, and let
-   `@astrojs/sitemap` speak for itself).
-3. Point Netlify at this repo — build command `npm run build`, publish directory
+   entirely (it only exists for the GitHub Pages project-pages path). This one
+   change is also what turns off staging mode everywhere else — see below.
+2. Point Netlify at this repo — build command `npm run build`, publish directory
    `dist`. No other config needed; Netlify auto-detects Astro.
-4. **Turn on the contact form's email notification** in the Netlify dashboard, to
+3. **Turn on the contact form's email notification** in the Netlify dashboard, to
    `hello@excelautomate.com.au`, with `reply-to` set to the sender's address. The
    form markup (`data-netlify`, honeypot, hidden `form-name`) is already in place —
    this is the one manual step Netlify itself requires.
-5. Replace the 12 placeholder article bodies in `src/content/articles/`.
+4. Replace the 12 placeholder article bodies in `src/content/articles/`.
+
+The `noindex` meta tag (`src/layouts/BaseLayout.astro`) and `robots.txt`
+(`src/pages/robots.txt.ts`) both derive from whether `site` is still the GitHub
+Pages staging domain (`excelautomate.github.io`) — nothing to remember to edit
+separately, they come off automatically as soon as step 1 above is done.
 
 ## Before the Netlify launch — checklist
 
 - [ ] All placeholder article content replaced (`status: placeholder` in frontmatter
       marks which ones)
-- [ ] `noindex` removed, `robots.txt` updated
-- [ ] `astro.config.mjs` `site`/`base` updated to the real domain
+- [ ] `astro.config.mjs` `site`/`base` updated to the real domain — this alone also
+      turns off `noindex` and the `robots.txt` block, and fixes `og:image`/canonical
+      URLs (all built from `Astro.site`)
 - [ ] Netlify Forms email notification turned on and tested
-- [ ] `og:image` URLs resolve on the real domain (they're built from `Astro.site`
-      automatically, so this should just work once `site` is updated)
 
 ## More detail
 

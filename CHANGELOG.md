@@ -154,3 +154,22 @@ reading before scrolling further, every section still below the fold at that
 point would appear instantly with no fade-in when you got to it, instead of
 animating in as intended. Fixed - every section now reveals when you actually
 scroll to it, regardless of how long that takes.
+
+## 2026-09-10 — Accessibility fix: landing carousel no longer triples up for screen readers
+
+From Claude Design's review. The landing page carousel secretly renders three
+copies of its five cards so the arrows can always slide in the direction
+clicked - a sighted visitor only ever sees one at a time, but a screen reader
+was reading all five card titles three times over, plus the two half-faded
+"peek" cards either side. Now only the one actually-current card is exposed;
+everything else (including the peeks) is hidden from assistive tech, same as
+it already looks to everyone else. Nothing visual changed.
+
+## 2026-09-10 — Search-engine blocking now turns off automatically at launch
+
+Also from Claude Design's review. `noindex` and the site-wide `robots.txt`
+block used to need a manual edit before going live on the real domain - easy
+to forget. Both now switch off by themselves the moment `astro.config.mjs`'s
+`site` is updated to the real domain, which already has to happen for the
+site to work there at all. Nothing to look at on the current GitHub Pages
+build - behaviour there is unchanged (still blocked, as intended for now).

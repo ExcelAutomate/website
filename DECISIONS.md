@@ -715,6 +715,83 @@ Verified in-browser: sitting at the top of the page for 3.2s (past the old
 2.5s trigger) no longer reveals anything below the initial viewport; scrolling
 to a distant section afterwards still reveals it normally.
 
+## 2026-09-10 — Carousel: only the current card is exposed to assistive tech
+
+Claude Design's review flagged it: the carousel renders three full copies of
+the five-card deck (15 slots) so the arrows can always wrap in the direction
+clicked (see the carousel rewrite entry above), but all 15 sat in the
+accessibility tree at once — a screen reader read all five card titles/bodies
+three times over, and the two visible "peek" cards either side of the current
+one were exposed too, even though they're decorative previews with the dots as
+the real navigation.
+
+`Carousel.astro`'s server-rendered `aria-hidden`/`tabindex` (middle copy
+exposed, the other two hidden) was only ever a pre-JS starting point - fixed
+by having `carousel.js`'s `render()` narrow this down further on every call,
+driven off the same distance-from-`slotIndex` value that already sets each
+card's opacity: distance `0` (the current card) gets `aria-hidden` and
+`tabindex` removed entirely; everything else, including the two `0.4`-opacity
+peeks, gets `aria-hidden="true"` / `tabindex="-1"`. Per the same instruction:
+never sets `aria-hidden="false"` on the current card, just omits the attribute.
+This also fixes a subtler bug the static per-copy version had: mid-navigation,
+before a recentre fold, the actually-current card could sit in a copy the
+static markup had marked hidden, while four non-current cards in the "visible"
+copy stayed exposed - the new version tracks the *real* current card
+regardless of which copy it's currently sitting in.
+
+Verified in-browser: initial load has exactly one exposed card (`aria-hidden`
+null) with the rest (including both peeks) hidden; after a `next` click, the
+newly-current card loses its `aria-hidden` and its former self (now a peek)
+gains one. Confirmed the arrows (`aria-label="Previous"`/`"Next"`) and dots
+(`aria-label="Show <card title>"`) already had accessible labels - Claude
+Design asked to check since they become the real navigation once the cards
+are hidden.
+
+## 2026-09-10 — noindex and robots.txt now derive from `site`, not manual edits
+
+Claude Design flagged the risk directly: `noindex` shipping to production by
+accident because someone forgot the manual removal step. Both `BaseLayout.astro`'s
+`<meta name="robots">` tag and (new) `src/pages/robots.txt.ts` now check
+`Astro.site`/`site` against the known GitHub Pages staging hostname
+(`excelautomate.github.io`) and only apply their staging behaviour
+(`noindex, nofollow` / blanket `Disallow: /`) while it matches. This rides on
+`astro.config.mjs`'s `site` field, which the README's "Before the Netlify
+launch" checklist already requires updating as an *unavoidable* step (the
+domain literally doesn't work without it) - so both flip to production
+behaviour for free the moment that happens, with nothing extra to remember.
+
+`public/robots.txt` (a static file, couldn't carry the same logic) is deleted
+in favour of the new `src/pages/robots.txt.ts` endpoint, which also adds a
+`Sitemap:` line pointing at `@astrojs/sitemap`'s output once live (there was
+no point adding one while everything was disallowed).
+
+Canonical URLs and `og:image` were already built from `Astro.site` (see the
+"Full rebuild" entry, 2026-09-06) - confirmed, not changed, that these need no
+separate fix: they'll automatically resolve to the real domain the same moment
+`site` is updated.
+
+Verified by temporarily pointing `site` at a placeholder real domain and
+rebuilding: `noindex` disappeared from all 21 pages, `robots.txt` flipped to
+`Allow: /` plus a `Sitemap:` line, and canonical/`og:image` correctly resolved
+to the new domain with no `/website` base prefix - then reverted
+`astro.config.mjs` back to the GitHub Pages staging config (confirmed via
+`git diff` showing no changes) before committing anything.
+
+Updated README.md's deploy steps and checklist to match - `noindex`/
+`robots.txt` are no longer listed as their own checklist items, since they're
+consequences of the `site` update rather than separate steps.
+
+## 2026-09-10 — Confirmed: no canvas-measuring / fit-to-width text sizing remains
+
+Claude Design asked for confirmation that `cta-fit.js`'s canvas-based
+measure-and-shrink-to-fit routine (deleted as part of the CTA band rewrite,
+2026-09-10 above, once the lines it measured became headings allowed to wrap)
+didn't leave anything behind that could fight with the plain `clamp()`/fixed
+sizes now used everywhere. Grepped the whole `src/` tree for
+`measureText`/`getContext('2d')`/`data-fit`/`fitCtaText`/`canvas` - the only
+hit is this file's own prose describing the removal, in a `global.css`
+comment. Nothing live remains.
+
 ## Still open (raised for Chris, not decided here)
 
 - **GitHub Pages base path.** `astro.config.mjs` assumes `site: excelautomate.github.io`,

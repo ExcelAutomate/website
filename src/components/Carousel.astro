@@ -40,9 +40,12 @@ function skinFor(i: number) {
 // The track renders three consecutive copies of the whole deck (15 slots),
 // starting in the middle copy, so there's always a real card to slide onto
 // in either direction and the arrows never need to rewind through the deck
-// to wrap (see carousel.js). Only the middle copy is the "real" content as
-// far as assistive tech is concerned - the other two exist purely so the
-// peeks either side of it are never empty.
+// to wrap (see carousel.js). The aria-hidden/tabindex below is only a
+// server-rendered starting point (middle copy exposed, the other two
+// hidden) for the brief moment before JS runs - carousel.js's render() is
+// the real source of truth from then on, narrowing this down further to
+// just the one current card (distance 0) every time slotIndex moves, since
+// only one of even the middle copy's five is ever actually "current".
 const COPIES = 3;
 const MIDDLE_COPY = Math.floor(COPIES / 2);
 ---

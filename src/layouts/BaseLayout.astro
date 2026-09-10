@@ -17,6 +17,16 @@ const { title, description, current, isContactPage = false, ogTitle, ogDescripti
 
 const ogImageUrl = new URL(withBase('/assets/img/excel-automate-og.png'), Astro.site).toString();
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+// Derived from `site` in astro.config.mjs, not a separate flag to remember —
+// noindex only applies while `site` is still the GitHub Pages staging
+// domain. The pre-Netlify-launch checklist in README.md already requires
+// updating `site` (and dropping `base`) to the real domain as its own,
+// unavoidable step for the domain to work at all — this rides on that same
+// change instead of needing a second manual edit that could ship by
+// accident (see DECISIONS.md).
+const STAGING_HOSTNAME = 'excelautomate.github.io';
+const isStaging = Astro.site?.hostname === STAGING_HOSTNAME;
 ---
 
 <!doctype html>
@@ -28,10 +38,14 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
-    <!-- Staging build on GitHub Pages: kept out of search results while
-         placeholder article content remains (see DECISIONS.md). Remove this
-         tag as part of the pre-Netlify-launch checklist in README.md. -->
-    <meta name="robots" content="noindex, nofollow" />
+    {
+      /* Staging build on GitHub Pages: kept out of search results while
+         placeholder article content remains (see DECISIONS.md). Comes off
+         automatically once `site` in astro.config.mjs is updated to the
+         real domain (isStaging above) — no separate manual removal step to
+         forget. */
+      isStaging && <meta name="robots" content="noindex, nofollow" />
+    }
 
     <link rel="icon" type="image/svg+xml" href={withBase('/assets/img/excel-automate-favicon.svg')} />
     <link rel="icon" type="image/png" sizes="32x32" href={withBase('/assets/img/excel-automate-favicon-32.png')} />
