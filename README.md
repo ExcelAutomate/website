@@ -21,9 +21,10 @@ src/
   data/sections.ts        Our-approach section ids/labels
   layouts/BaseLayout.astro  <head>, meta/og tags, Header, Footer
   components/             Header, Footer, Carousel, HeroMark, ContactForm
-  scripts/                Plain JS: reveal, carousel, section-nav, contact-form, cta-fit
+  scripts/                Plain JS: reveal, carousel, section-nav, article-nav, contact-form
   styles/global.css       Design tokens (colours, type, spacing) + shared component styles
-  pages/                  index.astro, our-approach/ (hub + [slug] articles),
+  pages/                  index.astro, learn-more/ (hub + [slug] articles - route renamed
+                          from our-approach/ 2026-09-10, see DECISIONS.md),
                           for-non-profits.astro, about.astro, contact.astro, 404.astro
 public/assets/img/        Logo mark, favicons, og image (static, not build-processed)
 design-pack/               The original design files, content and reasoning docs this

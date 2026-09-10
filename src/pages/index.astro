@@ -63,7 +63,7 @@ const ICONS: Record<string, string> = {
   current="Home"
 >
   <section class="hero-section" id="top">
-    <div class="container hero-grid" data-reveal="hero">
+    <div class="container hero-grid" data-reveal="hero" data-reveal-repeat>
       <div data-hero-text>
         <h1 class="hero-heading">Make Excel<br /><span class="accent">work</span> for you</h1>
         <div class="hero-rule"></div>
@@ -79,17 +79,17 @@ const ICONS: Record<string, string> = {
   </section>
 
   <section class="carousel-section" aria-label="What modern Excel can do">
-    <div class="container" data-reveal="carousel">
+    <div class="container" data-reveal="carousel" data-reveal-repeat>
       <Carousel />
     </div>
   </section>
 
   <section class="services-section" aria-label="Services">
     <div class="container">
-      <div class="services-head" data-reveal="servicesHead">
+      <div class="services-head" data-reveal="servicesHead" data-reveal-repeat>
         <h2>How Excel Automate can help</h2>
       </div>
-      <div class="services-grid" data-reveal-tiles>
+      <div class="services-grid" data-reveal-tiles data-reveal-repeat>
         {
           SERVICES.map((svc) => (
             <div class="card-static service-tile">
@@ -106,34 +106,23 @@ const ICONS: Record<string, string> = {
   </section>
 
   <section class="cta-band cta-band--green" id="contact-cta">
-    <div class="cta-band-inner" data-reveal="ctaContact">
-      <h2>Get in touch</h2>
-      <p data-fit-text="Have a problem that might be looking for an Excel-shaped solution?" data-fit-group="cta-contact">
-        Have a problem that might be looking for an Excel-shaped solution?
-      </p>
+    <div class="cta-band-inner" data-reveal="ctaContact" data-reveal-repeat>
+      <h2>Have a problem that might be looking for an Excel-shaped solution?</h2>
       <a href={CONTACT_HREF} class="btn btn-solid-inverse">Get in touch</a>
     </div>
   </section>
 
   <section class="cta-band cta-band--dark">
-    <div class="cta-band-inner" data-reveal="ctaLearn">
-      <h2>Learn more</h2>
-      <p data-fit-group="cta-learn">
+    <div class="cta-band-inner has-subline" data-reveal="ctaLearn" data-reveal-repeat>
+      <h2>
         What's <span class="accent">Modern Excel</span>? Why <span class="accent">Power Query</span>? What about{' '}
         <span class="accent">Formulas</span>?
-      </p>
-      <p
-        data-fit-text="Learn more about our approach to Excel, and how it might work for you."
-        data-fit-group="cta-learn"
-      >
-        Learn more about our approach to Excel, and how it might work for you.
-      </p>
-      <a href={NAV_HREFS['Our approach']} class="btn btn-ghost">Learn more</a>
+      </h2>
+      <p>Learn more about our approach to Excel, and how it might work for you.</p>
+      <a href={NAV_HREFS['Learn more']} class="btn btn-ghost">Learn more</a>
     </div>
   </section>
 </BaseLayout>
-
-<script src="../scripts/cta-fit.js"></script>
 
 <style>
   .hero-section {
@@ -201,6 +190,7 @@ const ICONS: Record<string, string> = {
     font-family: var(--font-heading);
     font-weight: 800;
     font-size: clamp(30px, 4.2vw, 44px);
+    line-height: 1.35;
     margin: 0;
     text-align: center;
     color: var(--text);
@@ -239,6 +229,7 @@ const ICONS: Record<string, string> = {
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 19px;
+    line-height: 1.35;
     margin: 0;
     color: var(--text);
     flex: 1;

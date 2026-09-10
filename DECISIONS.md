@@ -25,6 +25,21 @@ implementation (an IntersectionObserver that only ever adds to a "revealed" set)
 used everywhere — simpler, and avoids the render-loop risk the design docs describe
 for any implementation that can un-reveal an element.
 
+**Reversed for the landing page only, 2026-09-10** — see the entry below.
+
+## 2026-09-10 — Landing page reveals now repeat on scroll-back-up
+
+Chris asked for the landing page's reveal animations to re-fire when scrolling back
+up past them, reversing the once-only default above for this one page. Rather than
+forking the whole reveal system, `src/scripts/reveal.js` now supports per-element
+opt-in: an element with `data-reveal-repeat` alongside its `data-reveal`/
+`data-reveal-tiles` attribute has its `is-revealed` class removed when it leaves the
+viewport (instead of being unobserved), so it re-triggers on next entry. Applied to
+every reveal target on `src/pages/index.astro` (hero, carousel, services head/tiles,
+both CTA bands). Every other page is untouched and stays once-only — the render-loop
+risk noted above only applies to an implementation that can un-reveal, and this one
+still can't do that anywhere it isn't explicitly opted in.
+
 ## 2026-09-06 — No phone number
 
 Nothing in the business context docs supplied one. Contact page shows email only.
@@ -421,6 +436,257 @@ Not yet re-confirmed in Chrome specifically (only checked in this session's own
 Browser pane, which already looked fine even before this change) — worth Chris
 checking the deployed site in his regular Chrome to confirm this actually closes
 the gap, since that's the one browser that showed the problem.
+
+## 2026-09-10 — 18 changes from Opus5's review in Claude Design
+
+Chris relayed a dated, closed change list (`Changes - 10 September 2026.md`, from
+his `docs/` folder — not copied into `design-pack/docs/`, it's a one-off work
+order rather than a standing reference doc) covering all five pages. Implemented
+all 18 items; the notable ones with real "why" behind them:
+
+**CTA bands (#1).** Every band was a title (e.g. "Get in touch") repeating the
+button word for word, plus a line underneath. The title's gone; the line is now
+the `<h2>`, sized down (`clamp(24px,3vw,32px)`, weight 700) and allowed to wrap
+(`text-wrap: pretty` — don't add `nowrap`). This made `cta-fit.js`'s canvas-based
+fit-to-one-line measurement dead code everywhere it was used (all eight band
+lines) — a heading that's allowed to wrap doesn't need a fitted size. Deleted the
+script and its two `<script>` tags rather than leave it orphaned; the
+`data-fit-text`/`data-fit-group` attributes were the last things referencing it.
+Landing's dark band is the one exception — its heading (the three questions) is
+followed by a real `<p>` subline before the button, grouped with a
+`.cta-band-inner.has-subline` modifier that tightens the heading's bottom margin.
+CTA band buttons went 17px→18px with 14px→12px vertical padding, scoped as
+`.cta-band .btn` — **not** a change to the shared `.btn` base, which the Contact
+page's "Send message" button and the article end-CTA button still use unchanged
+(verified: still 17px/14px after this change).
+
+**Nav rename + reorder (#2, #3).** "Our approach" is now "Learn more" in the nav
+only — the page's own title, h1, route and section anchors are all unchanged by
+design (the label is an invitation, the title says what the page is about). Since
+`NAV_LINKS`/`NAV_HREFS` are keyed by the label itself (`NavLabel` type), the
+rename meant updating every `current="Our approach"` prop and `NAV_HREFS['Our
+approach']` reference across the site in the same pass — a genuine multi-file
+edit, not just a string swap in one data file. New order: Home, For non-profits,
+Learn more, About.
+
+**Header spacing/breakpoint (#4) and lockup tagline (#5).** Row padding, the
+logo-to-nav gap, and the inter-nav-item gap became `clamp()`s with a `calc()`
+offset (a plain `vw` clamp is too shallow over the range — see the code comment
+for the maths), and the burger breakpoint moved 1180px→1040px to match. Verified
+at 1050/1240px the computed padding/gap hit the exact predicted pixel values.
+Wordmark and tagline now shed together at one threshold (380px) instead of 220px
+apart, which used to leave a wordmark-with-no-tagline gap.
+
+**Button spec (#6, #7, #8).** Desktop header button and CTA-band buttons both
+gained a hover lift + shadow; the burger menu's button stays colour-only (no
+lift — "a 2px lift under a thumb is noise"), enforced with a same-specificity
+`.mobile-nav-cta.btn-solid:hover` override since it shares `.btn-solid` with the
+desktop button for colour. `.btn-solid-inverse`'s border now tracks its fill
+through hover/active (it was invisible at rest and visible as a stray ring on
+hover before — border-color just wasn't in step with background-color).
+**Note:** the doc's stated rendered heights (159×52, 190×52, 143×49) don't quite
+match what these actually render at (159×56.8, 190×56.8, 143×53.2) — the gap is
+`line-height` (inherited `1.6` from `body`, never set explicitly on `.btn`/
+`.nav-cta`, works out to ~1.33 for the doc's numbers to land exactly). The doc
+never asked for a line-height change, and adding one would touch the Send
+message/article-CTA buttons that change #7 explicitly says not to touch — left
+alone. Width and every other property (font-size, padding, radius, colour,
+transitions) match exactly; only the vertical figure is a few px taller than
+stated.
+
+**"Key ideas" jumps to the top (#9).** Its panel has no heading of its own — the
+page h1 does that job — so scrolling straight to it read as landing mid-page.
+Added `TOP_SECTION_ID` (`= SECTIONS[0].id`) in `data/sections.ts`; three separate
+surfaces had to change together: the header dropdown's href (now the bare
+`/our-approach/` URL, no hash — lands at the top naturally from anywhere else on
+the site), a same-page click-intercept in `Header.astro` for when you're
+*already* on that URL (a link to your own current URL doesn't navigate, so
+nothing would happen without this — `window.scrollTo({top:0})` on click), and the
+side-nav's Key-ideas link (`href="#top"` / `data-scroll-target="top"`, keeping
+`data-section-nav-link="key-ideas"` so the IntersectionObserver highlight still
+matches it — see the code comment in `section-nav.js`). A new `id="top"` on the
+page's outer section is the actual scroll target. Old `#key-ideas` bookmarks
+still resolve — `section-nav.js` overrides the browser's native anchor-scroll
+back to the top when it sees that hash, using the same `[60,250,600]ms +
+fonts.ready` staggered re-apply pattern as the existing tile-scroll-memory
+restore (a single ~250ms re-apply wasn't reliably beating a late web-font-swap
+reflow in testing — see `persistScroll()`).
+
+**Coming soon tiles (#10) and their min-height (#17).** The twelve unwritten
+articles' tiles lose their excerpt and gain a "Coming soon" line (same type as
+"Read this →", deliberately no arrow — one says "goes somewhere", the other says
+"not yet"); their article pages show a single "Coming soon" heading instead of
+`<Content />`. Stripped the placeholder prose out of all twelve `.md` files down
+to bare frontmatter — it was never rendered again after this change, and leaving
+stale draft paragraphs sitting in the source is more confusing than useful for a
+future AI session, not less. Added `min-height: 127px` scoped to
+`.approach-panel:not(.approach-panel--green) .approach-tile` (i.e. everywhere
+except Key ideas, whose three tiles have real excerpts and size to them) — it's a
+**floor**, not a fixed height: a grid row containing the one two-line title
+("Security warnings and enabling content") still naturally sizes taller than 127
+and drags its row-mates up to match, exactly as intended.
+
+**Carousel (#13, #14, #15).** Copy edits and a smaller `min-height` were simple.
+The arrow-wrapping rewrite was not: the track now renders three full copies of
+the five-card deck (fixed `COPIES = 3`, must stay odd and ≥3) and tracks an
+**unbounded** `slotIndex` instead of a 0-4 card index, so `next`/`prev` can always
+move exactly one card in the direction clicked without ever rewinding through the
+deck to get there. A `recenter()` fold — 620ms after the *last* click, one timer,
+always cleared and rescheduled — silently snaps `slotIndex` back into the middle
+copy once the user stops clicking, with both the track's transform transition
+*and* every card's opacity transition suppressed during the fold (`setNoAnim()`),
+since the fold swaps which DOM node is "current" between two copies showing the
+same card — with the fade left on, that swap flashes. Dots move by the direct
+signed distance to the clicked card (`target - current`, no wrap), matching where
+the dot sits on screen either side of the current card. Verified in-browser: 8
+next-clicks land on the correct wrapped card every time, dots jump the direct
+(sometimes backward) distance, and rapid-fire clicking (8 clicks at 80ms
+intervals — faster than the 550ms slide) self-corrects via the modulo-based
+recenter with no crash, matching the doc's own "test it by clicking through the
+wrap quickly" instruction. No `<img>`/ghost card any more — replaced by the
+repeated copies themselves; the two non-active copies carry `aria-hidden="true"
+tabindex="-1"` so screen readers only see the five real cards once.
+
+**Confirms, not changes:** #16 (Our-approach reveals stay once-only, Landing
+still repeats) was already exactly this site's behaviour after the
+`data-reveal-repeat` fix earlier this session (2026-09-10, above) — nothing to
+do here, the doc's table just corroborates it independently.
+
+**`design-pack/` is now stale relative to the live site for this batch.**
+Checked whether Chris's OneDrive `design/*.dc.html` and `docs/` had actually been
+updated to match, as the change doc's header claims ("already been updated...
+if anything here disagrees with them, the designs win") — they hadn't: the
+Landing `.dc.html` still has the old CTA title+line pattern, the old fitted-sizer
+state fields, and `NAV_LINKS` in the old order with the old "Our approach" label;
+`docs/Article - Whats Modern Excel.md` still has the "A new direction"
+subheading. Did **not** copy anything from OneDrive into `design-pack/` this
+round (there was nothing newer to copy — confirmed via `git status` showing no
+diff after attempting the refresh). This means the "serve `design-pack/design`
+locally and measure" technique in `CLAUDE.md` would give **wrong, pre-change**
+numbers for anything covered by this batch until Chris re-exports the updated
+`.dc.html` files from Claude Design into that OneDrive folder — flagged to him,
+not silently worked around.
+
+## 2026-09-10 — Pinned `line-height: 1.35` on every button and other Manrope UI chrome
+
+**Corrects the "Note" in the entry above** ("18 changes from Opus5's review in
+Claude Design" — the doc's stated button heights don't match ours). Opus5
+diagnosed it properly: the reference designs set no line-height at all on body
+text, so unset elements there render at the browser's normal line-height for
+Manrope (~1.33); this build's `body` sets `line-height: 1.6`, and every button —
+a fixed-padding box — inherited that, coming out ~5px taller than the design.
+Fixed by pinning `line-height: 1.35` directly on `.btn` (global.css) and
+`.nav-cta`/`.mobile-nav-cta` (Header.astro), which between them cover all six
+button instances Opus5 named: the header button, the burger-menu button, both
+CTA band buttons, the Contact page's two chips (they compose `.nav-cta`/
+`.mobile-nav-cta` for geometry), the "Send message" form button, and the article
+end-CTA. Verified in-browser afterward: header button 158.6×52.3px, burger
+143×49px, CTA band button 190×52px — all within a third of a pixel of Opus5's
+stated targets (159×52, 143×49, 190×52). Confirmed the "Send message" and
+article end-CTA buttons kept their own 17px/14px sizing (change #7 said not to
+touch those) and only got ~2px shorter from the line-height pin, exactly as
+intended — they were the only two buttons still moving with the body's
+line-height otherwise.
+
+**Went further than the literal ask, on Opus5's own instruction** ("scan for any
+[text elements] that don't [set line-height] rather than assuming buttons were
+the only casualty... fix them per element"). Audited every `font-family:
+var(--font-heading)` (Manrope) rule across every page and component for a
+missing `line-height` — cross-checked a sample against the actual (stale but,
+for pre-existing elements, still valid) design source `.dc.html` files to
+confirm the mismatch is real, not imagined: e.g. `.services-head h2` and the
+Contact form's segmented reply-preference buttons genuinely have no line-height
+in the design either, so they render at the browser's Manrope default there,
+but at 1.6 in this build. Pinned `line-height: 1.35` to fifteen more rules
+sharing the exact same problem: `.field > span/label` and `.segmented-option`
+(global.css); `.nav-link`, `.sub-menu-inner a`, `.mobile-nav-link`
+(Header.astro); `#contact-thanks h2`, `.text-link` (ContactForm.astro);
+`.carousel-card h2` (Carousel.astro); `.side-nav-link` (both
+`our-approach/index.astro` and `[slug].astro`); `.read-this`, `.coming-soon`
+(`our-approach/index.astro`); `.back-link` (`[slug].astro`); `.services-head h2`,
+`.service-tile h3` (`index.astro`); `.contact-detail-label` (`contact.astro`).
+Added a comment on `body` in `global.css` pointing at this as the pattern to
+watch for, per Opus5's warning that "the same inheritance reaches anything else
+that doesn't state its own line-height."
+
+**Deliberately left alone, flagged instead of guessed at:** `.field input`
+(shared with `.field textarea`, which already has its own explicit
+`line-height: 1.6` — only the plain `input` rule is unset) and `.field-error`
+inherit **Public Sans** (`--font-body`), not Manrope — Opus5's 1.35 figure was
+derived specifically for Manrope's metrics, and I don't have an equivalent
+verified value for Public Sans. `.contact-detail-value` (`contact.astro`) is
+also unstyled `font-family`, so also Public Sans. `.lockup-tagline`
+(Header.astro) uses `--font-wordmark` (Space Grotesk), a third font again. All
+four are small, non-fixed-height text (not buttons, not measured against a
+spec), so the practical risk of leaving them is low - but the right fix, if
+Chris wants one, needs Opus5 (or a similar reference-vs-build measurement) to
+derive the correct per-font value rather than reusing 1.35 on a guess.
+
+## 2026-09-10 — Route renamed: `/our-approach/` → `/learn-more/`
+
+Chris asked for the URL to follow the nav label rename (above): the earlier
+decision was deliberately label-only ("the label is an invitation, the title
+says what the page is about... don't sync them") but that was about the page's
+*title and h1*, not its address — Chris wants the address to match the label
+after all. Moved `src/pages/our-approach/` to `src/pages/learn-more/` (plain
+filesystem move, nothing had been committed yet so there was no git history to
+preserve with `git mv`) and updated every internal href that pointed at the old
+path: `NAV_HREFS['Learn more']` and all four `OUR_APPROACH_SUB` entries in
+`data/nav.ts`, the hub page's article tile links, and the article page's back
+link, side-nav links and end-of-article CTA link in `learn-more/[slug].astro`.
+
+**What didn't move:** the page's `<title>` ("Our approach - Excel Automate |
+Hobart"), its h1 ("Our approach to Excel"), the section ids (`#key-ideas` etc.),
+and the content collection folder (`src/content/articles/` — collection folder
+names are internal to Astro's content layer, never part of the URL, so renaming
+it would have been pure churn). The `OUR_APPROACH_SUB` constant name and
+various code comments referring to "the Our-approach page" also stay as-is,
+since that's still an accurate description of what the page *is* — only its
+address changed, same as how a person's home address changing doesn't rename
+the person.
+
+Verified: `npm run build` produces every article under `/learn-more/<slug>/`
+and nothing under `/our-approach/` any more (grepped `dist/` for `our-approach`
+— zero hits); in the dev server, the nav link, header dropdown, hub-page tiles,
+an article's back link, its side-nav, and its end-of-article CTA all resolved
+to the new path; the old `/our-approach/` path now 404s (expected — no redirect
+was added, since the site is still `noindex`/pre-launch and nothing external is
+likely to be linking to the old path yet; worth adding a redirect instead if
+that's no longer true by the time this ships).
+
+## 2026-09-10 — The remaining un-pinned fonts: Public Sans 1.18, Space Grotesk 1.27
+
+Follow-up to the two entries above. Opus5 measured the other fonts' own normal
+line-height (at 100px, to avoid small-size rounding) rather than letting me
+guess by extrapolating from Manrope's 1.35 — the two aren't the same font and
+the ratio doesn't transfer.
+
+**Public Sans (`--font-body`) → 1.18** — `.field input` (shared rule with
+`.field textarea`, which keeps its own deliberate `1.6` override for
+multi-line text), `.field-error`, `.contact-detail-value`. Per Opus5, **this
+was the bigger find of the two rounds, not the buttons**: the design's text
+inputs set no line-height either, giving a 19px line box → 48px input (19 +
+26px padding + 3px border). Inheriting this site's 1.6 instead gave a 25.6px
+line box → ~54.6px input, 6.6px taller than designed, across every field in
+the contact form. Verified in-browser after the fix: the "Your name" input
+renders at 46.9px (target 48px, close enough that the gap is sub-pixel
+rounding, not a wrong value).
+
+**Space Grotesk (`--font-wordmark`) → 1.27** — `.lockup-tagline` only. The
+wordmark above it (`.lockup-word`) already pins `line-height: 1` in the
+design, deliberately — that's what sets the lockup's own vertical rhythm, and
+stays untouched. Verified: tagline computes to `14.6px` line-height at its
+`11.5px` max font-size, i.e. exactly `1.27`.
+
+**Left alone, deliberately:** Manrope stays at `1.35` even though Opus5's
+fresh measurement puts its true normal factor at `1.37` — 1.35 is what
+shipped and is what the documented button heights (159×52 etc., see the
+entry above) were measured against; correcting it now would move every
+button by 0.4px and make those numbers wrong again for a smaller gain than
+leaving it. Spectral (`.carousel-card p`, the only place it's used) already
+sets `line-height: 1.75` — looser than its own `~1.52` normal, but that's the
+design's own choice for that card's italic pull-quote-style text, not a
+casualty of the body's 1.6; not touched.
 
 ## Still open (raised for Chris, not decided here)
 

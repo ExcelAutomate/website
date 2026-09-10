@@ -17,6 +17,29 @@
 // two hops ago. Keep the key literal in sync between both files.
 const RETURN_SCROLL_KEY = 'oa-return-scroll';
 
+// Key ideas carries no heading of its own (the page h1 does that job), so a
+// #key-ideas deep link should land at the top of the page, not the panel —
+// same rule as the header dropdown and side nav (see data/sections.ts'
+// TOP_SECTION_ID and Header.astro's matching same-page click-intercept).
+// This is a plain script with no module graph, so it can't import the
+// constant from sections.ts — keep this literal in sync with SECTIONS[0].id
+// if that ever changes (Changes - 10 September 2026.md, #9).
+const TOP_SECTION_ID = 'key-ideas';
+
+// Re-applies `fn` at a staggered spread of delays, plus once more after web
+// fonts finish loading. A single re-apply around 250ms isn't always enough —
+// Manrope loads with font-display: swap, and some browsers re-correct a
+// fragment scroll after a late font swap reflows the page, which can win the
+// race against an early restore (same class of problem as carousel.js's
+// alignHero() re-measurement, see its comment for the fuller explanation).
+function persistScroll(fn) {
+  fn();
+  [60, 250, 600].forEach((t) => setTimeout(fn, t));
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(fn);
+  }
+}
+
 function initTileScrollMemory() {
   document.querySelectorAll('.approach-tile').forEach((tile) => {
     tile.addEventListener('click', () => {
@@ -25,21 +48,23 @@ function initTileScrollMemory() {
   });
 
   // On arriving here (via a tile's back link, or any other route back to
-  // this page), restore a remembered position if one was left. If there is
-  // none — cleared by an inter-article link, or this is a fresh/direct visit
-  // — do nothing, and the browser's own scroll to the #section-id anchor in
-  // the URL (already run before this script executes) stands as the
-  // fallback landing spot.
+  // this page), restore a remembered position if one was left.
   const remembered = sessionStorage.getItem(RETURN_SCROLL_KEY);
-  if (remembered === null) return;
-  sessionStorage.removeItem(RETURN_SCROLL_KEY);
-  const top = Number(remembered);
-  // Re-applied a couple of times: the browser's own hash-scroll can land
-  // fractionally after this first runs, and would otherwise win the race.
-  const restore = () => window.scrollTo({ top, behavior: 'auto' });
-  restore();
-  setTimeout(restore, 60);
-  setTimeout(restore, 250);
+  if (remembered !== null) {
+    sessionStorage.removeItem(RETURN_SCROLL_KEY);
+    const top = Number(remembered);
+    persistScroll(() => window.scrollTo({ top, behavior: 'auto' }));
+    return;
+  }
+
+  // Nothing remembered — cleared by an inter-article link, or this is a
+  // fresh/direct visit. The browser's own scroll to the #section-id anchor
+  // in the URL (already run before this script executes) stands as the
+  // fallback landing spot, except for #key-ideas: override that one back to
+  // the top, same staggered re-apply to beat the native anchor scroll.
+  if (location.hash === '#' + TOP_SECTION_ID) {
+    persistScroll(() => window.scrollTo({ top: 0, behavior: 'auto' }));
+  }
 }
 
 function initSectionNav() {
@@ -71,11 +96,17 @@ function initSectionNav() {
   navLinks.forEach((link) => {
     link.addEventListener('click', (e) => {
       const id = link.getAttribute('data-section-nav-link');
-      const target = document.getElementById(id);
+      // Key ideas' side-nav link keeps data-section-nav-link="key-ideas" (so
+      // the IntersectionObserver above still matches it and highlights it
+      // correctly) but scrolls to a different element — data-scroll-target
+      // overrides where the click actually lands, defaulting to the
+      // section's own id everywhere else.
+      const targetId = link.getAttribute('data-scroll-target') || id;
+      const target = document.getElementById(targetId);
       if (!target) return;
       e.preventDefault();
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      history.replaceState(null, '', '#' + id);
+      history.replaceState(null, '', '#' + targetId);
     });
   });
 }

@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { SECTIONS, sectionLabel } from '../../data/sections';
+import { SECTIONS, TOP_SECTION_ID, sectionLabel } from '../../data/sections';
 import { withBase } from '../../data/nav';
 
 export async function getStaticPaths() {
@@ -12,20 +12,23 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const label = sectionLabel(entry.data.section);
-const backHref = withBase(`/our-approach/#${entry.data.section}`);
+const backHref = withBase(`/learn-more/#${entry.data.section}`);
 ---
 
 <BaseLayout
   title={`${entry.data.title} - Our approach - Excel Automate | Hobart`}
   description={entry.data.excerpt}
-  current="Our approach"
+  current="Learn more"
 >
   <section class="approach-hero-section">
     <div class="container approach-shell">
       <nav class="side-nav" aria-label="Sections">
         {
           SECTIONS.map((s) => (
-            <a href={withBase(`/our-approach/#${s.id}`)} class:list={['side-nav-link', { active: s.id === entry.data.section }]}>
+            <a
+              href={s.id === TOP_SECTION_ID ? withBase('/learn-more/') : withBase(`/learn-more/#${s.id}`)}
+              class:list={['side-nav-link', { active: s.id === entry.data.section }]}
+            >
               {s.label}
             </a>
           ))
@@ -38,13 +41,13 @@ const backHref = withBase(`/our-approach/#${entry.data.section}`);
         <h1 class="article-title">{entry.data.title}</h1>
 
         <div class="article-body">
-          <Content />
+          {entry.data.status === 'written' ? <Content /> : <h2>Coming soon</h2>}
         </div>
 
         {
           entry.data.cta && (
             <div class="article-cta">
-              <a href={withBase(`/our-approach/${entry.data.cta.target}/`)} class="btn btn-solid">
+              <a href={withBase(`/learn-more/${entry.data.cta.target}/`)} class="btn btn-solid">
                 {entry.data.cta.label}
               </a>
             </div>
@@ -62,7 +65,7 @@ const backHref = withBase(`/our-approach/#${entry.data.section}`);
 <script src="../../scripts/article-nav.js"></script>
 
 <style>
-  /* Shell/side-nav geometry duplicated from our-approach/index.astro — see
+  /* Shell/side-nav geometry duplicated from learn-more/index.astro — see
      Build Notes: shared components should be built once, but this page's
      side nav is a static, non-highlighting variant (no sections to scroll
      past here), so it isn't worth factoring the whole shell into a
@@ -97,6 +100,7 @@ const backHref = withBase(`/our-approach/#${entry.data.section}`);
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 16.5px;
+    line-height: 1.35;
     text-decoration: none;
     color: var(--text-body);
     background: transparent;
@@ -118,6 +122,7 @@ const backHref = withBase(`/our-approach/#${entry.data.section}`);
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 15px;
+    line-height: 1.35;
     text-decoration: none;
     color: var(--green);
     margin-bottom: 22px;

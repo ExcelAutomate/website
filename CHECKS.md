@@ -12,9 +12,9 @@ both work.
 - [ ] Narrow the window below about three-quarters of a normal laptop width: the nav
       links disappear and a burger icon (three lines) appears instead. Tap it — a menu
       drops down with all four links plus "Get in touch".
-- [ ] The current page's nav link is underlined in green (Home / Our approach / For
-      non-profits / About). The Contact page has no underlined item — it isn't in the
-      nav.
+- [ ] The current page's nav link is underlined in green (Home / For non-profits /
+      Learn more / About, in that order). The Contact page has no underlined item —
+      it isn't in the nav.
 - [ ] Scrolling down, each section fades and slides gently into place rather than
       appearing instantly.
 - [ ] Footer at the very bottom: "© [this year] Excel Automate · ABN 51 680 585 107 ·
@@ -27,7 +27,9 @@ both work.
 - [ ] Below the heading, a row of cards ("Excel", "Automate", "Integrate",
       "Accelerate", "Transform") that you can page through with the arrows or the dots
       underneath. The left ("back") arrow is invisible on the very first card and
-      appears once you've moved forward.
+      appears once you've moved forward. Both arrows always move exactly one card in
+      the direction they point (never a big rewind backwards) and wrap round at
+      either end.
 - [ ] Six white tiles under "How Excel Automate can help", each with a small green icon.
 - [ ] A green "Get in touch" band, then a dark "Learn more" band, in that order.
 
@@ -35,13 +37,15 @@ both work.
 
 - [ ] A white card down the left side lists "Key ideas", "Modern Excel", "Excel tips",
       "Beyond Excel" — scrolling down highlights whichever section you're currently
-      passing.
+      passing. Clicking "Key ideas" (from here, or from the header's "Learn more"
+      dropdown on any page) takes you to the top of the page, not the panel itself.
 - [ ] The first green panel ("Key ideas") has three tiles, each ending in "Read this →".
       Clicking one opens that article as its own page; the "← Key ideas" link at the
       top takes you back.
 - [ ] The three panels below Key ideas look slightly faded/washed out — that's
-      deliberate (their articles are placeholder for now), and their tiles are still
-      clickable.
+      deliberate. Their tiles show only a title and "Coming soon" (no excerpt, no
+      arrow) and are all the same height within each panel; they're still clickable
+      and open a "Coming soon" article page.
 
 ## For non-profits
 

@@ -76,11 +76,11 @@ const { current, isContactPage = false } = Astro.props;
       <ul>
         {
           NAV_LINKS.map((label) => (
-            <li class:list={['nav-item', { 'has-sub': label === 'Our approach' }]}>
+            <li class:list={['nav-item', { 'has-sub': label === 'Learn more' }]}>
               <a href={NAV_HREFS[label]} class:list={['nav-link', { current: current === label }]}>
                 {label}
               </a>
-              {label === 'Our approach' && (
+              {label === 'Learn more' && (
                 <div class="sub-menu">
                   <div class="sub-menu-inner">
                     {OUR_APPROACH_SUB.map((sub) => (
@@ -151,12 +151,29 @@ const { current, isContactPage = false } = Astro.props;
 
   // Close the mobile panel if the viewport grows past the burger breakpoint
   // while it's open (e.g. rotating a tablet).
-  const mq = window.matchMedia('(min-width: 1180px)');
+  const mq = window.matchMedia('(min-width: 1040px)');
   mq.addEventListener('change', (e) => {
     if (e.matches) {
       mobileNav?.classList.remove('is-open');
       burgerBtn?.setAttribute('aria-expanded', 'false');
     }
+  });
+
+  // "Key ideas" in the dropdown points at the bare Our-approach URL (no
+  // hash) so it lands at the top of the page from anywhere else on the site.
+  // But clicking a link to the exact page you're already on doesn't
+  // navigate at all by default (same-document, no hash to jump to) - so
+  // when that's the case, do the scroll ourselves. Matches by "no hash and
+  // same path" rather than by label, since Key ideas is the only sub-menu
+  // item without a hash (Changes - 10 September 2026.md, #9).
+  document.querySelectorAll<HTMLAnchorElement>('.sub-menu-inner a').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const url = new URL(link.href);
+      if (!url.hash && url.pathname === window.location.pathname) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
   });
 
   // The dropdown opens on hover (CSS) or keyboard focus (:focus-within, CSS).
@@ -190,7 +207,15 @@ const { current, isContactPage = false } = Astro.props;
     justify-content: space-between;
     padding-top: 10px;
     padding-bottom: 10px;
-    gap: 24px;
+    /* Row horizontal padding tightens with the viewport instead of .container's
+       fixed 24px, so it can close up as the header approaches the burger
+       breakpoint - 32px at 1240, 22px at 1120, floor 16px at 1040. The calc()
+       offset gives it a real slope over that range; a plain vw clamp is far
+       too shallow (Changes - 10 September 2026.md, #4 - measured, not
+       guessed; re-measure before changing the nav, header button or lockup). */
+    padding-left: clamp(16px, calc(8vw - 67.2px), 32px);
+    padding-right: clamp(16px, calc(8vw - 67.2px), 32px);
+    gap: clamp(10px, calc(7vw - 62.8px), 24px);
   }
 
   .lockup {
@@ -229,6 +254,12 @@ const { current, isContactPage = false } = Astro.props;
     font-family: var(--font-wordmark);
     font-weight: 600;
     font-size: clamp(7px, 1.2vw, 11.5px);
+    /* Space Grotesk's own normal line-height (~1.27) — the wordmark above it
+       pins line-height: 1 deliberately (sets the lockup's vertical rhythm,
+       leave that alone), but the tagline itself has no such reason to be
+       tight and the design doesn't set one either, so it should render at
+       the font's natural value rather than inheriting the body's 1.6. */
+    line-height: 1.27;
     letter-spacing: 0.2em;
     color: var(--green);
     white-space: nowrap;
@@ -237,13 +268,13 @@ const { current, isContactPage = false } = Astro.props;
   .main-nav {
     display: flex;
     align-items: center;
-    gap: 36px;
+    gap: clamp(18px, calc(9vw - 75.6px), 36px);
   }
   .main-nav ul {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 36px;
+    gap: clamp(18px, calc(9vw - 75.6px), 36px);
     margin: 0;
     padding: 0;
   }
@@ -257,6 +288,7 @@ const { current, isContactPage = false } = Astro.props;
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 18px;
+    line-height: 1.35;
     text-decoration: none;
     color: var(--text);
     padding-bottom: 6px;
@@ -284,10 +316,14 @@ const { current, isContactPage = false } = Astro.props;
     transform: scaleX(1);
   }
 
-  /* Nav CTA has its own geometry (Brand Brief > Buttons: 18px font, 12px/24px
-     padding, no hover lift) distinct from the page-body button variants —
-     this must carry its own radius/padding since it isn't combined with the
-     shared `.btn` class. */
+  /* Nav CTA has its own geometry, distinct from the page-body button variants
+     — this must carry its own radius/padding since it isn't combined with
+     the shared `.btn` class. One spec for the header button everywhere:
+     18px font, 14px/26px padding, hover lift + shadow — matching the CTA
+     band buttons' treatment rather than the burger button's plainer one
+     (Changes - 10 September 2026.md, #6: the two differ deliberately,
+     each sized to its own context — 18px next to 18px nav links here,
+     17px next to 17px burger links there). */
   .nav-cta {
     flex-shrink: 0;
     white-space: nowrap;
@@ -295,10 +331,17 @@ const { current, isContactPage = false } = Astro.props;
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 18px;
+    line-height: 1.35;
     text-decoration: none;
-    padding: 12px 24px;
+    padding: 14px 26px;
     border-radius: 10px;
-    transition: background 0.2s ease, box-shadow 0.2s ease;
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .nav-cta:hover {
+    transform: translateY(-2px);
+  }
+  .nav-cta:active {
+    transform: translateY(0);
   }
   .nav-cta-chip {
     color: var(--green);
@@ -339,6 +382,7 @@ const { current, isContactPage = false } = Astro.props;
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 16px;
+    line-height: 1.35;
     text-decoration: none;
     color: var(--text);
     padding: 10px 16px;
@@ -402,6 +446,7 @@ const { current, isContactPage = false } = Astro.props;
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 17px;
+    line-height: 1.35;
     text-decoration: none;
     color: var(--text);
     padding: 9px 0 10px;
@@ -421,16 +466,31 @@ const { current, isContactPage = false } = Astro.props;
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 17px;
+    line-height: 1.35;
     text-decoration: none;
-    padding: 11px 21px;
+    padding: 13px 21px;
     border-radius: 10px;
     text-align: center;
     transition: background 0.2s ease;
   }
+  /* Colour only, no lift - a 2px hover lift is a desktop-pointer affordance
+     that reads as noise under a thumb. Combined with `.btn-solid` for the
+     rest colours; its own hover box-shadow is suppressed here so the burger
+     button stays flatter than the header one (Changes - 10 September 2026.md,
+     #6). Two classes on the selector to out-rank `.btn-solid:hover` at equal
+     specificity regardless of stylesheet order. */
+  .mobile-nav-cta.btn-solid:hover {
+    box-shadow: none;
+  }
 
   /* Breakpoint driven by the nav's content width — re-check if items are
-     added or renamed (Brand Brief > Breakpoints). */
-  @media (max-width: 1179px) {
+     added or renamed (Brand Brief > Breakpoints). Moved from 1180 to 1040
+     once the header spacings above became clamps that tighten toward that
+     width (Changes - 10 September 2026.md, #4): measured, the row stops
+     fitting at ~1018px, so 1040 leaves 22px of headroom for font-loading
+     variance. The binding constraint is the lockup, not the nav - going
+     lower means shrinking the lockup's own clamp maxima, not done here. */
+  @media (max-width: 1039px) {
     .main-nav {
       display: none;
     }
@@ -442,12 +502,12 @@ const { current, isContactPage = false } = Astro.props;
     }
   }
 
-  @media (max-width: 639px) {
-    .lockup-tagline {
-      display: none;
-    }
-  }
-  @media (max-width: 419px) {
+  /* The tagline is part of the lockup, not a decoration on it - never shown
+     without the wordmark above it, never removed while the wordmark stays.
+     One threshold for both (LOCKUP_TEXT_MIN = 380), not two separate ones -
+     they used to shed 220px apart, showing a wordmark with no tagline for
+     that whole range (Changes - 10 September 2026.md, #5). */
+  @media (max-width: 379px) {
     .lockup-text {
       display: none;
     }

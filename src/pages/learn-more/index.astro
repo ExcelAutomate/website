@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { SECTIONS, type SectionId } from '../../data/sections';
+import { SECTIONS, TOP_SECTION_ID, type SectionId } from '../../data/sections';
 import { CONTACT_HREF, withBase } from '../../data/nav';
 
 const allArticles = await getCollection('articles');
@@ -17,17 +17,25 @@ const beyondExcel = tilesFor('beyond-excel');
 <BaseLayout
   title="Our approach - Excel Automate | Hobart"
   description="How we think about Modern Excel, practical tips for working in Excel, and the tools we use alongside it."
-  current="Our approach"
+  current="Learn more"
 >
-  <section class="approach-hero-section">
+  <section class="approach-hero-section" id="top">
     <div class="container approach-shell">
       <nav class="side-nav" aria-label="Sections">
         {
-          SECTIONS.map((s) => (
-            <a href={`#${s.id}`} data-section-nav-link={s.id} class="side-nav-link">
-              {s.label}
-            </a>
-          ))
+          SECTIONS.map((s) => {
+            const isTop = s.id === TOP_SECTION_ID;
+            return (
+              <a
+                href={isTop ? '#top' : `#${s.id}`}
+                data-section-nav-link={s.id}
+                data-scroll-target={isTop ? 'top' : undefined}
+                class="side-nav-link"
+              >
+                {s.label}
+              </a>
+            );
+          })
         }
       </nav>
 
@@ -51,7 +59,7 @@ const beyondExcel = tilesFor('beyond-excel');
             <div class="tile-grid" data-reveal-tiles>
               {
                 keyIdeas.map((tile) => (
-                  <a href={withBase(`/our-approach/${tile.id}/`)} class="card-clickable on-green tile-in-panel approach-tile">
+                  <a href={withBase(`/learn-more/${tile.id}/`)} class="card-clickable on-green tile-in-panel approach-tile">
                     <h3>{tile.data.title}</h3>
                     <p>{tile.data.excerpt}</p>
                     {tile.data.readThis && <span class="read-this">Read this &rarr;</span>}
@@ -70,14 +78,15 @@ const beyondExcel = tilesFor('beyond-excel');
             <div class="approach-panel-dim" style="opacity: 0.45;">
               <h2>Modern Excel</h2>
               <p class="approach-panel-intro">
-                More on the ideas behind the way we build, and the judgement calls that come up on almost every job.
+                Dive deeper into Excel and see how we approach some Modern vs Classic features.
               </p>
               <div class="tile-grid" data-reveal-tiles>
                 {
                   modernExcel.map((tile) => (
-                    <a href={withBase(`/our-approach/${tile.id}/`)} class="card-clickable tile-in-panel approach-tile">
+                    <a href={withBase(`/learn-more/${tile.id}/`)} class="card-clickable tile-in-panel approach-tile">
                       <h3>{tile.data.title}</h3>
-                      <p>{tile.data.excerpt}</p>
+                      {tile.data.status === 'written' && <p>{tile.data.excerpt}</p>}
+                      {tile.data.status === 'placeholder' && <span class="coming-soon">Coming soon</span>}
                     </a>
                   ))
                 }
@@ -89,15 +98,15 @@ const beyondExcel = tilesFor('beyond-excel');
             <div class="approach-panel-dim" style="opacity: 0.45;">
               <h2 style="color: #ffffff;">Excel tips</h2>
               <p class="approach-panel-intro" style="color: var(--on-dark-body);">
-                Practical things worth knowing if you work in spreadsheets every day, whether or not any of the tools
-                were built by us.
+                Useful things to know when working with the tools we build, and a few general tips.
               </p>
               <div class="tile-grid" data-reveal-tiles>
                 {
                   excelTips.map((tile) => (
-                    <a href={withBase(`/our-approach/${tile.id}/`)} class="card-clickable on-dark tile-in-panel approach-tile">
+                    <a href={withBase(`/learn-more/${tile.id}/`)} class="card-clickable on-dark tile-in-panel approach-tile">
                       <h3>{tile.data.title}</h3>
-                      <p>{tile.data.excerpt}</p>
+                      {tile.data.status === 'written' && <p>{tile.data.excerpt}</p>}
+                      {tile.data.status === 'placeholder' && <span class="coming-soon">Coming soon</span>}
                     </a>
                   ))
                 }
@@ -109,15 +118,15 @@ const beyondExcel = tilesFor('beyond-excel');
             <div class="approach-panel-dim" style="opacity: 0.45;">
               <h2>Beyond Excel</h2>
               <p class="approach-panel-intro">
-                Excel is not always the whole answer, and pretending otherwise does nobody any favours. These are the
-                tools we most often use alongside it.
+                Excel isn't always the whole answer. Here are some other tools that might be part of the solution.
               </p>
               <div class="tile-grid" data-reveal-tiles>
                 {
                   beyondExcel.map((tile) => (
-                    <a href={withBase(`/our-approach/${tile.id}/`)} class="card-clickable tile-in-panel approach-tile">
+                    <a href={withBase(`/learn-more/${tile.id}/`)} class="card-clickable tile-in-panel approach-tile">
                       <h3>{tile.data.title}</h3>
-                      <p>{tile.data.excerpt}</p>
+                      {tile.data.status === 'written' && <p>{tile.data.excerpt}</p>}
+                      {tile.data.status === 'placeholder' && <span class="coming-soon">Coming soon</span>}
                     </a>
                   ))
                 }
@@ -131,17 +140,13 @@ const beyondExcel = tilesFor('beyond-excel');
 
   <section class="cta-band cta-band--green">
     <div class="cta-band-inner" data-reveal="ctaContact">
-      <h2>Get in touch</h2>
-      <p data-fit-text="Have some ideas about how this could work for you?" data-fit-group="cta-contact">
-        Have some ideas about how this could work for you?
-      </p>
+      <h2>Have some ideas about how this could work for you?</h2>
       <a href={CONTACT_HREF} class="btn btn-solid-inverse">Get in touch</a>
     </div>
   </section>
 </BaseLayout>
 
 <script src="../../scripts/section-nav.js"></script>
-<script src="../../scripts/cta-fit.js"></script>
 
 <style>
   .approach-hero-section {
@@ -176,6 +181,7 @@ const beyondExcel = tilesFor('beyond-excel');
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 16.5px;
+    line-height: 1.35;
     text-decoration: none;
     color: var(--text-body);
     background: transparent;
@@ -270,7 +276,30 @@ const beyondExcel = tilesFor('beyond-excel');
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 14.5px;
+    line-height: 1.35;
     color: var(--green);
+  }
+  /* Same type as .read-this, deliberately no arrow — that means "this goes
+     somewhere", this means "not yet" (Changes - 10 September 2026.md, #10). */
+  .coming-soon {
+    margin-top: auto;
+    padding-top: 6px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 14.5px;
+    line-height: 1.35;
+    color: var(--green);
+  }
+  /* Holds only while these twelve tiles are "Coming soon" — the number is
+     derived purely from that state (title, gap, prompt line) and stops
+     meaning anything once an excerpt is added. Don't promote to a token,
+     don't reuse it elsewhere, and don't apply it to the Key ideas tiles
+     (#17) — those have real excerpts and size to them. Only one of the
+     twelve titles currently wraps to two lines ("Security warnings and
+     enabling content"); if a future title wraps to three, that row will
+     grow past 127px on its own — re-measure and lift the value then. */
+  .approach-panel:not(.approach-panel--green) .approach-tile {
+    min-height: 127px;
   }
 
   @media (max-width: 899px) {

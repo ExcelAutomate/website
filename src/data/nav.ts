@@ -12,22 +12,38 @@ export function withBase(path: string): string {
   return `${trimmedBase}${trimmedPath}`;
 }
 
-export type NavLabel = 'Home' | 'Our approach' | 'For non-profits' | 'About';
+// "Learn more" is the nav label; the page it points to keeps its own
+// identity otherwise (title "Our approach - Excel Automate | Hobart", h1
+// "Our approach to Excel") - the label is an invitation, the title says what
+// the page is about. Don't sync those (Changes - 10 September 2026.md, #2).
+// The route itself *did* move, 2026-09-10: /our-approach/ -> /learn-more/,
+// to match the nav label - see DECISIONS.md. The page folder is
+// src/pages/learn-more/; content still lives in src/content/articles/
+// (collection folder names aren't part of the URL, so that didn't need to
+// move) and OUR_APPROACH_SUB below keeps its name since it's still the
+// Our-approach page's submenu, just reached at a new address.
+export type NavLabel = 'Home' | 'For non-profits' | 'Learn more' | 'About';
 
-export const NAV_LINKS: NavLabel[] = ['Home', 'Our approach', 'For non-profits', 'About'];
+export const NAV_LINKS: NavLabel[] = ['Home', 'For non-profits', 'Learn more', 'About'];
 
 export const NAV_HREFS: Record<NavLabel, string> = {
   Home: withBase('/'),
-  'Our approach': withBase('/our-approach/'),
   'For non-profits': withBase('/for-non-profits/'),
+  'Learn more': withBase('/learn-more/'),
   About: withBase('/about/'),
 };
 
 export const CONTACT_HREF = withBase('/contact/');
 
+// Key ideas has no hash: its panel carries no heading of its own, so jumping
+// straight to it reads as landing mid-page - every route in here sends
+// visitors to the top of the Our-approach page instead (Header.astro
+// intercepts the click when already on that page and scrolls smoothly;
+// arriving from elsewhere just lands at the top naturally, see
+// data/sections.ts TOP_SECTION_ID and Changes - 10 September 2026.md, #9).
 export const OUR_APPROACH_SUB = [
-  { label: 'Key ideas', href: withBase('/our-approach/#key-ideas') },
-  { label: 'Modern Excel', href: withBase('/our-approach/#modern-excel') },
-  { label: 'Excel tips', href: withBase('/our-approach/#excel-tips') },
-  { label: 'Beyond Excel', href: withBase('/our-approach/#beyond-excel') },
+  { label: 'Key ideas', href: withBase('/learn-more/') },
+  { label: 'Modern Excel', href: withBase('/learn-more/#modern-excel') },
+  { label: 'Excel tips', href: withBase('/learn-more/#excel-tips') },
+  { label: 'Beyond Excel', href: withBase('/learn-more/#beyond-excel') },
 ];

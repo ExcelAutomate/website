@@ -6,23 +6,27 @@
 const CARDS = [
   {
     title: 'Excel',
-    text: "Modern Excel is more than just spreadsheets and formulas. Under the hood is a powerful platform for processing your data, a bridge that can bring your systems together, and a window that lets you see into it all. With a little bit of help it can become the right solution rather than part of the problem.",
+    text: 'Modern Excel is more than just spreadsheets and formulas. Under the hood is a powerful platform for processing your data and a bridge that can bring your systems together. With a little help it can become the right solution rather than part of the problem.',
   },
   {
     title: 'Automate',
-    text: 'Turn hours of data wrangling into the click of a few buttons, so you can focus on the things you do best. Let Excel take over the repetitive tasks, with efficient, robust, repeatable processes.',
+    text: 'Turn hours of manual data wrangling into the click of a few buttons, so you can focus on the things you do best. Let Excel take over the repetitive tasks, with efficient, robust, repeatable processes.',
   },
   {
     title: 'Integrate',
-    text: "Bring together data from all your different platforms and sources - cloud based systems, CSV exports, databases, PDFs, other Excel spreadsheets and more. Combine, compare, and re-export with just a few clicks, or turn it into your own reporting dashboard.",
+    text: 'Bring together data from all your different platforms and sources: cloud based systems, CSV exports, databases, PDFs and more. Combine, compare, and re-export with just a few clicks, or turn it into your own reporting dashboard.',
   },
   {
     title: 'Accelerate',
     text: "Speed up your processes and enable greater responsiveness - get work done when it's needed, without it disrupting your day. And with rapid development in Modern Excel, you can have custom tools built and ready to use faster than ever.",
   },
   {
+    // The only card with deliberate line breaks - stored as real newlines,
+    // rendered with `white-space: pre-line` on .carousel-card p (added for
+    // this card only; it has no effect on the other four, whose text has no
+    // newlines). Changes - 10 September 2026.md, #13.
     title: 'Transform',
-    text: 'Transform your data, transform your processes, and transform the way you use Excel.',
+    text: 'Transform your data and processes.\nTransform the way you see Excel.\nTransform the way you work.',
   },
 ];
 
@@ -33,35 +37,38 @@ function skinFor(i: number) {
     : { bg: '#15291D', title: '#ffffff', body: 'var(--on-dark-muted)' };
 }
 
-const lastSkin = skinFor(CARDS.length - 1);
+// The track renders three consecutive copies of the whole deck (15 slots),
+// starting in the middle copy, so there's always a real card to slide onto
+// in either direction and the arrows never need to rewind through the deck
+// to wrap (see carousel.js). Only the middle copy is the "real" content as
+// far as assistive tech is concerned - the other two exist purely so the
+// peeks either side of it are never empty.
+const COPIES = 3;
+const MIDDLE_COPY = Math.floor(COPIES / 2);
 ---
 
 <div class="carousel-block">
   <div class="carousel-viewport" id="carousel-viewport">
     <div class="carousel-track" id="carousel-track">
-      <!-- Ghost: permanent duplicate of the last card in the back peek, so
-           layout never shifts when the back button appears. -->
-      <article
-        class="carousel-card"
-        data-carousel-card
-        aria-hidden="true"
-        tabindex="-1"
-        style={`background:${lastSkin.bg}`}
-      >
-        <h2 style={`color:${lastSkin.title}`}>{CARDS[CARDS.length - 1].title}</h2>
-        <p style={`color:${lastSkin.body}`}>{CARDS[CARDS.length - 1].text}</p>
-      </article>
-
       {
-        CARDS.map((card, i) => {
-          const skin = skinFor(i);
-          return (
-            <article class="carousel-card" data-carousel-card style={`background:${skin.bg}`}>
-              <h2 style={`color:${skin.title}`}>{card.title}</h2>
-              <p style={`color:${skin.body}`}>{card.text}</p>
-            </article>
-          );
-        })
+        Array.from({ length: COPIES }).map((_, copyIndex) =>
+          CARDS.map((card, i) => {
+            const skin = skinFor(i);
+            const isMiddleCopy = copyIndex === MIDDLE_COPY;
+            return (
+              <article
+                class="carousel-card"
+                data-carousel-card
+                style={`background:${skin.bg}`}
+                aria-hidden={isMiddleCopy ? undefined : 'true'}
+                tabindex={isMiddleCopy ? undefined : -1}
+              >
+                <h2 style={`color:${skin.title}`}>{card.title}</h2>
+                <p style={`color:${skin.body}`}>{card.text}</p>
+              </article>
+            );
+          })
+        )
       }
     </div>
 
@@ -106,7 +113,11 @@ const lastSkin = skinFor(CARDS.length - 1);
     transition: transform 0.55s var(--ease-reveal);
   }
   .carousel-card {
-    min-height: clamp(240px, 32vw, 320px);
+    /* Reduced alongside the shorter card copy (#13) - the old floor left a
+       band of empty space under four-line-or-fewer text (Changes - 10
+       September 2026.md, #14). Still a minimum: below ~760px the text wraps
+       further and cards grow past this on their own. */
+    min-height: clamp(220px, 29vw, 290px);
     border-radius: 20px;
     padding: clamp(28px, 4vw, 44px);
     display: flex;
@@ -118,6 +129,7 @@ const lastSkin = skinFor(CARDS.length - 1);
     font-family: var(--font-heading);
     font-weight: 800;
     font-size: clamp(28px, 4vw, 38px);
+    line-height: 1.35;
     margin: 0 0 16px;
   }
   .carousel-card p {
@@ -128,6 +140,9 @@ const lastSkin = skinFor(CARDS.length - 1);
     font-size: clamp(18px, 2vw, 21px);
     line-height: 1.75;
     margin: 0;
+    /* Only the Transform card's text has embedded newlines - harmless no-op
+       on the other four (Changes - 10 September 2026.md, #13). */
+    white-space: pre-line;
   }
 
   .carousel-arrow {

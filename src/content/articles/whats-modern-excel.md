@@ -10,8 +10,6 @@ cta:
   target: why-power-query
 ---
 
-## A new direction
-
 Excel has fundamentally changed in recent years, and it passed a lot of people by. Open it up and it looks much the same. You can still use it the same way everyone's been using it for the last 30 years, and in your day-to-day work that might be all you need. But there's a whole new side to Excel that can transform the way you get work done.
 
 A big part of what makes Modern Excel different is that it's started to work a lot more like a database. But the real story for many organisations is the data processing tools that came along as part of this transformation.
