@@ -141,3 +141,8 @@ name, Organisation, Email, message box, Phone) were affected by the same
 underlying issue and were rendering about 6-7px taller than designed - now
 fixed. The lockup tagline under the logo also got a small tightening. Nothing
 about field sizes, spacing or behaviour changed otherwise.
+
+## 2026-09-10 — Landing page: small wording tweak on the "Excel" carousel card
+
+"...a bridge that can bring your systems together" → "...a bridge that brings
+your systems together." No other change to that card or any other.
