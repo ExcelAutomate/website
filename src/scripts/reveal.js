@@ -29,15 +29,24 @@ function initReveals() {
     return;
   }
 
-  // Safety net: if observation fails for any reason, content must still
-  // appear rather than stay hidden forever.
-  const safety = setTimeout(revealAll, 2500);
-
   const targets = document.querySelectorAll('[data-reveal], [data-reveal-tiles]');
-  if (targets.length === 0) {
-    clearTimeout(safety);
-    return;
-  }
+  if (targets.length === 0) return;
+
+  // Safety net: only actually reveals anything if IntersectionObserver
+  // looks broken outright - checked by whether the very first target
+  // (always the page's hero/intro section, always visible on load) got
+  // revealed in time. If it did, IO is clearly working, so this check is a
+  // no-op and every other section is left to reveal whenever the visitor
+  // actually scrolls to it, however long that takes. This used to be an
+  // unconditional "reveal everything after 2.5s" timer - it fired on a
+  // fixed clock regardless of scroll position, so any section a visitor
+  // hadn't reached yet by 2.5s after page load silently lost its animation
+  // the instant it fired (reported 2026-09-10: "I see it once for 'Moving
+  // between platforms' but not for anything below that" - see
+  // DECISIONS.md).
+  setTimeout(() => {
+    if (!targets[0].classList.contains('is-revealed')) revealAll();
+  }, 2500);
 
   const io = new IntersectionObserver(
     (entries) => {

@@ -146,3 +146,11 @@ about field sizes, spacing or behaviour changed otherwise.
 
 "...a bridge that can bring your systems together" → "...a bridge that brings
 your systems together." No other change to that card or any other.
+
+## 2026-09-10 — Fixed: sections could lose their scroll-reveal animation
+
+Site-wide bug, not just one page: if you spent more than about 2.5 seconds
+reading before scrolling further, every section still below the fold at that
+point would appear instantly with no fade-in when you got to it, instead of
+animating in as intended. Fixed - every section now reveals when you actually
+scroll to it, regardless of how long that takes.

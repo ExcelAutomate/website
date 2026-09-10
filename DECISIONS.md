@@ -688,6 +688,33 @@ sets `line-height: 1.75` — looser than its own `~1.52` normal, but that's the
 design's own choice for that card's italic pull-quote-style text, not a
 casualty of the body's 1.6; not touched.
 
+## 2026-09-10 — Fixed: scroll reveals below the fold silently lost their animation
+
+Chris reported it on the For non-profits page specifically ("I see it once for
+'Moving between platforms' but not for anything below that"), but the bug was
+in `reveal.js` and affected every page. The "safety net" `setTimeout(revealAll,
+2500)` — meant only to cover the case of `IntersectionObserver` genuinely
+failing — was never cancelled, so it fired unconditionally 2.5 seconds after
+every page load and instantly marked *every* `[data-reveal]`/`[data-reveal-tiles]`
+element as revealed, including ones the visitor hadn't scrolled anywhere near
+yet. In practice: read the hero and first section for more than ~2.5 seconds
+(entirely normal), and everything below that point had already been silently
+force-revealed by the time you scrolled to it, so it just appeared with no
+animation — exactly the "works for the first one or two, then stops" pattern
+reported.
+
+Fixed by making the safety net conditional: it now only actually reveals
+anything if the very first `[data-reveal]` target on the page (always the
+hero/intro section, always visible on load) still hasn't been revealed by
+2.5s, which would mean IO isn't working at all. If it has been revealed — the
+normal case, proving IO is working — the safety check is a no-op and every
+other section is left to reveal whenever the visitor's own scrolling actually
+brings it into view, no matter how long that takes.
+
+Verified in-browser: sitting at the top of the page for 3.2s (past the old
+2.5s trigger) no longer reveals anything below the initial viewport; scrolling
+to a distant section afterwards still reveals it normally.
+
 ## Still open (raised for Chris, not decided here)
 
 - **GitHub Pages base path.** `astro.config.mjs` assumes `site: excelautomate.github.io`,
