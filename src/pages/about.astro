@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
-// The pre-cropped 620x775 photo from the design pack (already correctly
-// framed by the design tool), not a fresh crop from the source photo — an
-// earlier attempt to re-derive the crop via CSS object-position from the
-// uncropped source guessed the framing wrong. src/assets/chris-duff-source.jpg
-// (the original, uncropped) is kept only in case the crop ever needs redoing.
+// Pre-cropped 620x835, black and white, replaced 2026-09-11 (see
+// DECISIONS.md) — what's exported is what ships, no second crop at render
+// time, so width/height here must match the file's own actual dimensions
+// exactly or Astro's image service will crop to fit whatever's declared.
+// src/assets/chris-duff-source.jpg (the original colour, uncropped photo)
+// is kept only in case the crop or colour treatment ever needs redoing.
 import chrisDuff from '../assets/chris-duff.png';
 import { CONTACT_HREF, NAV_HREFS } from '../data/nav';
 ---
@@ -23,7 +24,12 @@ import { CONTACT_HREF, NAV_HREFS } from '../data/nav';
         <p class="hero-standfirst" style="margin-bottom: 22px;">
           Excel Automate is freshly sprung in Hobart, but the person behind it has been around a while.
         </p>
-        <p style="font-size: clamp(16px, 1.8vw, 19px); line-height: 1.7; color: var(--text-muted); margin: 0; text-wrap: pretty;">
+        <!-- Colour was var(--text-muted) (#4A4F4C) - that grey is for
+             15-16.5px text only; this paragraph is already the standard
+             19px body size, which does the "quieter than the standfirst
+             above" job on its own without also stepping the colour down
+             (Changes - 11 September 2026.md, #6). -->
+        <p style="font-size: clamp(16px, 1.8vw, 19px); line-height: 1.7; color: var(--text-body); margin: 0; text-wrap: pretty;">
           Hi, I'm <span class="accent" style="font-weight: 700;">Chris</span>. I've been building tools and automations in
           Excel for 25 years across a range of different organisations, picking up plenty of database and CRM knowledge
           along the way. A degree in software engineering was the starting point, and experience has taught me a lot
@@ -35,7 +41,7 @@ import { CONTACT_HREF, NAV_HREFS } from '../data/nav';
           src={chrisDuff}
           alt="Chris Duff"
           width={620}
-          height={775}
+          height={835}
           format="webp"
           class="about-photo-img"
           loading="eager"
@@ -54,8 +60,8 @@ import { CONTACT_HREF, NAV_HREFS } from '../data/nav';
         lot of tasks get stuck being done the slow manual way, which has its own costs over time.
       </p>
       <p>
-        With a business focused on finding fast and efficient custom solutions - something that{' '}
-        <span class="accent">Modern Excel</span> is perfect for - I'm aiming to help more organisations across Australia
+        With a business focused on finding fast and efficient custom solutions&nbsp;&thinsp;&ndash;&thinsp; something that{' '}
+        <span class="accent">Modern Excel</span> is perfect for&nbsp;&thinsp;&ndash;&thinsp; I'm aiming to help more organisations across Australia
         save time, costs, and headaches.
       </p>
       <p>Being based in Hobart, I'm also keen to work with any businesses in Tasmania who might be dealing with similar issues.</p>
@@ -125,14 +131,15 @@ import { CONTACT_HREF, NAV_HREFS } from '../data/nav';
     margin-top: calc(clamp(38px, 5.2vw, 58px) * 0.2);
   }
   .about-photo-img {
+    /* No aspect-ratio/object-fit/object-position - the source file is
+       already the exact crop that ships (620x835), so the browser does
+       nothing but scale it. Height follows the file's own ratio (~0.742)
+       from the set width, landing at 310x417 in the 310px-wide container
+       (Changes - 11 September 2026.md, #7). Re-add a fixed ratio only if
+       this slot ever needs to hold more than one photo, e.g. a grid. */
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 4 / 5;
-    /* The source photo is already the pre-cropped, correctly-framed 620x775
-       design asset (not a fresh crop derived here), so this is just a
-       safety net against fractional-pixel rendering, not doing real work. */
-    object-fit: cover;
     border-radius: 20px;
     background: var(--icon-tile);
   }

@@ -238,7 +238,12 @@ const beyondExcel = tilesFor('beyond-excel');
   }
   .approach-panel-intro {
     max-width: 620px;
-    font-size: clamp(16px, 1.8vw, 18.5px);
+    /* Was clamp(16px, 1.8vw, 18.5px) - half a pixel under the standard body
+       size at the top of its range and identical to it at the bottom.
+       Now the standard clamp(16px, 1.8vw, 19px) (Changes - 11 September
+       2026.md, #6). Don't confuse this with .approach-tile h3's 18.5px -
+       that's the article tile title, a different element, unchanged. */
+    font-size: clamp(16px, 1.8vw, 19px);
     line-height: 1.7;
     color: var(--text-body);
     margin: 0 0 clamp(22px, 2.6vw, 30px);

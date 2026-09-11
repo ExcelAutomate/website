@@ -18,7 +18,12 @@ const CARDS = [
   },
   {
     title: 'Accelerate',
-    text: "Speed up your processes and enable greater responsiveness - get work done when it's needed, without it disrupting your day. And with rapid development in Modern Excel, you can have custom tools built and ready to use faster than ever.",
+    // The dash here is the literal thin-spaced en dash sequence (nbsp,
+    // thin space U+2009, en dash, thin space, ordinary space) as actual
+    // Unicode characters, not HTML entities - this string is interpolated
+    // via {card.text}, not parsed as markup, so entities would render as
+    // literal escaped text instead of decoding (see DECISIONS.md).
+    text: "Speed up your processes and enable greater responsiveness  –  get work done when it's needed, without it disrupting your day. And with rapid development in Modern Excel, you can have custom tools built and ready to use faster than ever.",
   },
   {
     // The only card with deliberate line breaks - stored as real newlines,

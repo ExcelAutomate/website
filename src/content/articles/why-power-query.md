@@ -7,7 +7,7 @@ status: written
 readThis: true
 ---
 
-Excel is used for a lot of repetitive tasks. There have always been ways to speed these up - filling sheets with formulas, recording macros, writing VBA. They all still have a place, but for most data handling problems these days the solution starts with Power Query.
+Excel is used for a lot of repetitive tasks. There have always been ways to speed these up&nbsp;&thinsp;&ndash;&thinsp; filling sheets with formulas, recording macros, writing VBA. They all still have a place, but for most data handling problems these days the solution starts with Power Query.
 
 Power Query is built into Excel, and it's designed specifically for this kind of work. You build a process once, a series of steps that bring in your data and shape it exactly how you need. Then next time, you just refresh it.
 
@@ -15,20 +15,20 @@ Power Query is built into Excel, and it's designed specifically for this kind of
 
 A big advantage of Power Query is just how easy it is to bring in data from different sources. Some examples:
 
-- A folder of CSVs or PDFs - Power Query can open and combine them all at once, even if they have some different columns or formatting
-- Data from the web - this can range from simple HTML tables that contain some useful data, to connecting with cloud-based CRMs
-- Database queries - if you have access to the database that sits behind a system, you can query the data directly and efficiently
-- Excel tables - you can just copy/paste in the data you want it to use
+- A folder of CSVs or PDFs&nbsp;&thinsp;&ndash;&thinsp; Power Query can open and combine them all at once, even if they have some different columns or formatting
+- Data from the web&nbsp;&thinsp;&ndash;&thinsp; this can range from simple HTML tables that contain some useful data, to connecting with cloud-based CRMs
+- Database queries&nbsp;&thinsp;&ndash;&thinsp; if you have access to the database that sits behind a system, you can query the data directly and efficiently
+- Excel tables&nbsp;&thinsp;&ndash;&thinsp; you can just copy/paste in the data you want it to use
 
 A single Power Query process can bring in data from all of these sources at once, then combine them in whichever way you need to get the result.
 
 ## Data transformed
 
-A lot of the work you do in Excel - lookups, conditionals, totals and other formulas, moving data around, filtering and sorting - can be turned into a step-by-step, repeatable process in Power Query.
+A lot of the work you do in Excel&nbsp;&thinsp;&ndash;&thinsp; lookups, conditionals, totals and other formulas, moving data around, filtering and sorting&nbsp;&thinsp;&ndash;&thinsp; can be turned into a step-by-step, repeatable process in Power Query.
 
 It's designed to work with whole tables rather than individual cells, which makes each of those steps cleaner and safer. There are no cell references to get mixed up, and no ranges that miss some of the data.
 
-Working with tables also means that it can behave more like a database when it comes to combining those tables - not just combining columns but changing the number of rows. Joining tables where you only keep the rows that match in both, or ones where you might have multiple matches that produce extra rows. Things that traditional formulas just don't do.
+Working with tables also means that it can behave more like a database when it comes to combining those tables&nbsp;&thinsp;&ndash;&thinsp; not just combining columns but changing the number of rows. Joining tables where you only keep the rows that match in both, or ones where you might have multiple matches that produce extra rows. Things that traditional formulas just don't do.
 
 The data transformations in Power Query are great for things like:
 
@@ -53,7 +53,7 @@ Adding a button that runs a little bit of VBA (the classic programming language 
 
 It's one thing to automate a process exactly as it is now, but often you'll want to allow for future changes and give it room to grow. Instead of just hard-coding values, we can make the process highly dynamic instead.
 
-What this looks like is a Settings sheet, with fields and tables containing key values that you can change and add to. These might be lookup tables with codes and categories, or numbers to use in calculations - anything you might want to have easy control of without needing someone to delve back into the code.
+What this looks like is a Settings sheet, with fields and tables containing key values that you can change and add to. These might be lookup tables with codes and categories, or numbers to use in calculations&nbsp;&thinsp;&ndash;&thinsp; anything you might want to have easy control of without needing someone to delve back into the code.
 
 Another way we can give you control is by adding interim steps for processes that need human review. Say some records get flagged for review, based on rules you've worked out with us. We can push them out to a table, where you make any necessary changes. Then it all gets folded back into the next stage of processing.
 
@@ -61,13 +61,13 @@ Excel provides the ideal interface for letting you pass settings and data back a
 
 ## Hidden but accessible
 
-Power Query lives inside an individual Excel file, the same as any simple spreadsheet. It's kept in the background though, so the person running the process never even has to see it. They could have as little as a single sheet with a single table to deal with - just click a button to refresh it and see the data appear, however much processing goes on behind the scenes.
+Power Query lives inside an individual Excel file, the same as any simple spreadsheet. It's kept in the background though, so the person running the process never even has to see it. They could have as little as a single sheet with a single table to deal with&nbsp;&thinsp;&ndash;&thinsp; just click a button to refresh it and see the data appear, however much processing goes on behind the scenes.
 
 The other side of this is that you can always view the Power Query process with just a couple of clicks if you want to. You don't have to go looking for extra files, you don't have to open it in another program, nothing gets in the way.
 
 ## Easy to maintain
 
-When you look at a Power Query process you won't see blocks of code. You'll see a number of 'Queries' that each contain a list of steps. Those steps will all be named - either automatically or by us - to describe their actions: 'Replaced Value', 'Removed Columns', 'Filtered Rows' etc.
+When you look at a Power Query process you won't see blocks of code. You'll see a number of 'Queries' that each contain a list of steps. Those steps will all be named&nbsp;&thinsp;&ndash;&thinsp; either automatically or by us&nbsp;&thinsp;&ndash;&thinsp; to describe their actions: 'Replaced Value', 'Removed Columns', 'Filtered Rows' etc.
 
 Not all of it will make sense to a casual observer, but it can help provide an entry point to anyone needing to make small tweaks. Additionally, a lot of actions can be done entirely via the GUI without needing to type any code at all. Realistically, for a full solution we might spend half the time working from the GUI and half the time in the code editor, but for most simple tasks the GUI can be enough.
 

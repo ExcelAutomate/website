@@ -38,13 +38,13 @@ Modern Excel also brings some database-like behaviours directly into the workshe
 
 Tables bring more structure to your data, and are a key part of how Excel and Power Query work together. They allow data ranges and formulas to grow to fit the data, and allow you to use table and column names in formulas to make them more comprehensible.
 
-Dynamic array formulas like FILTER() and UNIQUE() allow you to write formulas that work a lot like the SQL queries that drive most databases. Instead of having a whole range full of individual formulas, one for each cell, you can write a single formula that returns a whole range worth of data.
+Dynamic array formulas like FILTER() and UNIQUE() allow you to write formulas that work a lot like the SQL queries that drive most databases. Instead of having a whole range full of individual formulas, one for each cell, you can write a single formula that returns an entire range of data.
 
 You'll get just the rows and columns you want, with transformations and calculations all defined within that formula. Helper functions like LET() and LAMBDA() allow you to make these formulas even more powerful without becoming incomprehensible.
 
 ## Future interest
 
-Beyond what we think of as Modern Excel, but worth following into the future, are the inclusion of the Python programming language, and the inclusion of AI. Unlike the other functionality though, both of these have limitations depending on your subscription tier.
+Beyond what we think of as Modern Excel, but worth following into the future, are the inclusion of the Python programming language and the inclusion of AI. Unlike the other functionality though, both of these have limitations depending on your subscription tier.
 
 The PY() function already allows Excel to run Python code in the cloud and return it back into the sheet, giving access to functionality well beyond what Excel can natively offer.
 

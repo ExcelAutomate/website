@@ -792,6 +792,137 @@ sizes now used everywhere. Grepped the whole `src/` tree for
 hit is this file's own prose describing the removal, in a `global.css`
 comment. Nothing live remains.
 
+## 2026-09-11 — Seven changes from `Changes - 11 September 2026.md`, plus a new About photo
+
+**#1/#2 — two copy corrections in "What's Modern Excel?".** "a whole range
+worth of data" → "an entire range of data" (drops a latent grammar problem —
+"a range's worth" needs a possessive, "an entire range of" doesn't); comma
+removed after "the Python programming language" (a third comma in a sentence
+that already had two read as a longer pause than intended). Both also updated
+in `design-pack/docs/Article - Whats Modern Excel.md` to keep that copy in
+sync, even though `design-pack/` is otherwise known-stale for the 10
+September batch (see that date's entries) — this is a small enough,
+independently-verifiable text fix that keeping it in sync cost nothing.
+
+**#3 — article subheadings were missing their extra top margin.** Root cause
+turned out to be different from the doc's own guess (a global heading reset)
+but the fix is exactly what it prescribed. `.article-body` was never a flex
+container — it's plain block flow, where **adjacent margins collapse to the
+larger of the two** rather than adding. A subheading's own
+`margin: clamp(12px,1.6vw,18px) 0 0` was colliding with the previous
+paragraph's `margin-bottom: 0` and collapsing down to just the heading's own
+12-18px, instead of adding to a 20px gap to reach the designed 32-38px.
+Fixed by actually making `.article-body { display:flex; flex-direction:column;
+gap:20px; }` (flex children don't collapse margins), and — this part matters,
+the doc flags it as the diagnostic check — removing `.article-body p` and
+`.article-body ul`'s own `margin-top: 20px`, since with a real flex gap now
+providing that 20px, keeping their own margin too would have doubled plain
+paragraph-to-paragraph and list spacing to 40px. Verified in-browser: space
+above an h2 measures 38px, space below measures 20px, matching the doc's
+table exactly. Also deliberately did **not** add a `:first-child` margin
+reset for h2 — the doc explicitly wants the "Coming soon" placeholder
+articles' single heading to keep its full top margin even as the body's only
+block, "so it gives that heading a little air below the title."
+
+**#4 — spaced hyphens become thin-spaced en dashes**, reversing the standing
+"no en dashes" rule in `CLAUDE.md` (updated). Converted every genuine dash
+(not markdown list bullets, not compound hyphenates like "non-profits") across
+the 5 pages and 3 written articles: `whats-modern-excel.md` (2),
+`why-power-query.md` (12), `what-about-formulas.md` (6) — 20 total against the
+doc's stated 21 for "the three articles and their excerpts"; the three
+excerpts themselves contain no dashes and I couldn't locate a 21st genuine
+instance anywhere in the three bodies. Treating this as the doc's own count
+being off by one rather than a miss on my part, but flagging it rather than
+silently letting the numbers not add up. Landing (4, split as 1 in the
+Accelerate carousel card + 3 in the "How Excel Automate can help" service
+tiles — the doc calls all of these "carousel cards" loosely), For non-profits
+(5 body + 1 meta description), About (2, both in "Where I'm coming from").
+Contact and the Learn more hub/article template both confirmed to have none
+of their own.
+
+**A real bug found while doing this, not anticipated by the doc**: the thin
+space/nbsp/en-dash HTML entity sequence only decodes correctly when written
+directly as literal template or markdown text (same mechanism that already
+makes `&rarr;`/`&larr;` work elsewhere in this codebase). Written inside a
+**JS string that gets interpolated** — the `Carousel.astro`/`index.astro` card
+arrays' `text:` fields, and the `for-non-profits.astro` `description` prop —
+Astro HTML-escapes the string before inserting it, so the entities rendered
+as literal visible text (`&nbsp;&thinsp;&ndash;&thinsp;`) instead of decoding.
+Caught by checking rendered `innerHTML` in the browser, not by inspection.
+Fixed by using the actual Unicode characters (U+00A0, U+2009, U+2013, U+2009)
+directly in those five strings instead of entities — and learned the hard way
+that **retyping invisible whitespace characters by hand doesn't reliably
+reproduce the same codepoints twice**: a second manual attempt at the same
+sequence silently produced plain spaces instead of nbsp/thin-space, caught
+only by checking `codePointAt(0)` on the actual file bytes. Redid all of it
+via a small Node script with explicit `  – ` escapes and
+verified every instance's codepoints directly before trusting it. `CLAUDE.md`
+now documents this distinction so a future session doesn't rediscover it the
+same way.
+
+**#5 — two duplicate near-blacks merged.** `--text` in `global.css` was
+`#1A1A1A` (a plain neutral near-black) sitting alongside `--ink` (`#15291D`,
+the brief's actual green-tinted near-black) with no reason to differ — since
+the whole site already routes through this one CSS variable, fixing its
+single definition fixed every one of the doc's "47 uses" (page h1s/h2s,
+sub-menu items, form field text) in one edit, confirmed via
+`getComputedStyle` on a nav link and an article title both resolving to
+`rgb(21, 41, 29)` afterward. The `#DCEAE1` divider on the Learn more article
+template was a genuine one-off hardcoded hex (not routed through a variable)
+- switched it to `var(--border)`, which was already `#E7EFE9` and already
+doing the same job in that page's `.side-nav` three lines away. Confirmed
+`#C9DECF`/`#DFF3E8` (on-dark vs on-green card body text) and
+`#4A4F4C`/`#3A3F3C` (the two body greys, dividing by text size not whim) were
+both left exactly as they were - only change 6 below touched the one place
+that broke the grey-pair rule.
+
+**#6 — two elements brought onto the standard type/colour scale.**
+`.approach-panel-intro` (Learn more's three section intro lines) was
+`clamp(16px,1.8vw,18.5px)`, half a pixel under the site's actual standard body
+size at the top of its range — now `clamp(16px,1.8vw,19px)`, matching
+`.prose-col p` elsewhere. Left `.approach-tile h3` (the article tile title,
+fixed `18.5px`, a genuinely different element) untouched, per the doc's own
+explicit call-out. About's "Hi, I'm Chris" paragraph was `var(--text-muted)`
+(`#4A4F4C`) at the already-correct 19px body size — the quieter tone below the
+standfirst was being done twice, by size and by colour, and the colour half
+broke the "`#4A4F4C` is for 15-16.5px text only" rule; switched to
+`var(--text-body)` (`#3A3F3C`), leaving the size step alone to do that job by
+itself. Confirmed every other remaining `var(--text-muted)` use in the
+codebase is already legitimately 15-16.5px text (segmented control, tile
+prompts, service tile body), so nothing else needed touching.
+
+**Note on the doc's stated instance counts**: it says "six instances" for
+change 6 (one per section heading plus "the page standfirst group") and I
+could only locate the one `.approach-panel-intro` CSS rule (applied to 3 DOM
+elements) actually at 18.5px in this codebase - the hub page's own
+`.hero-standfirst` is `clamp(17px,2vw,21px)`, unrelated. Same pattern as the
+dash count above: our centralised CSS (one rule reused across elements) likely
+just counts differently than whatever per-page accounting produced the
+doc's numbers. Applied the one unambiguous, actionable fix; flagging the
+discrepancy rather than guessing at a further edit.
+
+**#7 — new About photo.** Replaced `src/assets/chris-duff.png` (same
+filename, nothing else needed updating for that) with the supplied
+620×835 black-and-white PNG (verified: exactly matches the doc's stated
+471KB). Astro's `<Image>` `height` prop updated from the old crop's 775 to
+the new file's actual 835 — this **must** match the source's real dimensions
+now that there's no `object-fit`/`aspect-ratio` doing a second crop at render
+time, or Astro's image service would silently crop to whatever mismatched
+size was declared. Removed `aspect-ratio: 4/5`, `object-fit: cover` from
+`.about-photo-img` per the doc - what's exported is what ships. **Caught and
+fixed a mistake of my own**: my first pass also dropped `height: auto`,
+which wasn't asked for and isn't safe to drop - Astro's `<Image>` sets
+literal `width`/`height` HTML attributes from its props, and without
+`height: auto` in CSS the browser keeps the attribute's height (835px)
+fixed while `width: 100%` scales the width, stretching the photo
+(measured 310×835 in-browser, badly distorted) instead of scaling
+proportionally. Put `height: auto` back; re-verified at 310×418
+(target: 310×417, the 1px gap is rounding), screenshotted to confirm the
+photo displays correctly, fully framed, not cropped. WebP conversion at
+build time was already happening via the existing `format="webp"` prop —
+confirmed in the build log: 471KB PNG source → 51KB WebP output, no
+extra work needed for the doc's "worth doing at build time" note.
+
 ## Still open (raised for Chris, not decided here)
 
 - **GitHub Pages base path.** `astro.config.mjs` assumes `site: excelautomate.github.io`,

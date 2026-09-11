@@ -15,7 +15,12 @@
   --page: #FCFDFC;
   --tint: #F3FAF6;        /* services, footer */
   --icon-tile: #E7F5EC;
-  --text: #1A1A1A;
+  /* Was #1A1A1A - a plain neutral near-black with no reason to differ from
+     --ink (#15291D, the brief's own green-tinted near-black) sitting right
+     next to it in places like a page heading beside the wordmark above it.
+     Merged to the brief's value (Changes - 11 September 2026.md, #5) -
+     #1A1A1A no longer appears anywhere in the build. */
+  --text: #15291D;
   --text-body: #3A3F3C;
   --text-muted: #4A4F4C;
   --text-faint: #6B7570;
@@ -406,6 +411,20 @@ img {
 }
 
 /* ---------- Article body (Our approach) ---------- */
+/* A flex column, not plain block flow - this is load-bearing, not
+   decorative. Every block (p, h2, ul) is 20px from the one before it via
+   this gap; flex items don't collapse adjacent margins the way normal block
+   children do, so a heading's own margin-top (below) genuinely ADDS to that
+   20px instead of just collapsing into the larger of the two. Without this
+   rule, the space above a subheading collapsed down to roughly its own
+   margin alone (~12-18px) instead of the designed 32-38px, reading as
+   barely different from the 20px below it (Changes - 11 September 2026.md,
+   #3 - reported as "the space above a subheading is the same as below it"). */
+.article-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 .article-body h2 {
   font-family: var(--font-heading);
   font-weight: 700;
@@ -413,6 +432,11 @@ img {
   line-height: 1.25;
   letter-spacing: -0.01em;
   color: var(--ink);
+  /* Deliberately not zeroed when this is the body's first (or only) block -
+     the "Coming soon" placeholder articles are a single h2 with no
+     paragraphs, and this margin is what gives it a little air below the
+     article title above (Changes - 11 September 2026.md, #3). Don't add a
+     :first-child override back in. */
   margin: clamp(12px, 1.6vw, 18px) 0 0;
   text-wrap: pretty;
 }
@@ -420,18 +444,21 @@ img {
   font-size: clamp(16px, 1.8vw, 18.5px);
   line-height: 1.75;
   color: var(--text-body);
-  margin: 20px 0 0;
+  /* Relies on the container's 20px gap alone, same as .article-body ul below
+     - only h2 above has margin of its own, which is what makes the space
+     above a heading greater than the space between two plain paragraphs. */
+  margin: 0;
   text-wrap: pretty;
-}
-.article-body p:first-child,
-.article-body h2:first-child {
-  margin-top: 0;
 }
 .article-body ul {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin: 20px 0 0;
+  /* Relies on the container's 20px gap alone, deliberately no margin of its
+     own (Changes - 11 September 2026.md, #3) - explicit 0 rather than
+     omitted, since there's no site-wide list reset and a bare <ul> would
+     otherwise fall back to the browser's default UA margin. */
+  margin: 0;
   padding: 0 0 0 22px;
   list-style: none;
 }

@@ -143,7 +143,10 @@ const backHref = withBase(`/learn-more/#${entry.data.section}`);
   .article-back-foot {
     margin-top: clamp(32px, 4vw, 48px);
     padding-top: 26px;
-    border-top: 1px solid #dceae1;
+    /* Was a one-off #dceae1 - the site's actual border colour (var(--border),
+       #E7EFE9) was already doing this job three lines away in .side-nav.
+       Merged (Changes - 11 September 2026.md, #5). */
+    border-top: 1px solid var(--border);
   }
   .article-back-foot .back-link {
     margin-bottom: 0;

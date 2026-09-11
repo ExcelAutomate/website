@@ -7,12 +7,16 @@ import { CONTACT_HREF, NAV_HREFS } from '../data/nav';
 const SERVICES = [
   {
     title: 'Power Query automation',
-    text: "Fast and powerful data integration and transformations - the best way to combine data from multiple sources and prepare it for importing, reporting, migrating and more.",
+    // Literal Unicode thin-spaced en dash characters, not HTML entities -
+    // these SERVICES.text strings are interpolated via {svc.text}, not
+    // parsed as markup, so entities would render as literal escaped text
+    // instead of decoding (see DECISIONS.md).
+    text: "Fast and powerful data integration and transformations  –  the best way to combine data from multiple sources and prepare it for importing, reporting, migrating and more.",
     icon: 'funnel',
   },
   {
     title: 'VBA automation',
-    text: "The full featured programming language that sits behind Excel - automate everything that isn't just data tables, including forms, files, formatting and more, or even running other programs from Excel.",
+    text: "The full featured programming language that sits behind Excel  –  automate everything that isn't just data tables, including forms, files, formatting and more, or even running other programs from Excel.",
     icon: 'brackets',
   },
   {
@@ -22,7 +26,7 @@ const SERVICES = [
   },
   {
     title: 'Data migration',
-    text: "Take the data from your existing system and prepare it for import into a new one - all in a repeatable process that can be used for testing, initial import, and final cutover.",
+    text: "Take the data from your existing system and prepare it for import into a new one  –  all in a repeatable process that can be used for testing, initial import, and final cutover.",
     icon: 'migrate',
   },
   {

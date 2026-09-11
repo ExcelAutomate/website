@@ -19,8 +19,31 @@ making non-trivial changes:
 
 ## Standing copy rules (non-negotiable)
 
-- **No em dashes (—) or en dashes (–) anywhere in site copy.** A spaced hyphen
-  ( - ) instead, always — headings, body copy, page titles, meta descriptions.
+- **Dashes in running copy are thin-spaced en dashes, not spaced hyphens.**
+  Reversed 2026-09-11 (see DECISIONS.md) — the original rule here was the
+  opposite. Chris's own shorthand when he supplies copy is still a spaced
+  hyphen ( - ); **convert it on the way in, every time**, to:
+  `&nbsp;&thinsp;&ndash;&thinsp;<space>` — non-breaking space, thin space
+  (U+2009), en dash (U+2013), thin space, then an ordinary space. The
+  asymmetry is deliberate (nbsp holds the dash to the word before it; the
+  plain space on the right is the only break opportunity, so a wrap never
+  strands the dash at the start of a line) — don't make the two sides match.
+  **Two exceptions**: the page `<title>`/`og:title` keep a plain spaced
+  hyphen (it's a delimiter between page and site name, not punctuation), and
+  meta descriptions use a single plain spaced en dash with no thin spaces
+  (nothing renders them, and thin spaces would just be normalised away).
+  **Where you write the dash matters**: written directly as template/markdown
+  text, the entities above work fine (the compiler/renderer decodes them,
+  same as the `&rarr;`/`&larr;` already used elsewhere in this codebase). But
+  inside a **JS string that gets interpolated** (`{someVar}}`,  a `.map()`
+  callback, a `description="..."` prop) — entities get HTML-escaped instead
+  of decoded, rendering as literal visible text. Use the actual Unicode
+  characters directly in the string there instead (copy-paste from a
+  rendered page's DOM, or generate them with a short Node script using
+  `  – ` — don't retype invisible whitespace by hand
+  repeatedly and assume it stayed consistent; verify with
+  `codePointAt(0).toString(16)` on the actual file content before trusting
+  it).
 - **Australian English**: organisation, colour, licence, prioritise, centre.
 - **"non-profits", hyphenated** — never "nonprofits".
 - **Sentence case** for nav labels and headings, capitals only for proper nouns/

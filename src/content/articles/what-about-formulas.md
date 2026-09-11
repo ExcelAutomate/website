@@ -16,17 +16,17 @@ Here's where they might still be the first choice:
 - Ad-hoc data interrogation or analysis
 - One-off solutions that don't need automating
 - Small tools for personal use, or to share with people who also understand how they work
-- Calculation templates - locked down sheets with data that gets entered into individual fields or selected from dropdowns
+- Calculation templates&nbsp;&thinsp;&ndash;&thinsp; locked down sheets with data that gets entered into individual fields or selected from dropdowns
 - Lower complexity reports, where the amount of data is manageable
 
 ## Why they're not for everything
 
 These are some of the issues with using formulas when things get more complicated:
 
-- Formulas based on ranges are fragile - inserting or deleting rows and columns can break them
-- Small inconsistencies in the data - numbers stored as text, extra spaces, inconsistent date formats - can quietly break a lookup or calculation without any obvious error
-- Sheets involving a lot of nested formulas or helper columns can quickly become unwieldy - easy to set up, but hard to update or debug
-- There isn't always a clear flow of logic - it's fine for something you create and use yourself, but difficult for anyone else to maintain
+- Formulas based on ranges are fragile&nbsp;&thinsp;&ndash;&thinsp; inserting or deleting rows and columns can break them
+- Small inconsistencies in the data&nbsp;&thinsp;&ndash;&thinsp; numbers stored as text, extra spaces, inconsistent date formats&nbsp;&thinsp;&ndash;&thinsp; can quietly break a lookup or calculation without any obvious error
+- Sheets involving a lot of nested formulas or helper columns can quickly become unwieldy&nbsp;&thinsp;&ndash;&thinsp; easy to set up, but hard to update or debug
+- There isn't always a clear flow of logic&nbsp;&thinsp;&ndash;&thinsp; it's fine for something you create and use yourself, but difficult for anyone else to maintain
 
 ## What works instead
 

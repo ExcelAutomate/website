@@ -20,11 +20,11 @@ Power Query and Power Pivot are the headline acts. Somewhat innocuously named, t
 
 Power Query lets you pull in data from any number of sources, clean it, combine it, re-shape it, and deliver it straight into Excel. If you want to skip ahead to see how we can use it to automate your processes, you can read the next article here: [Why Power Query?](../why-power-query/)
 
-You can create a whole Power Query process that sits behind a single table on a sheet. Simply refresh the table and it all spins up and goes to work, pulling in and processing the new data - usually within a few seconds. Excel has had automation in the past, but never as rapid or robust as with Power Query.
+You can create a whole Power Query process that sits behind a single table on a sheet. Simply refresh the table and it all spins up and goes to work, pulling in and processing the new data&nbsp;&thinsp;&ndash;&thinsp; usually within a few seconds. Excel has had automation in the past, but never as rapid or robust as with Power Query.
 
 ## A data warehouse
 
-The other way to use Power Query is to push the cleaned and consolidated data into the 'Data Model'. This works like a relational database that lives inside Excel - something that can hold millions of rows and support complex analysis. That's where Power Pivot comes in.
+The other way to use Power Query is to push the cleaned and consolidated data into the 'Data Model'. This works like a relational database that lives inside Excel&nbsp;&thinsp;&ndash;&thinsp; something that can hold millions of rows and support complex analysis. That's where Power Pivot comes in.
 
 Power Pivot sounds like it's just a more advanced pivot table, which is maybe something relatable for Excel users, but seriously undersells it. What it gives you is a highly efficient data warehouse, a data analysis engine and language (DAX), and the visualisations to go along with them. It delivers a full analysis and reporting experience inside Excel and shares a lot of its core DNA with Microsoft's Business Intelligence suite, Power BI.
 
@@ -34,13 +34,13 @@ Modern Excel also brings some database-like behaviours directly into the workshe
 
 Tables bring more structure to your data, and are a key part of how Excel and Power Query work together. They allow data ranges and formulas to grow to fit the data, and allow you to use table and column names in formulas to make them more comprehensible.
 
-Dynamic array formulas like FILTER() and UNIQUE() allow you to write formulas that work a lot like the SQL queries that drive most databases. Instead of having a whole range full of individual formulas, one for each cell, you can write a single formula that returns a whole range worth of data.
+Dynamic array formulas like FILTER() and UNIQUE() allow you to write formulas that work a lot like the SQL queries that drive most databases. Instead of having a whole range full of individual formulas, one for each cell, you can write a single formula that returns an entire range of data.
 
 You'll get just the rows and columns you want, with transformations and calculations all defined within that formula. Helper functions like LET() and LAMBDA() allow you to make these formulas even more powerful without becoming incomprehensible.
 
 ## Future interest
 
-Beyond what we think of as Modern Excel, but worth following into the future, are the inclusion of the Python programming language, and the inclusion of AI. Unlike the other functionality though, both of these have limitations depending on your subscription tier.
+Beyond what we think of as Modern Excel, but worth following into the future, are the inclusion of the Python programming language and the inclusion of AI. Unlike the other functionality though, both of these have limitations depending on your subscription tier.
 
 The PY() function already allows Excel to run Python code in the cloud and return it back into the sheet, giving access to functionality well beyond what Excel can natively offer.
 

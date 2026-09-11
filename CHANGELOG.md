@@ -173,3 +173,30 @@ to forget. Both now switch off by themselves the moment `astro.config.mjs`'s
 `site` is updated to the real domain, which already has to happen for the
 site to work there at all. Nothing to look at on the current GitHub Pages
 build - behaviour there is unchanged (still blocked, as intended for now).
+
+## 2026-09-11 — Seven small fixes, plus a new About photo
+
+- Two wording corrections in the "What's Modern Excel?" article.
+- Every article's subheadings now have proper breathing room above them -
+  they were sitting almost equidistant between the text above and below,
+  when they're meant to read as clearly attached to what follows.
+- Dashes in body copy across the whole site are now proper en dashes with
+  narrow spacing either side, instead of a hyphen with a full space either
+  side. Small typographic change, no wording changed.
+- Two near-identical colours that had drifted apart for no reason are now
+  the same colour again - a page heading, sub-menu items and form field
+  text; and a divider line on the Learn more page. No visible difference
+  worth mentioning.
+- The intro line under each Learn more section heading is very slightly
+  larger, matching the site's standard body text size. The "Hi, I'm Chris"
+  paragraph on the About page is a touch darker, matching the standard body
+  colour.
+- About page: new photo, black and white, correctly framed with nothing
+  cropped off (the old version had a sliver cut from one edge depending on
+  window width).
+
+See `DECISIONS.md` for the reasoning, and for a real bug this surfaced: the
+new dash styling silently failed to render on the landing page's carousel
+and service cards, and on one page's meta description, until traced to how
+those specific bits of text get built - now fixed and documented so it
+doesn't happen again next time similar text is added.
